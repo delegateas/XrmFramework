@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{AC9C93E5-85E5-41A4-ADE1-B00BE2CD795C}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.rest.js" />
+    <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.rest.min.js" />
+    <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.web.js" />
+    <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.web.min.js" />
+    <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.web.promise.min.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2011\sdk.dependentoptionset.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2011\sdk.jquery.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2011\sdk.metadata.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2011\sdk.rest.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2011\sdk.soap.assign.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2013\sdk.dependentoptionset.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2013\sdk.duplicatedetection.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2013\sdk.jquery.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2013\sdk.metadata.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2013\sdk.rest.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2013\sdk.soap.assign.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2015\sdk.dependentoptionset.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2015\sdk.duplicatedetection.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2015\sdk.jquery.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2015\sdk.metadata.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2015\sdk.rest.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2015\sdk.soap.assign.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2016\sdk.jquery.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2016\sdk.metadata.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2016\sdk.rest.js" />
+    <Content Include="src\dg_XrmSolution\lib\sdk\2016\sdk.soap.assign.js" />
+    <Content Include="tsconfig.json" />
+    <TypeScriptCompile Include="src\dg_XrmSolution\dg.account.ts" />
+    <Content Include="src\dg_XrmSolution\lib\jquery\1.11.3\jquery.min.js" />
+    <Content Include="src\dg_XrmSolution\lib\misc\misc.json2.js" />
+    <Content Include="src\dg_XrmSolution\lib\misc\misc.uuid.js" />
+    <TypeScriptCompile Include="typings\*\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>56082</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="Clean">
+    <Exec Command="cls" />
+  </Target>
+</Project>

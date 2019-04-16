@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1D8FDB83-E948-424F-A88F-A67A6DA06C61}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DG.XrmFramework.Daxif</RootNamespace>
+    <AssemblyName>Delegate.XrmFramework.Daxif</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\Tools\DG\Signature\delegate.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Delegate.Daxif, Version=4.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Delegate.Daxif.4.2.6\lib\net45\Delegate.Daxif.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSharp.Core.4.0.0.1\lib\net40\FSharp.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.12\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Crm.Services.Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Delegate.Daxif.4.2.6\lib\net45\Microsoft.Crm.Services.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.6.1.7600.16394\lib\net35\Microsoft.IdentityModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.12\lib\net462\Microsoft.Xrm.Sdk.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="XmlDiffPatch, Version=1.0.8.28, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\XMLDiffPatch.1.0.8.28\lib\net\XmlDiffPatch.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XmlDiffPatch.View, Version=1.0.1493.40755, Culture=neutral">
+      <HintPath>..\packages\XMLDiffPatch.1.0.8.28\lib\net\XmlDiffPatch.View.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="XrmContext\Run.ps1" />
+    <None Include="XrmContext\XrmContext.exe.config" />
+    <None Include="XrmDefinitelyTyped\Run.ps1" />
+    <None Include="XrmDefinitelyTyped\XrmDefinitelyTyped.exe.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CustomScripting\AssignRecords.fsx" />
+    <Content Include="CustomScripting\CountRecords.fsx" />
+    <Content Include="CustomScripting\CreateOrgReportViews.fsx" />
+    <Content Include="CustomScripting\DeactiveViews.fsx" />
+    <Content Include="CustomScripting\FindDuplicates.fsx" />
+    <Content Include="CustomScripting\Helper\CrmDataHelper.fsx" />
+    <Content Include="CustomScripting\Helper\DeployHelper.Main.fsx" />
+    <Content Include="CustomScripting\Helper\DeployHelper.Playground.fsx" />
+    <Content Include="CustomScripting\MissingDocumentLocation.fsx" />
+    <Content Include="CustomScripting\RetrieveMultipleBulk.fsx" />
+    <Content Include="CustomScripting\SetCurrencyIfMissing.fsx" />
+    <Content Include="CustomScripting\SetState.fsx" />
+    <Content Include="CustomScripting\SimpleSolutionExportImport.fsx" />
+    <Content Include="CustomScripting\TouchNames.fsx" />
+    <Content Include="Daxif\bin\Delegate.Daxif.dll" />
+    <Content Include="Daxif\bin\Delegate.Daxif.xml" />
+    <Content Include="Daxif\bin\FSharp.Core.dll" />
+    <Content Include="Daxif\bin\FSharp.Core.xml" />
+    <Content Include="Daxif\bin\Microsoft.Crm.Sdk.Proxy.dll" />
+    <Content Include="Daxif\bin\Microsoft.Crm.Services.Utility.dll" />
+    <Content Include="Daxif\bin\Microsoft.IdentityModel.dll" />
+    <Content Include="Daxif\bin\Microsoft.Xrm.Sdk.dll" />
+    <Content Include="Daxif\bin\SolutionPackager.exe" />
+    <Content Include="Daxif\CountEntities.fsx" />
+    <Content Include="Daxif\DataExportSource.fsx" />
+    <Content Include="Daxif\DataImportTarget.fsx" />
+    <Content Include="Daxif\GenerateCSharpContext.fsx" />
+    <Content Include="Daxif\GenerateTypeScriptContext.fsx" />
+    <Content Include="Daxif\Playground.fsx" />
+    <Content Include="Daxif\PluginSyncDev.fsx" />
+    <Content Include="Daxif\SolutionCreateDev.fsx" />
+    <Content Include="Daxif\SolutionExportDev.fsx" />
+    <Content Include="Daxif\SolutionExtract.fsx" />
+    <Content Include="Daxif\SolutionImportArg.fsx" />
+    <Content Include="Daxif\SolutionPack.fsx" />
+    <Content Include="Daxif\ViewExtender.fsx" />
+    <Content Include="Daxif\WebResourceSyncDev.fsx" />
+    <Content Include="Daxif\WorkflowSyncDev.fsx" />
+    <Content Include="Daxif\_Config.fsx" />
+    <Content Include="XrmContext\FSharp.Core.dll" />
+    <Content Include="XrmContext\Microsoft.Crm.Sdk.Proxy.dll" />
+    <Content Include="XrmContext\Microsoft.Xrm.Sdk.dll" />
+    <Content Include="XrmContext\Run.fsx" />
+    <Content Include="XrmContext\XrmContext.exe" />
+    <Content Include="XrmContext\XrmContext.xml" />
+    <Content Include="XrmDefinitelyTyped\FSharp.Core.dll" />
+    <Content Include="XrmDefinitelyTyped\Microsoft.Crm.Sdk.Proxy.dll" />
+    <Content Include="XrmDefinitelyTyped\Microsoft.Xrm.Sdk.dll" />
+    <Content Include="XrmDefinitelyTyped\Run.fsx" />
+    <Content Include="XrmDefinitelyTyped\XrmDefinitelyTyped.exe" />
+    <Content Include="XrmDefinitelyTyped\XrmDefinitelyTyped.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Target Name="Clean">
+    <Exec Command="cls" />
+  </Target>
+  <Target Name="Build">
+    <Exec Command="cls" />
+  </Target>
+  <Target Name="ReBuild">
+    <Exec Command="cls" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+</Project>
