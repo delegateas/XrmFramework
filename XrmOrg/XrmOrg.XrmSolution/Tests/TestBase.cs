@@ -4,6 +4,7 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DG.Tools.XrmMockup;
 using DG.XrmOrg.XrmSolution.Workflow;
+using DG.XrmFramework.BusinessDomain.ServiceContext;
 
 namespace DG.XrmFramework.Tests
 {
@@ -36,6 +37,7 @@ namespace DG.XrmFramework.Tests
 
         public static void InitializeMockup(TestContext context)
         {
+            var tmp = new SavedQuery(); //TODO: Temp fix to ensure BusinessDomain-assembly is loaded before running mockup. Awaits a new mockup-release https://github.com/delegateas/XrmMockup/issues/66
             crm = XrmMockup365.GetInstance(new XrmMockupSettings
             {
                 BasePluginTypes = new Type[] { typeof(DG.XrmOrg.XrmSolution.Plugins.Plugin) },

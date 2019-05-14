@@ -16,10 +16,14 @@ namespace DG.XrmFramework.Tests
                 var acc = new Account();
                 acc.Id = orgAdminUIService.Create(acc);
 
-                var retrieved = context.AccountSet.Where(x => x.AccountId == acc.Id).FirstOrDefault();
-                Assert.IsNotNull(retrieved.PrimaryContactId);
-                var primaryContact = context.ContactSet.Where(x => x.ContactId == retrieved.PrimaryContactId.Id).FirstOrDefault();
-                Assert.IsNotNull(primaryContact);
+                try
+                {
+                    orgAdminService.Update(new Account(acc.Id));
+                    Assert.Fail();
+                } catch(Exception e)
+                {
+                    Assert.IsInstanceOfType(e, typeof(NotImplementedException));
+                }
             }
         }
     }
