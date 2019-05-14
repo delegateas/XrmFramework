@@ -76,8 +76,8 @@
     <Reference Include="System.Workflow.Runtime" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="XrmMockup365, Version=0.9.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XrmMockup365.0.9.11-beta\lib\net462\XrmMockup365.dll</HintPath>
+    <Reference Include="XrmMockup365, Version=0.12.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XrmMockup365.0.12.0-beta\lib\net462\XrmMockup365.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

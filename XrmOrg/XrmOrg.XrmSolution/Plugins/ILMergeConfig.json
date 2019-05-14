@@ -1,0 +1,34 @@
+{
+  "General": {
+    "OutputFile": "$(TargetDir)ILMerged.$(TargetFileName)",
+    "TargetPlatform": null,
+    "KeyFile": null,
+    "AlternativeILMergePath": null,
+    "InputAssemblies": [
+      "Delegate.XrmFramework.BusinessLogic.dll",
+      "Delegate.XrmFramework.BusinessDomain.dll"
+    ]
+  },
+  "Advanced": {
+    "AllowDuplicateType": null,
+    "AllowMultipleAssemblyLevelAttributes": false,
+    "AllowWildCards": false,
+    "AllowZeroPeKind": false,
+    "AttributeFile": null,
+    "Closed": false,
+    "CopyAttributes": false,
+    "DebugInfo": true,
+    "DelaySign": false,
+    "ExcludeFile": "",
+    "FileAlignment": 512,
+    "Internalize": false,
+    "Log": true,
+    "LogFile": "$(TargetDir)ILMergeLog.txt",
+    "PublicKeyTokens": true,
+    "SearchDirectories": [],
+    "TargetKind": null,
+    "UnionMerge": false,
+    "Version": null,
+    "XmlDocumentation": false
+  }
+}
