@@ -109,7 +109,7 @@ namespace DG.XrmFramework.BusinessLogic.Helpers
         {
             var logicalName = (Activator.CreateInstance<T>()).LogicalName;
 
-            if (null == context.PreEntityImages && 
+            if (null == context.PreEntityImages || 
                 !context.PreEntityImages.Contains("PreImage"))
             {
                 trace.Trace("Context does not contain 'PreImageEntity'");
@@ -141,7 +141,7 @@ namespace DG.XrmFramework.BusinessLogic.Helpers
         {
             var logicalName = (Activator.CreateInstance<T>()).LogicalName;
 
-            if (null == context.PostEntityImages &&
+            if (null == context.PostEntityImages ||
                 !context.PostEntityImages.Contains("PostImage"))
             {
                 trace.Trace("Context does not contain 'PostImageEntity'");
