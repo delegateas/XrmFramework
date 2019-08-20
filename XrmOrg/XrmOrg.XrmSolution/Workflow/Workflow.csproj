@@ -129,6 +129,6 @@
       <InputAssemblies Include="$(TargetDir)Delegate.XrmFramework.BusinessLogic.dll" />
       <InputAssemblies Include="$(TargetPath)" />
     </ItemGroup>
-    <Exec Command="&quot;$(ILRepack)&quot; /parallel /keyfile:../../Tools/DG/Signature/delegate.snk /lib:&quot;$(TargetDir)\&quot; /out:&quot;$(TargetDir)ILMerged.$(TargetFileName)&quot; @(InputAssemblies -> '&quot;%(Identity)&quot;', ' ')" />
+    <Exec Command="&quot;$(ILRepack)&quot; /parallel /keyfile:../../XrmFramework.snk /lib:&quot;$(TargetDir)\&quot; /out:&quot;$(TargetDir)ILMerged.$(TargetFileName)&quot; @(InputAssemblies -> '&quot;%(Identity)&quot;', ' ')" />
   </Target>
 </Project>
