@@ -123,25 +123,12 @@
     <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
   </Target>
   <!-- Code to merge the assemblies into one:setup.exe -->
-  <UsingTask TaskName="ILMerge.MSBuild.Tasks.Prime.ILMerge" AssemblyFile="$(SolutionDir)\packages\ILMerge.MSBuild.Tasks.Prime.1.0.0.0\tools\ILMerge.MSBuild.Tasks.Prime.dll" />
-  <Target Name="AfterBuild">
-    <ItemGroup>
-      <MergeAsm Include="$(OutputPath)$(TargetFileName)" />
-      <MergeAsm Include="$(OutputPath)Delegate.XrmFramework.BusinessLogic.dll" />
-      <MergeAsm Include="$(OutputPath)Delegate.XrmFramework.BusinessDomain.dll" />
-    </ItemGroup>
-    <PropertyGroup>
-      <MergedAssembly>$(ProjectDir)$(OutDir)ILMerged.$(TargetFileName)</MergedAssembly>
-    </PropertyGroup>
-    <Message Text="ILMerge @(MergeAsm) -&gt; $(MergedAssembly)" Importance="high" />
-    <ILMerge CopyAttributes="true" TargetKind="Dll" SnkFile="$(SolutionDir)..\XrmFramework.snk" OutputFile="$(MergedAssembly)" InputAssemblies="@(MergeAsm)" SetTargetPlatform="v4,C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2" ShouldLog="true" LogFile="$(ProjectDir)$(OutDir)ILMerge.log" />
-  </Target>
   <Target Name="AfterBuild">
     <ItemGroup>
       <InputAssemblies Include="$(TargetDir)Delegate.XrmFramework.BusinessDomain.dll" />
       <InputAssemblies Include="$(TargetDir)Delegate.XrmFramework.BusinessLogic.dll" />
       <InputAssemblies Include="$(TargetPath)" />
     </ItemGroup>
-    <Exec Command="$(ILRepack) /parallel /out:$(TargetDir)ILMerged.$(TargetFileName) /lib:$(TargetDir) @(InputAssemblies -> '%(Identity)', ' ')" />
+    <Exec Command="&quot;$(ILRepack)&quot; /parallel /keyfile:../../Tools/DG/Signature/delegate.snk /lib:&quot;$(TargetDir)\&quot; /out:&quot;$(TargetDir)ILMerged.$(TargetFileName)&quot; @(InputAssemblies -> '&quot;%(Identity)&quot;', ' ')" />
   </Target>
 </Project>
