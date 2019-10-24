@@ -67,6 +67,9 @@ namespace DG.XrmOrg.XrmSolution.Plugins
                 // Obtain the tracing service from the service provider.
                 this.TracingService = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
 
+                // Wrap TracingService in DGTracingService for Application Insights
+                this.TracingService = new DGTracingService(this.TracingService, this.PluginExecutionContext.CorrelationId);
+
                 // Obtain the Organization Service factory service from the service provider
                 IOrganizationServiceFactory factory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
 
