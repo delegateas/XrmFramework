@@ -105,6 +105,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountPostPlugin.cs" />
+    <Compile Include="Services\DGTracingService.cs" />
+    <Compile Include="Services\IDGTracingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plugin.cs" />
   </ItemGroup>
