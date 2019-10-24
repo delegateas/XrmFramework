@@ -52,7 +52,13 @@ namespace DG.XrmOrg.XrmSolution.Plugins
 
                 private set;
             }
+// <-- ADDED
+            internal IDGTracingService DGTracingService {
+                get;
 
+                private set;
+            }
+// -->
             private LocalPluginContext() {
             }
 
@@ -66,10 +72,13 @@ namespace DG.XrmOrg.XrmSolution.Plugins
 
                 // Obtain the tracing service from the service provider.
                 this.TracingService = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
-
+// <-- ADDED
                 // Wrap TracingService in DGTracingService for Application Insights
                 this.TracingService = new DGTracingService(this.TracingService, this.PluginExecutionContext.CorrelationId);
 
+                // Set cast version of tracing service for dependency and exception functionality.
+                this.DGTracingService = (IDGTracingService)this.TracingService;
+// -->
                 // Obtain the Organization Service factory service from the service provider
                 IOrganizationServiceFactory factory = (IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory));
 
@@ -124,12 +133,28 @@ namespace DG.XrmOrg.XrmSolution.Plugins
             private set;
         }
 
+// <-- ADDED
+        /// <summary>
+        /// Gets or sets the name of the child class, without namespace.
+        /// </summary>
+        /// <value>The name of the child class.</value>
+        protected string ChildClassNameSimple{
+            get;
+
+            private set;
+        }
+// -->
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Plugin"/> class.
         /// </summary>
         /// <param name="childClassName">The <see cref="" cred="Type"/> of the derived class.</param>
         internal Plugin(Type childClassName) {
             this.ChildClassName = childClassName.ToString();
+// <-- ADDED
+            // Type name without namespace for dependency tracing
+            this.ChildClassNameSimple = childClass.Name;
+// -->
         }
 
 
@@ -153,7 +178,10 @@ namespace DG.XrmOrg.XrmSolution.Plugins
             LocalPluginContext localcontext = new LocalPluginContext(serviceProvider);
 
             localcontext.Trace(string.Format(CultureInfo.InvariantCulture, "Entered {0}.Execute()", this.ChildClassName));
-
+// <-- ADDED
+            var startTime = DateTime.UtcNow;
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+// -->
             try {
                 // Iterate over all of the expected registered events to ensure that the plugin
                 // has been invoked by an expected event
@@ -182,12 +210,24 @@ namespace DG.XrmOrg.XrmSolution.Plugins
                     return;
                 }
             } catch (FaultException<OrganizationServiceFault> e) {
+// <-- ADDED
+                timer.Stop();
+                localcontext.DGTracingService.TraceException(e);
+// -->
                 localcontext.Trace(string.Format(CultureInfo.InvariantCulture, "Exception: {0}", e.ToString()));
 
                 // Handle the exception.
                 throw;
             }
             finally {
+// <-- ADDED
+                timer.Stop();
+                localcontext.DGTracingService.TraceDependency(
+                    localcontext.PluginExecutionContext.MessageName,
+                    localcontext.PluginExecutionContext.PrimaryEntityName, 
+                    this.ChildClassNameSimple, // This string excludes namespace, use ChildClassName for name space included
+                    startTime, timer.Elapsed);
+// -->
                 localcontext.Trace(string.Format(CultureInfo.InvariantCulture, "Exiting {0}.Execute()", this.ChildClassName));
             }
         }
