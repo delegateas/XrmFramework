@@ -153,7 +153,7 @@ namespace DG.XrmOrg.XrmSolution.Plugins
             this.ChildClassName = childClassName.ToString();
 // <-- ADDED
             // Type name without namespace for dependency tracing
-            this.ChildClassNameSimple = childClass.Name;
+            this.ChildClassNameSimple = childClassName.Name;
 // -->
         }
 
