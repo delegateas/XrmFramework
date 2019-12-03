@@ -76,8 +76,8 @@
     <Reference Include="System.Workflow.Runtime" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="XrmMockup365, Version=0.12.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XrmMockup365.0.12.0-beta\lib\net462\XrmMockup365.dll</HintPath>
+    <Reference Include="XrmMockup365, Version=0.13.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XrmMockup365.0.13.3-beta\lib\net462\XrmMockup365.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -104,10 +104,6 @@
     <None Include="app.config" />
     <None Include="Metadata\MetadataGenerator365.exe.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Metadata\MetadataGenerator365.exe" />
-    <Content Include="Metadata\MetadataGenerator365.pdb" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

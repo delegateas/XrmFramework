@@ -368,3 +368,7 @@ MigrationBackup/
 /**/XrmDefinitelyTyped/*.dll
 /**/XrmDefinitelyTyped/XrmDefinitelyTyped.exe
 /**/XrmDefinitelyTyped/XrmDefinitelyTyped.xml
+
+# XrmMockup365
+/**/Tests/Metadata/MetadataGenerator365.exe
+/**/Tests/Metadata/MetadataGenerator365.pdb
