@@ -125,9 +125,9 @@
   <!-- Code to merge the assemblies into one:setup.exe -->
   <Target Name="AfterBuild">
     <ItemGroup>
+      <InputAssemblies Include="$(TargetPath)" />
       <InputAssemblies Include="$(TargetDir)Delegate.XrmFramework.BusinessDomain.dll" />
       <InputAssemblies Include="$(TargetDir)Delegate.XrmFramework.BusinessLogic.dll" />
-      <InputAssemblies Include="$(TargetPath)" />
     </ItemGroup>
     <Exec Command="&quot;$(ILRepack)&quot; /parallel /keyfile:../../XrmFramework.snk /lib:&quot;$(TargetDir)\&quot; /out:&quot;$(TargetDir)ILMerged.$(TargetFileName)&quot; @(InputAssemblies -> '&quot;%(Identity)&quot;', ' ')" />
   </Target>
