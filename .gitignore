@@ -354,21 +354,7 @@ MigrationBackup/
 # --------------------------------------------------------------------------
 
 # DAXIF
-/**/Daxif/bin/
+!/**/Daxif/bin/
 /**/Daxif/*.dll
 
 *.daxif
-
-# XrmContext
-/**/XrmContext/*.dll
-/**/XrmContext/XrmContext.exe
-/**/XrmContext/XrmContext.xml
-
-# XrmDefinitelyTyped
-/**/XrmDefinitelyTyped/*.dll
-/**/XrmDefinitelyTyped/XrmDefinitelyTyped.exe
-/**/XrmDefinitelyTyped/XrmDefinitelyTyped.xml
-
-# XrmMockup365
-/**/Tests/Metadata/MetadataGenerator365.exe
-/**/Tests/Metadata/MetadataGenerator365.pdb
