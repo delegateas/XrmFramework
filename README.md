@@ -1,4 +1,4 @@
-# XrmFramework
+# XrmFramework [![Join the chat at https://gitter.im/delegateas/XrmFramework](https://badges.gitter.im/delegateas/XrmFramework.svg)](https://gitter.im/delegateas/XrmFramework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 XrmFramework is a project that contains the structure Delegate uses for every XRM project. It has all of our tools and shows how we use our tools together to create a better experience for developers.
 
 ## Solution structure
