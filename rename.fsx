@@ -54,6 +54,11 @@ let orgSolSource           = orgSource +. solSource // XrmOrg.XrmSolution
 let companyOrgSource       = companySource +. orgSource //DG.XrmOrg
 let companyOrgSolSource    = companyOrgSource +. solSource // DG.XrmOrg.XrmSolution
 
+// The name of the company (will replace "DG")
+let companyTarget =
+  ((fsi.CommandLineArgs,"comp=") ||> getArg, "DG")
+  ||> defaultArg
+
 // The name of the library (will replace "XrmOrg")
 let orgTarget = 
   ((fsi.CommandLineArgs,"org=") ||> getArg, "Organization")
@@ -63,9 +68,8 @@ let orgTarget =
 let solTarget =
   ((fsi.CommandLineArgs,"sol=") ||> getArg, "Solution")
   ||> defaultArg
-
 // The name of the library (will replace "DG.XrmOrg")
-let companyOrgTarget = companySource +. orgTarget
+let companyOrgTarget = companyTarget +. orgTarget
 
 // Name of the project folder (will replace "XrmOrg.XrmSolution")
 let targetorgsol = orgTarget +. solTarget
