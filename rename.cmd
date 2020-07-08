@@ -5,6 +5,7 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Commo
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\FSharp;^
 C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\FSharp;^
 C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\CommonExtensions\Microsoft\FSharp;^
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp;^
 C:\Program Files (x86)\Microsoft SDKs\F#\4.1\Framework\v4.0\;^
 C:\Program Files (x86)\Microsoft SDKs\F#\4.0\Framework\v4.0\;^
 C:\Program Files (x86)\Microsoft SDKs\F#\3.1\Framework\v4.0\;^
