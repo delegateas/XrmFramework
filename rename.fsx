@@ -47,27 +47,35 @@ let executeProcess exe args dir =
   with ex -> log LogLevel.Error (exe,args,dir) ex; None
 
 // Organization and Solution
-let company          = "DG"
-let organizationName = "XrmOrg"
-let solutionName     = "XrmSolution"
-let organization     = company +. organizationName
-let solution         = organization +. solutionName
+let companySource          = "DG"
+let orgSource              = "XrmOrg"
+let solSource              = "XrmSolution"
+let orgSolSource           = orgSource +. solSource // XrmOrg.XrmSolution
+let companyOrgSource       = companySource +. orgSource //DG.XrmOrg
+let companyOrgSolSource    = companyOrgSource +. solSource // DG.XrmOrg.XrmSolution
+
+// The name of the company (will replace "DG")
+let companyTarget =
+  ((fsi.CommandLineArgs,"comp=") ||> getArg, "DG")
+  ||> defaultArg
 
 // The name of the library (will replace "XrmOrg")
-let orgName = 
+let orgTarget = 
   ((fsi.CommandLineArgs,"org=") ||> getArg, "Organization")
   ||> defaultArg
 
 // The name of the project (will replace "XrmSolution")
-let solName =
+let solTarget =
   ((fsi.CommandLineArgs,"sol=") ||> getArg, "Solution")
   ||> defaultArg
-
 // The name of the library (will replace "DG.XrmOrg")
-let org = company +. orgName
+let companyOrgTarget = companyTarget +. orgTarget
+
+// Name of the project folder (will replace "XrmOrg.XrmSolution")
+let targetorgsol = orgTarget +. solTarget
 
 // The name of the project (will replace "DG.XrmOrg.XrmSolution")
-let sol = org +. solName
+let companyOrgSolTarget = companyOrgTarget +. solTarget
 
 // Folder & file helper functions
 let root = __SOURCE_DIRECTORY__
@@ -78,27 +86,48 @@ let dirs path filter =
   System.IO.Directory.EnumerateDirectories(path,filter,recursively)
 let files path filter =
   System.IO.Directory.EnumerateFiles(path,filter,recursively)
-let rev (s:string) =
-  s |> Seq.toArray |> Array.fold(fun a x -> (x |> string) + a) ""
-let replaceFirst input from to' =
-  let r = new System.Text.RegularExpressions.Regex(from)
-  r.Replace(input = input,replacement = to', count = 1)
-let renameDirs path path' =
-  System.IO.Directory.Move(path,path') |> ignore
-  (0,"","") |> Some,path,path'
-let renameFiles path path' =
-  System.IO.File.Move(path,path') |> ignore
-  (0,"","") |> Some,path,path'
-let rename' path path' =
-  match System.IO.File.GetAttributes(path) with
-  | System.IO.FileAttributes.Directory -> (path, path') ||> renameDirs 
-  | _ -> (path,path') ||> renameFiles
-let rename (path:string) from to' =
-  let from' = from  |> rev
-  let to''  = to'   |> rev
-  let path' = (path |> rev, from', to'') |||> replaceFirst |> rev
-  (path,path') ||> rename'
-let rollback _ = () // Do manually with "git checkout -- *"
+
+// Module for renaming dirs
+module Rename=
+    let rev (s:string) =
+      s |> Seq.toArray |> Array.fold(fun a x -> (x |> string) + a) ""
+    let replaceFirst input source target =
+      let r = new System.Text.RegularExpressions.Regex(source)
+      r.Replace(input = input,replacement = target, count=1)
+    let renameDirs sourcePath targetPath =
+      System.IO.Directory.Move(sourcePath,targetPath) |> ignore
+      (0,"","") |> Some,sourcePath,targetPath
+    let renameFiles sourcePath targetPath =
+      System.IO.File.Move(sourcePath,targetPath) |> ignore
+      (0,"","") |> Some,sourcePath,targetPath
+    let rename sourcePath targetPath =
+      match System.IO.File.GetAttributes(sourcePath) with
+      | System.IO.FileAttributes.Directory -> (sourcePath, targetPath) ||> renameDirs 
+      | _ -> (sourcePath,targetPath) ||> renameFiles
+    let renameLastMatch (path:string) source target =
+      let sourceRev = source |> rev
+      let targetRev = target |> rev
+      let pathRev = path |> rev
+      let pathReplaced = (replaceFirst pathRev sourceRev targetRev) |> rev
+      (path,pathReplaced) ||> rename
+    let rollback _ = () // Do manually with "git checkout -- *"
+
+// Rename files or directories
+let renameIO source target fn atomic' =
+  try
+      (root,source |> pattern) ||> fn
+      |> Seq.map(fun x -> (x,source,target) |||> Rename.renameLastMatch)
+      |> Seq.fold(fun (i,acc) (x,y,z) ->
+                  let i' =
+                    match x with
+                    | Some (a,_,_) -> a
+                    | None -> 1
+                  (i+i',(y,z)::acc)) (0,[])
+      |> fun (x,y) ->
+        match x with
+        | 0 -> (y,atomic') ||> List.append |> Some
+        | _ -> atomic' |> Rename.rollback |> ignore; None
+  with ex -> log LogLevel.Error (atomic',source,target) ex; None
 
 // File content helper functions
 let utf8 = System.Text.UTF8Encoding.UTF8
@@ -110,23 +139,6 @@ let delete path = System.IO.File.Delete(path)
 let extensions = [ ".crmregister"; ".cs"; ".csproj"; ".fsx"; 
                    ".js"; ".md"; ".sln"; ".vspscc"; ".xml"; ]
 
-// Rename files or directories
-let renameIO from to' fn atomic' =
-  try
-      (root,from |> pattern) ||> fn
-      |> Seq.map(fun x -> (x,from,to') |||> rename)
-      |> Seq.fold(fun (i,acc) (x,y,z) ->
-                  let i' =
-                    match x with
-                    | Some (a,b,c) -> a
-                    | None -> 1
-                  (i+i',(y,z)::acc)) (0,[])
-      |> fun (x,y) ->
-        match x with
-        | 0 -> (y,atomic') ||> List.append |> Some
-        | _ -> atomic' |> rollback |> ignore; None
-  with ex -> log LogLevel.Error (atomic',from,to') ex; None
-
 // Update files content
 let updateContent exts atomic' =
   try
@@ -137,30 +149,32 @@ let updateContent exts atomic' =
     |> Seq.fold(fun a x ->
                 let x' = x + "_"
                 x |> readLines
-                  |> Seq.map(fun y -> y.Replace(solution,sol)
-                                       .Replace(organization,org)
-                                       .Replace(solutionName,solName)
-                                       .Replace(organizationName,orgName))
+                  |> Seq.map(fun y -> y.Replace(companyOrgSolSource,companyOrgSolTarget)
+                                       .Replace(companyOrgSource,companyOrgTarget)
+                                       .Replace(orgSolSource,targetorgsol)
+                                       .Replace(solSource,solTarget)
+                                       .Replace(orgSource,orgTarget))
                   |> writeLines x'
                 (x,x')::a) []
     |> List.toSeq
     |> Seq.iter(fun (x,y) -> (y,x) ||> copy; y |> delete)
     |> Some
   with ex ->
-    let tf' = atomic' |> rollback
+    let tf' = atomic' |> Rename.rollback
     log LogLevel.Error (exts,tf') ex; None
 
 // Rename with atomicity "tf rename folder1 folder2 / tf undo ."
-[] |> Some >>= (renameIO solution sol dirs)
-           >>= (renameIO organization org dirs)
-           >>= (renameIO solutionName solName dirs)
-           >>= (renameIO organizationName orgName dirs)
+[] |> Some >>= (renameIO companyOrgSolSource companyOrgSolTarget dirs)
+           >>= (renameIO companyOrgSource companyOrgTarget dirs)
+           >>= (renameIO orgSolSource targetorgsol dirs)
+           >>= (renameIO solSource solTarget dirs)
+           >>= (renameIO orgSource orgTarget dirs)
 
 // Rename with atomicity "tf rename file1 file2 / tf undo ."
-           >>= (renameIO solution sol files)
-           >>= (renameIO organization org files)
-           >>= (renameIO solutionName solName files)
-           >>= (renameIO organizationName orgName files)
+           >>= (renameIO companyOrgSolSource companyOrgSolTarget files)
+           >>= (renameIO companyOrgSource companyOrgTarget files)
+           >>= (renameIO solSource solTarget files)
+           >>= (renameIO orgSource orgTarget files)
 
 // Update content with atomicity "tf undo ."
            >>= (updateContent extensions)

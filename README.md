@@ -15,9 +15,9 @@ The solution contains the following projects
 ## Renaming the framework
 There is a renaming script file at the root. Ensure you have F# installed, open a command prompt and type 
 ```
-rename.cmd org=Organization sol=Solution
+rename.cmd comp=Company org=Organization sol=Solution
 ``` 
-where Organization is the name of your organization and Solution is the name of the solution you want sync your project with. This will replace all occurrences of `XrmOrg` with your organization and `XrmSolution` with your solution.
+where Company is the name of your company, Organization is the name of your organization and Solution is the name of the solution you want to sync your project with. This will replace all occurrences of `DG` with your company, `XrmOrg` with your organization and `XrmSolution` with your solution.
 
 ## Configuring DAXIF
 The final configuration is done inside `Tools > Daxif > _Config.fsx`. You will see definitions like this.
