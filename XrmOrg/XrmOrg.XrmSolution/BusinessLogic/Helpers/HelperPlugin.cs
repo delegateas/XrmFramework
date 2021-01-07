@@ -249,6 +249,52 @@ namespace DG.XrmFramework.BusinessLogic.Helpers
             return null;
         }
 
+        /// <summary>
+        /// Merges an entity and an image to a new object. 
+        /// If a value exist in the entity that values is used. 
+        /// If a value exist in the image but not the entity, the image value is used
+        /// If no image is provided all fields from the entity is returned in a new entity
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tracingService"></param>
+        /// <param name="entity"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public static T MergeEntityAndImage<T>(ITracingService tracingService, T entity, T image) where T : Entity
+        {
+            tracingService.Trace($"Merging entity with image.");
+            var entityFields = entity.Attributes.Select(f => f.Key).ToList();
+            var imageFields = image == null ? new List<string>() : image.Attributes.Select(f => f.Key).ToList();
+            var allFields = entityFields.Union(imageFields).ToList();
+
+            T mergedEntity;
+            if (typeof(Entity) == typeof(T))
+            {
+                tracingService.Trace($"Merging Entities.");
+                mergedEntity = (T)Activator.CreateInstance(typeof(T), entity.LogicalName, entity.Id);
+            }
+            else
+            {
+                tracingService.Trace($"Merging {typeof(T).Name}.");
+                mergedEntity = (T)Activator.CreateInstance(typeof(T), entity.Id);
+            }
+
+            foreach (var field in allFields)
+            {
+                if (entity.Contains(field))
+                {
+                    tracingService.Trace($"Field {field} has changed. Added to merged entity.");
+                    mergedEntity.Attributes[field] = entity.Attributes[field];
+                }
+                else if (image != null && image.Contains(field))
+                {
+                    tracingService.Trace($"Field {field} only found in image. Keeping value.");
+                    mergedEntity.Attributes[field] = image.Attributes[field];
+                }
+            }
+
+            return mergedEntity;
+        }
         #endregion
 
         #region Public methods
