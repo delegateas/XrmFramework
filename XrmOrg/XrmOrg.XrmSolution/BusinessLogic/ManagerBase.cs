@@ -118,7 +118,33 @@ namespace DG.XrmFramework.BusinessLogic.Managers
                 throw new Exception(msg);
             }
         }
+        protected T GetManager<T>() where T : ManagerBase
+        {
+            if (tracingService != null)
+            {
+                tracingService.Trace($"Creating manager of type {typeof(T).Name}");
+            }
 
+            T manager;
+            if (pluginContext != null && typeof(T).GetConstructor(new[] { typeof(ITracingService), typeof(IPluginExecutionContext), typeof(IOrganizationService), typeof(IOrganizationService) }) != null)
+            {
+                manager = (T)Activator.CreateInstance(typeof(T), tracingService, pluginContext, orgService, orgAdminService);
+            }
+            else if (workflowContext != null && typeof(T).GetConstructor(new[] { typeof(ITracingService), typeof(IWorkflowContext), typeof(IOrganizationService), typeof(IOrganizationService) }) != null)
+            {
+                manager = (T)Activator.CreateInstance(typeof(T), tracingService, workflowContext, orgService, orgAdminService);
+            }
+            else if (typeof(T).GetConstructor(new[] { typeof(ITracingService), typeof(IOrganizationService), typeof(IOrganizationService) }) != null)
+            {
+                manager = (T)Activator.CreateInstance(typeof(T), tracingService, orgService, orgAdminService);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("No constructor found");
+            }
+
+            return manager;
+        }
         #endregion
 
         #region Private methods

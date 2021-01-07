@@ -90,6 +90,7 @@
     <Compile Include="Helpers\HelperUtils.cs" />
     <Compile Include="ManagerAccount.cs" />
     <Compile Include="ManagerBase.cs" />
+    <Compile Include="ManagerContact.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
