@@ -59,6 +59,19 @@
     <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.32\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
       <Private>True</Private>
+    <Reference Include="Delegate.Daxif, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Delegate.Daxif.4.3.0\lib\net45\Delegate.Daxif.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSharp.Core.4.7.0\lib\net45\FSharp.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.21\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Crm.Services.Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Delegate.Daxif.4.3.0\lib\net45\Microsoft.Crm.Services.Utility.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.6.1.7600.16394\lib\net35\Microsoft.IdentityModel.dll</HintPath>
@@ -82,6 +95,7 @@
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.Deployment.9.0.2.23\lib\net462\Microsoft.Xrm.Sdk.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.21\lib\net462\Microsoft.Xrm.Sdk.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk.Workflow, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -138,11 +152,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="XmlDiffPatch, Version=1.0.8.28, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\packages\XMLDiffPatch.1.0.8.28\lib\net\XmlDiffPatch.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="XmlDiffPatch.View, Version=1.0.1493.40755, Culture=neutral">
       <HintPath>..\packages\XMLDiffPatch.1.0.8.28\lib\net\XmlDiffPatch.View.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="XrmContext, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Delegate.XrmContext.2.0.0\lib\net462\XrmContext.exe</HintPath>
@@ -187,9 +199,11 @@
   <ItemGroup>
     <Content Include="bin\coretools\CrmSvcUtil.exe" />
     <Content Include="bin\coretools\CrmSvcUtil.xml" />
+    <Content Include="bin\coretools\Microsoft.ApplicationInsights.dll" />
     <Content Include="bin\coretools\Microsoft.Crm.Sdk.Proxy.dll" />
     <Content Include="bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
-    <Content Include="bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
+    <Content Include="bin\coretools\Microsoft.PowerApps.AppInsights.BatchedTelemetry.dll" />
+    <Content Include="bin\coretools\Microsoft.PowerApps.AppInsights.BatchedTelemetryChannel.dll" />
     <Content Include="bin\coretools\Microsoft.Rest.ClientRuntime.dll" />
     <Content Include="bin\coretools\Microsoft.Xrm.Sdk.Deployment.dll" />
     <Content Include="bin\coretools\Microsoft.Xrm.Sdk.dll" />
@@ -198,7 +212,10 @@
     <Content Include="bin\coretools\Microsoft.Xrm.Tooling.Ui.Styles.dll" />
     <Content Include="bin\coretools\Newtonsoft.Json.dll" />
     <Content Include="bin\coretools\Other Redistributable.txt" />
+    <Content Include="bin\coretools\pacTelemetryUpload.exe" />
     <Content Include="bin\coretools\SolutionPackager.exe" />
+    <Content Include="bin\coretools\SolutionPackagerLib.dll" />
+    <Content Include="bin\coretools\System.Diagnostics.DiagnosticSource.dll" />
     <Content Include="bin\coretools\System.ValueTuple.dll" />
     <Content Include="CustomScripting\AssignRecords.fsx" />
     <Content Include="CustomScripting\CountRecords.fsx" />
@@ -225,6 +242,10 @@
     <Content Include="Daxif\bin\microsoft.identitymodel.dll" />
     <Content Include="Daxif\bin\Microsoft.PowerApps.AppInsights.BatchedTelemetry.dll" />
     <Content Include="Daxif\bin\Microsoft.PowerApps.AppInsights.BatchedTelemetryChannel.dll" />
+    <Content Include="Daxif\bin\Microsoft.Crm.Services.Utility.dll" />
+    <Content Include="Daxif\bin\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
+    <Content Include="Daxif\bin\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
+    <Content Include="Daxif\bin\Microsoft.IdentityModel.dll" />
     <Content Include="Daxif\bin\Microsoft.Rest.ClientRuntime.dll" />
     <Content Include="Daxif\bin\Microsoft.Xrm.Sdk.Deployment.dll" />
     <Content Include="Daxif\bin\Microsoft.Xrm.Sdk.dll" />
@@ -234,6 +255,11 @@
     <Content Include="Daxif\bin\SolutionPackagerLib.dll" />
     <Content Include="Daxif\bin\System.Diagnostics.DiagnosticSource.dll" />
     <Content Include="Daxif\bin\System.ValueTuple.dll" />
+    <Content Include="Daxif\bin\Microsoft.Xrm.Sdk.Workflow.xml" />
+    <Content Include="Daxif\bin\Microsoft.Xrm.Tooling.Connector.dll" />
+    <Content Include="Daxif\bin\Newtonsoft.Json.dll" />
+    <Content Include="Daxif\bin\Newtonsoft.Json.xml" />
+    <Content Include="Daxif\bin\SolutionPackager.exe" />
     <Content Include="Daxif\GenerateCSharpContext.fsx" />
     <Content Include="XrmContext\FSharp.Core.dll" />
     <Content Include="XrmContext\Microsoft.Crm.Sdk.Proxy.dll" />
@@ -246,6 +272,10 @@
     <Content Include="XrmContext\Microsoft.Xrm.Tooling.Connector.dll" />
     <Content Include="XrmContext\Newtonsoft.Json.dll" />
     <Content Include="XrmContext\System.ValueTuple.dll" />
+    <Content Include="XrmContext\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
+    <Content Include="XrmContext\Microsoft.Xrm.Sdk.Deployment.dll" />
+    <Content Include="XrmContext\Microsoft.Xrm.Sdk.dll" />
+    <Content Include="XrmContext\Microsoft.Xrm.Tooling.Connector.dll" />
     <Content Include="XrmContext\XrmContext.exe" />
     <Content Include="XrmContext\XrmContext.xml" />
     <Content Include="XrmDefinitelyTyped\FSharp.Core.dll" />
@@ -259,12 +289,15 @@
     <Content Include="XrmDefinitelyTyped\Microsoft.Xrm.Tooling.Connector.dll" />
     <Content Include="XrmDefinitelyTyped\Newtonsoft.Json.dll" />
     <Content Include="XrmDefinitelyTyped\System.ValueTuple.dll" />
+    <Content Include="XrmDefinitelyTyped\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
+    <Content Include="XrmDefinitelyTyped\Microsoft.Xrm.Sdk.Deployment.dll" />
+    <Content Include="XrmDefinitelyTyped\Microsoft.Xrm.Sdk.dll" />
+    <Content Include="XrmDefinitelyTyped\Microsoft.Xrm.Tooling.Connector.dll" />
     <Content Include="XrmDefinitelyTyped\XrmDefinitelyTyped.exe" />
     <Content Include="XrmDefinitelyTyped\XrmDefinitelyTyped.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\" />
-    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
