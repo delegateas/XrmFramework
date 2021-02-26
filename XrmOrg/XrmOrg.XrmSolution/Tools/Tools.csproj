@@ -59,15 +59,12 @@
     <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.32\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
       <Private>True</Private>
+    </Reference>
     <Reference Include="Delegate.Daxif, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Delegate.Daxif.4.3.0\lib\net45\Delegate.Daxif.dll</HintPath>
     </Reference>
     <Reference Include="FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\FSharp.Core.4.7.0\lib\net45\FSharp.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.21\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Crm.Services.Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -95,11 +92,10 @@
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk.Deployment, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.Deployment.9.0.2.23\lib\net462\Microsoft.Xrm.Sdk.Deployment.dll</HintPath>
-      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.21\lib\net462\Microsoft.Xrm.Sdk.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xrm.Sdk.Workflow, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CrmSdk.Workflow.9.0.2.23\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CrmSdk.Workflow.9.0.2.32\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xrm.Tooling.Connector, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -242,7 +238,6 @@
     <Content Include="Daxif\bin\microsoft.identitymodel.dll" />
     <Content Include="Daxif\bin\Microsoft.PowerApps.AppInsights.BatchedTelemetry.dll" />
     <Content Include="Daxif\bin\Microsoft.PowerApps.AppInsights.BatchedTelemetryChannel.dll" />
-    <Content Include="Daxif\bin\Microsoft.Crm.Services.Utility.dll" />
     <Content Include="Daxif\bin\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
     <Content Include="Daxif\bin\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
     <Content Include="Daxif\bin\Microsoft.IdentityModel.dll" />
@@ -259,7 +254,6 @@
     <Content Include="Daxif\bin\Microsoft.Xrm.Tooling.Connector.dll" />
     <Content Include="Daxif\bin\Newtonsoft.Json.dll" />
     <Content Include="Daxif\bin\Newtonsoft.Json.xml" />
-    <Content Include="Daxif\bin\SolutionPackager.exe" />
     <Content Include="Daxif\GenerateCSharpContext.fsx" />
     <Content Include="XrmContext\FSharp.Core.dll" />
     <Content Include="XrmContext\Microsoft.Crm.Sdk.Proxy.dll" />
