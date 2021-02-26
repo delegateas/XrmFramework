@@ -13,11 +13,11 @@ namespace DG.XrmFramework.Tests
         {
             using (var context = new Xrm(orgAdminUIService))
             {
-                var acc = new Account();
-                acc.Id = orgAdminUIService.Create(acc);
-
                 try
                 {
+                    var acc = new Account();
+                    acc.Id = orgAdminUIService.Create(acc);
+
                     orgAdminService.Update(new Account(acc.Id));
                     Assert.Fail();
                 } catch(Exception e)

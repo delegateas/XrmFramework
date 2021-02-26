@@ -1,3 +1,5 @@
 declare const enum account_accountratingcode {
-  DefaultValue = 1,
+  Low = 1,
+  Medium = 100000000,
+  High = 100000001,
 }

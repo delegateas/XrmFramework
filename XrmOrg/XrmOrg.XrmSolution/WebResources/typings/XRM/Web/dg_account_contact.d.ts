@@ -1,6 +1,4 @@
-/// <reference path="../_internal/web-entities.d.ts" />
-/// <reference path="../_internal/EntityEnum/dg_account_contact.d.ts" />
-declare namespace WebAPI {
+declare namespace XDT {
   interface dg_account_contact_Base extends WebEntity {
     accountid?: string | null;
     contactid?: string | null;
@@ -39,9 +37,15 @@ declare namespace WebAPI {
   interface dg_account_contact_RelatedOne {
   }
   interface dg_account_contact_RelatedMany {
-    dg_account_contact: WebMappingRetrieve<Contact_Select,Contact_Expand,Contact_Filter,Contact_Fixed,Contact_Result,Contact_FormattedResult>;
+    dg_account_contact: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
   }
 }
-interface WebEntities {
-  dg_account_contactset: WebMappingRetrieve<WebAPI.dg_account_contact_Select,WebAPI.dg_account_contact_Expand,WebAPI.dg_account_contact_Filter,WebAPI.dg_account_contact_Fixed,WebAPI.dg_account_contact_Result,WebAPI.dg_account_contact_FormattedResult> & WebMappingCUD<WebAPI.dg_account_contact_Create,WebAPI.dg_account_contact_Update> & WebMappingRelated<WebAPI.dg_account_contact_RelatedOne,WebAPI.dg_account_contact_RelatedMany>;
+interface WebEntitiesRetrieve {
+  dg_account_contactset: WebMappingRetrieve<XDT.dg_account_contact_Select,XDT.dg_account_contact_Expand,XDT.dg_account_contact_Filter,XDT.dg_account_contact_Fixed,XDT.dg_account_contact_Result,XDT.dg_account_contact_FormattedResult>;
+}
+interface WebEntitiesRelated {
+  dg_account_contactset: WebMappingRelated<XDT.dg_account_contact_RelatedOne,XDT.dg_account_contact_RelatedMany>;
+}
+interface WebEntitiesCUDA {
+  dg_account_contactset: WebMappingCUDA<XDT.dg_account_contact_Create,XDT.dg_account_contact_Update,XDT.dg_account_contact_Select>;
 }

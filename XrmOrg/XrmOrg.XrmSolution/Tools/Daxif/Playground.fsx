@@ -18,4 +18,4 @@ open DG.Daxif.Common
 open DG.Daxif.Common.Utility
 
 
-let proxy = Env.dev.connect().GetProxy()
+let proxy = Env.dev.connect().GetService()

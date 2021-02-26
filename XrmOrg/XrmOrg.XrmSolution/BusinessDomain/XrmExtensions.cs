@@ -75,7 +75,7 @@ namespace DG.XrmContext
             return null;
         }
 
-        protected void SetOptionSetCollectionValue<T>(string attributeName, params T[] value)
+        protected void SetOptionSetCollectionValue<T>(string attributeName, IEnumerable<T> value)
         {
             if (value != null && value.Any())
             {
@@ -182,6 +182,28 @@ namespace DG.XrmContext
             {
                 return null;
             }
+        }
+        public static string GetColumnName<T>(Expression<Func<T, object>> lambda) where T : Entity
+        {
+            MemberExpression body = lambda.Body as MemberExpression;
+
+            if (body == null)
+            {
+                UnaryExpression ubody = (UnaryExpression)lambda.Body;
+                body = ubody.Operand as MemberExpression;
+            }
+
+            if (body.Member.CustomAttributes != null)
+            {
+                var customAttributes = body.Member.GetCustomAttributesData();
+                var neededAttribute = customAttributes.FirstOrDefault(x => x.AttributeType == typeof(AttributeLogicalNameAttribute));
+                if (neededAttribute != null)
+                {
+                    return neededAttribute.ConstructorArguments.FirstOrDefault().Value.ToString();
+                }
+            }
+
+            return body.Member.Name;
         }
 
         public static T Retrieve<T>(IOrganizationService service, Guid id, params Expression<Func<T, object>>[] attributes) where T : Entity
@@ -368,6 +390,24 @@ namespace DG.XrmContext
         {
             if (attrGetters == null) return false;
             return attrGetters.Select(a => GetAttributeLogicalName(a).ToLower()).Any(a => entity.Attributes.Remove(a));
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Field)]
+    public class OptionSetMetadataAttribute : Attribute
+    {
+        public string Name { get; private set; }
+        public int Index { get; set; }
+        public string Description { get; set; }
+        public string Color { get; set; }
+
+        public OptionSetMetadataAttribute(string name, string description = null, string color = null) : this(name, int.MinValue, description, color) { }
+        public OptionSetMetadataAttribute(string name, int index, string description = null, string color = null)
+        {
+            Name = name;
+            Index = index;
+            Description = description;
+            Color = color;
         }
     }
 }

@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var XrmQuery;
 (function (XrmQuery) {
     /**
@@ -62,6 +67,51 @@ var XrmQuery;
     }
     XrmQuery.update = update;
     /**
+     * Instantiates a query that can associate two specific records with a N:1 relation.
+     * @param entityPicker Function to select the entity-type of the source entity.
+     * @param id GUID of the source entity.
+     * @param entityTargetPicker Function to select the entity-type of the target entity.
+     * @param targetId GUID of the target entity.
+     * @param relationPicker Function to select which N:1 relation (lookup-field) should be used to associate.
+     */
+    function associateSingle(entityPicker, id, entityTargetPicker, targetId, relationPicker) {
+        return new XQW.AssociateRecordSingle(entityPicker, id, entityTargetPicker, targetId, relationPicker);
+    }
+    XrmQuery.associateSingle = associateSingle;
+    /**
+     * Instantiates a query that can associate two specific records with a N:N or 1:N relation.
+     * @param entityPicker Function to select the entity-type of the source entity.
+     * @param id GUID of the source entity.
+     * @param entityTargetPicker Function to select the entity-type of the target entity.
+     * @param targetId GUID of the target entity.
+     * @param relationPicker Function to select which N:N or 1:N relation should be used to associate.
+     */
+    function associateCollection(entityPicker, id, entityTargetPicker, targetId, relationPicker) {
+        return new XQW.AssociateRecordCollection(entityPicker, id, entityTargetPicker, targetId, relationPicker);
+    }
+    XrmQuery.associateCollection = associateCollection;
+    /**
+     * Instantiates a query that can disassociate two specific records with a N:1 relation.
+     * @param entityPicker Function to select the entity-type of the source entity.
+     * @param id GUID of the source entity.
+     * @param relationPicker Function to select which N:1 relation (lookup-field) should be used to disassociate.
+     */
+    function disassociateSingle(entityPicker, id, relationPicker) {
+        return XQW.DisassociateRecord.Single(entityPicker, id, relationPicker);
+    }
+    XrmQuery.disassociateSingle = disassociateSingle;
+    /**
+     * Instantiates a query that can disassociate two specific records with a N:N or 1:N relation.
+     * @param entityPicker Function to select the entity-type of the source entity.
+     * @param id GUID of the source entity.
+     * @param relationPicker Function to select which N:N or 1:N relation should be used to disassociate.
+     * @param targetId GUID of the target entity.
+     */
+    function disassociateCollection(entityPicker, id, relationPicker, targetId) {
+        return XQW.DisassociateRecord.Collection(entityPicker, id, relationPicker, targetId);
+    }
+    XrmQuery.disassociateCollection = disassociateCollection;
+    /**
      * Instantiates a query that can delete a specific record.
      * @param entityPicker Function to select which entity-type should be deleted.
      * @param id GUID of the record to be updated.
@@ -89,10 +139,11 @@ var XrmQuery;
     /**
      * @internal
      */
-    function request(type, url, data, successCb, errorCb, preSend) {
+    function request(type, url, data, successCb, errorCb, preSend, sync) {
         if (errorCb === void 0) { errorCb = function () { }; }
+        if (sync === void 0) { sync = false; }
         var req = new XMLHttpRequest();
-        req.open(type, url, true);
+        req.open(type, url, !sync);
         req.setRequestHeader("Accept", "application/json");
         req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
         req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -112,7 +163,7 @@ var XrmQuery;
     }
     XrmQuery.request = request;
     /**
-     * Send a request to the Web API with the given parameters.
+     * Sends a request to the Web API with the given parameters.
      * @param type Type of request, i.e. "GET", "POST", etc
      * @param queryString Query-string to use for the API. For example: 'accounts?$count=true'
      * @param data Object to send with request
@@ -120,56 +171,89 @@ var XrmQuery;
      * @param errorCb Error callback handler function
      * @param configure Modify the request before it it sent to the endpoint - like adding headers.
      */
-    function sendRequest(type, queryString, data, successCb, errorCb, configure) {
-        request(type, encodeURI(XQW.getApiUrl() + queryString), data, successCb, errorCb, configure);
+    function sendRequest(type, queryString, data, successCb, errorCb, configure, sync) {
+        request(type, encodeSpaces(XQW.getApiUrl() + queryString), data, successCb, errorCb, configure, sync);
     }
     XrmQuery.sendRequest = sendRequest;
     /**
-     * Send a request to the Web API with the given parameters and return a promise.
+     * Sends a request to the Web API with the given parameters and returns a promise.
      * @param type Type of request, i.e. "GET", "POST", etc
      * @param queryString Query-string to use for the API. For example: 'accounts?$count=true'
      * @param data Object to send with request
      * @param configure Modify the request before it it sent to the endpoint - like adding headers.
      */
     function promiseRequest(type, queryString, data, configure) {
-        XQW.promisifyCallback(function (success, error) { return sendRequest(type, queryString, data, success, error, configure); });
+        return XQW.promisifyCallback(function (success, error) { return sendRequest(type, queryString, data, success, error, configure); });
     }
     XrmQuery.promiseRequest = promiseRequest;
+    function encodeSpaces(str) {
+        return str.replace(/ /g, "%20");
+    }
 })(XrmQuery || (XrmQuery = {}));
 var Filter;
 (function (Filter) {
-    function equals(v1, v2) { return comp(v1, "eq", v2); }
+    function equals(v1, v2) {
+        return comp(v1, "eq", v2);
+    }
     Filter.equals = equals;
-    function notEquals(v1, v2) { return comp(v1, "ne", v2); }
+    function notEquals(v1, v2) {
+        return comp(v1, "ne", v2);
+    }
     Filter.notEquals = notEquals;
-    function greaterThan(v1, v2) { return comp(v1, "gt", v2); }
+    function greaterThan(v1, v2) {
+        return comp(v1, "gt", v2);
+    }
     Filter.greaterThan = greaterThan;
-    function greaterThanOrEqual(v1, v2) { return comp(v1, "ge", v2); }
+    function greaterThanOrEqual(v1, v2) {
+        return comp(v1, "ge", v2);
+    }
     Filter.greaterThanOrEqual = greaterThanOrEqual;
-    function lessThan(v1, v2) { return comp(v1, "lt", v2); }
+    function lessThan(v1, v2) {
+        return comp(v1, "lt", v2);
+    }
     Filter.lessThan = lessThan;
-    function lessThanOrEqual(v1, v2) { return comp(v1, "le", v2); }
+    function lessThanOrEqual(v1, v2) {
+        return comp(v1, "le", v2);
+    }
     Filter.lessThanOrEqual = lessThanOrEqual;
-    function and(f1, f2) { return biFilter(f1, "and", f2); }
+    function and(f1, f2) {
+        return biFilter(f1, "and", f2);
+    }
     Filter.and = and;
-    function or(f1, f2) { return biFilter(f1, "or", f2); }
+    function or(f1, f2) {
+        return biFilter(f1, "or", f2);
+    }
     Filter.or = or;
-    function not(f1) { return ("not " + f1); }
+    function not(f1) {
+        return ("not " + f1);
+    }
     Filter.not = not;
-    function ands(fs) { return nestedFilter(fs, "and"); }
+    function ands(fs) {
+        return nestedFilter(fs, "and");
+    }
     Filter.ands = ands;
-    function ors(fs) { return nestedFilter(fs, "or"); }
+    function ors(fs) {
+        return nestedFilter(fs, "or");
+    }
     Filter.ors = ors;
-    function startsWith(v1, v2) { return dataFunc("startswith", v1, v2); }
+    function startsWith(val, prefix) {
+        return dataFunc("startswith", val, prefix);
+    }
     Filter.startsWith = startsWith;
-    function substringOf(v1, v2) { return dataFunc("substringof", v1, v2); }
-    Filter.substringOf = substringOf;
-    function endsWith(v1, v2) { return dataFunc("endswith", v1, v2); }
+    function contains(val, needle) {
+        return dataFunc("contains", val, needle);
+    }
+    Filter.contains = contains;
+    function endsWith(val, suffix) {
+        return dataFunc("endswith", val, suffix);
+    }
     Filter.endsWith = endsWith;
     /**
      * Makes a string into a GUID that can be sent to the OData source
      */
-    function makeGuid(id) { return XQW.makeTag(id); }
+    function makeGuid(id) {
+        return XQW.makeTag(XQW.stripGUID(id));
+    }
     Filter.makeGuid = makeGuid;
     /**
      * @internal
@@ -178,10 +262,10 @@ var Filter;
         if (v == null)
             return "null";
         if (typeof v === "string")
-            return "'" + v + "'";
+            return "'" + encodeSpecialCharacters(v) + "'";
         if (v instanceof Date)
-            return v.toISOString();
-        return v.toString();
+            return encodeSpecialCharacters(v.toISOString());
+        return encodeSpecialCharacters(v.toString());
     }
     /**
      * @internal
@@ -206,7 +290,22 @@ var Filter;
      */
     function nestedFilter(fs, conj) {
         var last = fs.pop();
+        if (last === undefined) {
+            return ("");
+        }
         return fs.reduceRight(function (acc, c) { return biFilter(c, conj, acc); }, last);
+    }
+    /**
+     * @internal
+     */
+    function encodeSpecialCharacters(queryString) {
+        return encodeURI(queryString)
+            .replace(/'/g, "''")
+            .replace(/\+/g, "%2B")
+            .replace(/\//g, "%2F")
+            .replace(/\?/g, "%3F")
+            .replace(/#/g, "%23")
+            .replace(/&/g, "%26");
     }
 })(Filter || (Filter = {}));
 var XQW;
@@ -214,14 +313,19 @@ var XQW;
     var FORMATTED_VALUE_ID = "OData.Community.Display.V1.FormattedValue";
     var FORMATTED_VALUE_SUFFIX = "@" + FORMATTED_VALUE_ID;
     var FORMATTED_VALUES_HEADER = { type: "Prefer", value: "odata.include-annotations=\"" + FORMATTED_VALUE_ID + "\"" };
+    var LOOKUP_LOGICALNAME_ID = "Microsoft.Dynamics.CRM.lookuplogicalname";
+    var LOOKUP_LOGICALNAME_SUFFIX = "@" + LOOKUP_LOGICALNAME_ID;
+    var LOOKUP_NAVIGATIONPROPERTY_ID = "Microsoft.Dynamics.CRM.associatednavigationproperty";
+    var LOOKUP_NAVIGATIONPROPERTY_SUFFIX = "@" + LOOKUP_NAVIGATIONPROPERTY_ID;
+    var INCLUDE_ANNOTATIONS_HEADER = { type: "Prefer", value: "odata.include-annotations=\"*\"" };
     var BIND_ID = "_bind$";
+    var ID_ID = "_id$";
     var GUID_ENDING = "_guid";
     var FORMATTED_ENDING = "_formatted";
+    var LOOKUP_LOGICALNAME_ENDING = "_lookuplogicalname";
+    var LOOKUP_NAVIGATIONPROPERTY_ENDING = "_navigationproperty";
     var NEXT_LINK_ID = "@odata.nextLink";
     var MaxPageSizeHeader = function (size) { return ({ type: "Prefer", value: "odata.maxpagesize=" + size }); };
-    /**
-     * @internal
-     */
     function makeTag(name) {
         return { __str: name, toString: function () { return this.__str; } };
     }
@@ -238,15 +342,29 @@ var XQW;
             return new Date(value);
         var newName = name;
         var formatted = endsWith(newName, FORMATTED_VALUE_SUFFIX);
+        var lookupLogicalName = endsWith(newName, LOOKUP_LOGICALNAME_SUFFIX);
+        var lookupNavProperty = endsWith(newName, LOOKUP_NAVIGATIONPROPERTY_SUFFIX);
         if (formatted)
-            newName = newName.substr(0, newName.length - 42);
-        if (beginsWith(newName, '_') && endsWith(newName, '_value')) {
+            newName = newName.substr(0, newName.length - FORMATTED_VALUE_SUFFIX.length);
+        else if (lookupLogicalName)
+            newName = newName.substr(0, newName.length - LOOKUP_LOGICALNAME_SUFFIX.length);
+        else if (lookupNavProperty)
+            newName = newName.substr(0, newName.length - LOOKUP_NAVIGATIONPROPERTY_SUFFIX.length);
+        if (beginsWith(newName, "_") && endsWith(newName, "_value")) {
             newName = newName.substr(1, newName.length - 7);
-            if (!formatted)
+            if (formatted)
+                newName += FORMATTED_ENDING;
+            else if (lookupLogicalName)
+                newName += LOOKUP_LOGICALNAME_ENDING;
+            else if (lookupNavProperty)
+                newName += LOOKUP_NAVIGATIONPROPERTY_ENDING;
+            else
                 newName += GUID_ENDING;
         }
-        if (formatted)
-            newName += FORMATTED_ENDING;
+        else {
+            if (formatted)
+                newName += FORMATTED_ENDING;
+        }
         if (newName != name) {
             this[newName] = value;
         }
@@ -264,11 +382,18 @@ var XQW;
     //  else if (m[1] && m[3]) { this[m[2] + "_guid"] = value; return; }
     //  else return value;
     //}
+    function stripGUID(guid) {
+        if (startsWith("{", guid) && endsWith(guid, "}"))
+            return guid.substring(1, guid.length - 1);
+        else
+            return guid;
+    }
+    XQW.stripGUID = stripGUID;
     function parseRetrievedData(req) {
         return JSON.parse(req.response, reviver);
     }
     function isStringArray(arr) {
-        return arr.length > 0 && typeof (arr[0]) === "string";
+        return arr.length > 0 && typeof arr[0] === "string";
     }
     function promisifyCallback(callbackFunc) {
         if (!Promise)
@@ -278,7 +403,7 @@ var XQW;
         });
     }
     XQW.promisifyCallback = promisifyCallback;
-    var LinkHelper = (function () {
+    var LinkHelper = /** @class */ (function () {
         function LinkHelper(toReturn, successCallback, errorCallback) {
             var _this = this;
             this.toReturn = toReturn;
@@ -323,7 +448,7 @@ var XQW;
         };
         return LinkHelper;
     }());
-    var EntityLinkHelper = (function (_super) {
+    var EntityLinkHelper = /** @class */ (function (_super) {
         __extends(EntityLinkHelper, _super);
         function EntityLinkHelper(rec, expandKeys, successCallback, errorCallback) {
             var _this = _super.call(this, rec, successCallback, errorCallback) || this;
@@ -352,7 +477,7 @@ var XQW;
     /**
      * Helper class to expand on all @odata.nextLink, both pages and on entities retrieved
      */
-    var PageLinkHelper = (function (_super) {
+    var PageLinkHelper = /** @class */ (function (_super) {
         __extends(PageLinkHelper, _super);
         function PageLinkHelper(obj, expandKeys, successCallback, errorCallback) {
             var _this = _super.call(this, obj.value, successCallback, errorCallback) || this;
@@ -381,6 +506,7 @@ var XQW;
                 return new PageLinkHelper(obj, expandKeys, successCallback, errorCallback);
             }
             else {
+                // Trim expand keys down to the ones that may have nextLinks
                 var firstRec_1 = obj.value[0];
                 var toKeep = expandKeys.filter(function (exp) { return firstRec_1[exp.linkKey]; });
                 return new PageLinkHelper(obj, toKeep, successCallback, errorCallback);
@@ -388,31 +514,37 @@ var XQW;
         };
         return PageLinkHelper;
     }(LinkHelper));
-    var Query = (function () {
+    var Query = /** @class */ (function () {
         function Query(requestType) {
             this.requestType = requestType;
             this.additionalHeaders = [];
             this.getObjectToSend = function () { return null; };
         }
         Query.prototype.promise = function () {
-            return promisifyCallback(this.execute);
+            return promisifyCallback(this.execute.bind(this));
         };
         Query.prototype.execute = function (successCallback, errorCallback) {
             if (errorCallback === void 0) { errorCallback = function () { }; }
-            this.executeRaw(successCallback, errorCallback, true);
+            this.executeRaw(successCallback, errorCallback, true, false);
         };
-        Query.prototype.executeRaw = function (successCallback, errorCallback, parseResult) {
+        Query.prototype.executeSync = function () {
+            var ret = Error("Undefined behavior");
+            this.executeRaw(function (x) { ret = x; }, function (err) { ret = err; }, true, true);
+            return ret;
+        };
+        Query.prototype.executeRaw = function (successCallback, errorCallback, parseResult, sync) {
             var _this = this;
             if (errorCallback === void 0) { errorCallback = function () { }; }
             if (parseResult === void 0) { parseResult = false; }
+            if (sync === void 0) { sync = false; }
             var config = function (req) { return _this.additionalHeaders.forEach(function (h) { return req.setRequestHeader(h.type, h.value); }); };
-            var successHandler = function (req) { return parseResult ? _this.handleResponse(req, successCallback, errorCallback) : successCallback(req); };
-            return XrmQuery.sendRequest(this.requestType, this.getQueryString(), this.getObjectToSend(), successHandler, errorCallback, config);
+            var successHandler = function (req) { return (parseResult ? _this.handleResponse(req, successCallback, errorCallback) : successCallback(req)); };
+            return XrmQuery.sendRequest(this.requestType, this.getQueryString(), this.getObjectToSend(), successHandler, errorCallback, config, sync);
         };
         return Query;
     }());
     XQW.Query = Query;
-    var RetrieveMultipleRecords = (function (_super) {
+    var RetrieveMultipleRecords = /** @class */ (function (_super) {
         __extends(RetrieveMultipleRecords, _super);
         function RetrieveMultipleRecords(entitySetName, id, relatedNav) {
             var _this = _super.call(this, "GET") || this;
@@ -447,6 +579,7 @@ var XQW;
              * @internal
              */
             _this.topAmount = null;
+            _this.id = id !== undefined ? stripGUID(id) : id;
             return _this;
         }
         RetrieveMultipleRecords.Get = function (entityPicker) {
@@ -463,7 +596,7 @@ var XQW;
             this.execute(function (res) { return successCallback(res && res.length > 0 ? res[0] : null); }, errorCallback);
         };
         RetrieveMultipleRecords.prototype.promiseFirst = function () {
-            return promisifyCallback(this.getFirst);
+            return promisifyCallback(this.getFirst.bind(this));
         };
         RetrieveMultipleRecords.prototype.getQueryString = function () {
             var prefix = this.entitySetName;
@@ -473,9 +606,8 @@ var XQW;
             if (this.specialQuery)
                 return prefix + this.specialQuery;
             var options = [];
-            if (this.selects.length > 0) {
+            if (this.selects.length > 0)
                 options.push("$select=" + this.selects.join(","));
-            }
             if (this.expands.length > 0) {
                 options.push("$expand=" + this.expands.join(","));
             }
@@ -501,30 +633,29 @@ var XQW;
             this.selects = this.selects.concat(parseSelects(vars));
             return this;
         };
-        RetrieveMultipleRecords.prototype.expand = function (exps, selectVars) {
+        RetrieveMultipleRecords.prototype.expand = function (exps, selectVarFunc) {
             var expand = taggedExec(exps).toString();
-            this.selects.push(expand);
             this.expandKeys.push(expand);
             var options = [];
-            if (selectVars)
-                options.push("$select=" + parseSelects(selectVars));
+            if (selectVarFunc)
+                options.push("$select=" + parseSelects(selectVarFunc));
             this.expands.push(expand + (options.length > 0 ? "(" + options.join(";") + ")" : ""));
             return this;
         };
         RetrieveMultipleRecords.prototype.filter = function (filter) {
-            this.filters = taggedExec(filter);
+            this.filters = parseWithTransform(filter);
             return this;
         };
         RetrieveMultipleRecords.prototype.orFilter = function (filter) {
             if (this.filters)
-                this.filters = Filter.or(this.filters, taggedExec(filter));
+                this.filters = Filter.or(this.filters, parseWithTransform(filter));
             else
                 this.filter(filter);
             return this;
         };
         RetrieveMultipleRecords.prototype.andFilter = function (filter) {
             if (this.filters)
-                this.filters = Filter.and(this.filters, taggedExec(filter));
+                this.filters = Filter.and(this.filters, parseWithTransform(filter));
             else
                 this.filter(filter);
             return this;
@@ -532,8 +663,8 @@ var XQW;
         /**
          * @internal
          */
-        RetrieveMultipleRecords.prototype.order = function (vars, by) {
-            this.ordering.push(taggedExec(vars) + " " + by);
+        RetrieveMultipleRecords.prototype.order = function (varFunc, by) {
+            this.ordering.push(parseWithTransform(varFunc) + " " + by);
             return this;
         };
         RetrieveMultipleRecords.prototype.orderAsc = function (vars) {
@@ -562,11 +693,18 @@ var XQW;
             return this;
         };
         /**
+         * Sets a header that lets you retrieve formatted values and lookup properties as well. Should be used after using select and expand of attributes.
+         */
+        RetrieveMultipleRecords.prototype.includeFormattedValuesAndLookupProperties = function () {
+            this.additionalHeaders.push(INCLUDE_ANNOTATIONS_HEADER);
+            return this;
+        };
+        /**
          * Sets up the query to filter the entity using the provided FetchXML
          * @param xml The query in FetchXML format
          */
         RetrieveMultipleRecords.prototype.useFetchXml = function (xml) {
-            this.specialQuery = "?fetchXml=" + encodeURI(xml);
+            this.specialQuery = "?fetchXml=" + encodeURIComponent(xml);
             return this;
         };
         RetrieveMultipleRecords.prototype.usePredefinedQuery = function (type, guid) {
@@ -576,7 +714,7 @@ var XQW;
         return RetrieveMultipleRecords;
     }(Query));
     XQW.RetrieveMultipleRecords = RetrieveMultipleRecords;
-    var RetrieveRecord = (function (_super) {
+    var RetrieveRecord = /** @class */ (function (_super) {
         __extends(RetrieveRecord, _super);
         function RetrieveRecord(entitySetName, id, relatedNav) {
             var _this = _super.call(this, "GET") || this;
@@ -595,6 +733,7 @@ var XQW;
              * @internal
              */
             _this.expandKeys = [];
+            _this.id = stripGUID(id);
             return _this;
         }
         RetrieveRecord.Related = function (entityPicker, id, relatedPicker) {
@@ -606,46 +745,55 @@ var XQW;
         RetrieveRecord.prototype.handleResponse = function (req, successCallback, errorCallback) {
             EntityLinkHelper.followLinks(parseRetrievedData(req), this.expandKeys, successCallback, errorCallback);
         };
-        RetrieveRecord.prototype.select = function (vars) {
-            this.selects = parseSelects(vars);
+        RetrieveRecord.prototype.select = function (varFunc) {
+            this.selects = parseSelects(varFunc);
             return this;
         };
-        RetrieveRecord.prototype.selectMore = function (vars) {
-            this.selects = this.selects.concat(parseSelects(vars));
+        RetrieveRecord.prototype.selectMore = function (varFunc) {
+            this.selects = this.selects.concat(parseSelects(varFunc));
             return this;
         };
-        RetrieveRecord.prototype.expand = function (exps, selectVars, optArgs) {
+        RetrieveRecord.prototype.expand = function (exps, selectVarFunc, optArgs) {
             var expand = taggedExec(exps).toString();
-            this.selects.push(expand);
             this.expandKeys.push(expand);
             var options = [];
-            if (selectVars)
-                options.push("$select=" + parseSelects(selectVars));
+            if (selectVarFunc)
+                options.push("$select=" + parseSelects(selectVarFunc));
             if (optArgs) {
                 if (optArgs.top)
                     options.push("$top=" + optArgs.top);
                 if (optArgs.orderBy)
-                    options.push("$orderby=" + taggedExec(optArgs.orderBy) + " " + (optArgs.sortOrder != 2 /* Descending */ ? "asc" : "desc"));
+                    options.push("$orderby=" + parseWithTransform(optArgs.orderBy) + " " + (optArgs.sortOrder != 2 /* Descending */ ? "asc" : "desc"));
                 if (optArgs.filter)
-                    options.push("$filter=" + taggedExec(optArgs.filter));
+                    options.push("$filter=" + parseWithTransform(optArgs.filter));
             }
             this.expands.push(expand + (options.length > 0 ? "(" + options.join(";") + ")" : ""));
             return this;
         };
         RetrieveRecord.prototype.getQueryString = function () {
+            var prefix = this.entitySetName + "(" + this.id + ")";
             var options = [];
             if (this.selects.length > 0)
                 options.push("$select=" + this.selects.join(","));
             if (this.expands.length > 0)
                 options.push("$expand=" + this.expands.join(","));
-            var prefix = this.entitySetName + "(" + this.id + ")";
             if (this.relatedNav) {
                 prefix += "/" + this.relatedNav;
             }
             return prefix + (options.length > 0 ? "?" + options.join("&") : "");
         };
+        /**
+         * Sets a header that lets you retrieve formatted values as well. Should be used after using select and expand of attributes.
+         */
         RetrieveRecord.prototype.includeFormattedValues = function () {
             this.additionalHeaders.push(FORMATTED_VALUES_HEADER);
+            return this;
+        };
+        /**
+         * Sets a header that lets you retrieve formatted values and lookup properties as well. Should be used after using select and expand of attributes.
+         */
+        RetrieveRecord.prototype.includeFormattedValuesAndLookupProperties = function () {
+            this.additionalHeaders.push(INCLUDE_ANNOTATIONS_HEADER);
             return this;
         };
         return RetrieveRecord;
@@ -654,7 +802,7 @@ var XQW;
     /**
      * Contains information about a Create query
      */
-    var CreateRecord = (function (_super) {
+    var CreateRecord = /** @class */ (function (_super) {
         __extends(CreateRecord, _super);
         function CreateRecord(entityPicker, record) {
             var _this = _super.call(this, "POST") || this;
@@ -683,11 +831,12 @@ var XQW;
     /**
      * Contains information about a Delete query
      */
-    var DeleteRecord = (function (_super) {
+    var DeleteRecord = /** @class */ (function (_super) {
         __extends(DeleteRecord, _super);
         function DeleteRecord(entityPicker, id) {
             var _this = _super.call(this, "DELETE") || this;
             _this.id = id;
+            _this.id = id !== undefined ? stripGUID(id) : id;
             _this.entitySetName = taggedExec(entityPicker).toString();
             return _this;
         }
@@ -695,7 +844,7 @@ var XQW;
             successCallback();
         };
         DeleteRecord.prototype.setId = function (id) {
-            this.id = id;
+            this.id = stripGUID(id);
             return this;
         };
         DeleteRecord.prototype.getQueryString = function () {
@@ -707,13 +856,14 @@ var XQW;
     /**
      * Contains information about an UpdateRecord query
      */
-    var UpdateRecord = (function (_super) {
+    var UpdateRecord = /** @class */ (function (_super) {
         __extends(UpdateRecord, _super);
         function UpdateRecord(entityPicker, id, record) {
             var _this = _super.call(this, "PATCH") || this;
             _this.id = id;
             _this.record = record;
             _this.getObjectToSend = function () { return JSON.stringify(transformObject(_this.record)); };
+            _this.id = id !== undefined ? stripGUID(id) : id;
             _this.entitySetName = taggedExec(entityPicker).toString();
             return _this;
         }
@@ -721,7 +871,7 @@ var XQW;
             successCallback();
         };
         UpdateRecord.prototype.setData = function (id, record) {
-            this.id = id;
+            this.id = stripGUID(id);
             this.record = record;
             return this;
         };
@@ -732,10 +882,121 @@ var XQW;
     }(Query));
     XQW.UpdateRecord = UpdateRecord;
     /**
+     * Contains information about an AssociateRecord query for single-valued properties
+     */
+    var AssociateRecordSingle = /** @class */ (function (_super) {
+        __extends(AssociateRecordSingle, _super);
+        function AssociateRecordSingle(entityPicker, id, entityTargetPicker, targetid, relationPicker) {
+            var _this = _super.call(this, "PUT") || this;
+            _this.id = id;
+            _this.getObjectToSend = function () { return JSON.stringify(transformObject(_this.record)); };
+            _this.entitySetName = taggedExec(entityPicker).toString();
+            _this.id = id !== undefined ? stripGUID(id) : id;
+            _this.entitySetNameTarget = taggedExec(entityTargetPicker).toString();
+            _this.targetId = targetid !== undefined ? stripGUID(targetid) : targetid;
+            _this.relation = taggedExec(relationPicker).toString();
+            _this.record = {};
+            _this.record["_id$" + _this.entitySetNameTarget] = _this.targetId;
+            return _this;
+        }
+        AssociateRecordSingle.prototype.handleResponse = function (req, successCallback) {
+            successCallback();
+        };
+        AssociateRecordSingle.prototype.setData = function (id, record) {
+            this.id = stripGUID(id);
+            this.record = record;
+            return this;
+        };
+        AssociateRecordSingle.prototype.getQueryString = function () {
+            return this.entitySetName + "(" + this.id + ")/" + this.relation + "/$ref";
+        };
+        return AssociateRecordSingle;
+    }(Query));
+    XQW.AssociateRecordSingle = AssociateRecordSingle;
+    /**
+     * Contains information about an AssociateRecord query for collection-valued properties
+     */
+    var AssociateRecordCollection = /** @class */ (function (_super) {
+        __extends(AssociateRecordCollection, _super);
+        function AssociateRecordCollection(entityPicker, id, entityTargetPicker, targetid, relationPicker) {
+            var _this = _super.call(this, "POST") || this;
+            _this.id = id;
+            _this.getObjectToSend = function () { return JSON.stringify(transformObject(_this.record)); };
+            _this.entitySetName = taggedExec(entityPicker).toString();
+            _this.id = id !== undefined ? stripGUID(id) : id;
+            _this.entitySetNameTarget = taggedExec(entityTargetPicker).toString();
+            _this.targetId = targetid !== undefined ? stripGUID(targetid) : targetid;
+            _this.relation = taggedExec(relationPicker).toString();
+            _this.record = {};
+            _this.record["_id$" + _this.entitySetNameTarget] = _this.targetId;
+            return _this;
+        }
+        AssociateRecordCollection.prototype.handleResponse = function (req, successCallback) {
+            successCallback();
+        };
+        AssociateRecordCollection.prototype.setData = function (id, record) {
+            this.id = stripGUID(id);
+            this.record = record;
+            return this;
+        };
+        AssociateRecordCollection.prototype.getQueryString = function () {
+            return this.entitySetName + "(" + this.id + ")/" + this.relation + "/$ref";
+        };
+        return AssociateRecordCollection;
+    }(Query));
+    XQW.AssociateRecordCollection = AssociateRecordCollection;
+    /**
+     * Contains information about a Disassociate query
+     */
+    var DisassociateRecord = /** @class */ (function (_super) {
+        __extends(DisassociateRecord, _super);
+        function DisassociateRecord(entityName, id, rel, targetid) {
+            var _this = _super.call(this, "DELETE") || this;
+            _this.id = id;
+            _this.targetid = targetid;
+            _this.entitySetName = entityName;
+            _this.id = id !== undefined ? stripGUID(id) : id;
+            _this.relation = rel;
+            _this.targetId = targetid !== undefined ? stripGUID(targetid) : targetid;
+            return _this;
+        }
+        DisassociateRecord.Single = function (entityPicker, id, relationPicker) {
+            return new DisassociateRecord(taggedExec(entityPicker).toString(), id, taggedExec(relationPicker).toString());
+        };
+        DisassociateRecord.Collection = function (entityPicker, id, relationPicker, targetId) {
+            return new DisassociateRecord(taggedExec(entityPicker).toString(), id, taggedExec(relationPicker).toString(), targetId);
+        };
+        DisassociateRecord.prototype.handleResponse = function (req, successCallback) {
+            successCallback();
+        };
+        DisassociateRecord.prototype.setId = function (id) {
+            this.id = stripGUID(id);
+            return this;
+        };
+        DisassociateRecord.prototype.getQueryString = function () {
+            if (this.targetId == undefined) {
+                // single-valued
+                return this.entitySetName + "(" + this.id + ")/" + this.relation + "/$ref";
+            }
+            else {
+                // collection-valued
+                return this.entitySetName + "(" + this.id + ")/" + this.relation + "(" + this.targetId + ")/$ref";
+            }
+        };
+        return DisassociateRecord;
+    }(Query));
+    XQW.DisassociateRecord = DisassociateRecord;
+    /**
      * @internal
      */
-    function taggedExec(f) {
-        return f(tagMatches(f));
+    function startsWith(needle, haystack) {
+        return haystack.lastIndexOf(needle, 0) === 0;
+    }
+    /**
+     * @internal
+     */
+    function taggedExec(f, transformer) {
+        return f(tagMatches(f, transformer));
     }
     /**
      * @internal
@@ -759,17 +1020,18 @@ var XQW;
     /**
      * @internal
      */
-    function tagMatches(f) {
+    function tagMatches(f, transformer) {
         var funcInfo = analyzeFunc(f);
         var regex = objRegex(funcInfo.arg);
+        var transformerFunc = transformer ? transformer : function (x) { return x; };
         var obj = {};
         var match;
         while ((match = regex.exec(funcInfo.body)) != null) {
             if (!obj[match[1]]) {
-                obj[match[1]] = XQW.makeTag(match[1]);
+                obj[match[1]] = XQW.makeTag(transformerFunc(match[1]));
             }
             if (match[3]) {
-                obj[match[1]][match[3]] = XQW.makeTag(match[1] + "/" + match[3]);
+                obj[match[1]][match[3]] = XQW.makeTag(match[1] + "/" + transformerFunc(match[3]));
             }
         }
         return obj;
@@ -793,51 +1055,107 @@ var XQW;
      * @internal
      */
     function getClientUrl() {
+        var url = getClientUrlFromGlobalContext();
+        if (url !== undefined)
+            return url;
+        url = getClientUrlFromUtility();
+        if (url !== undefined)
+            return url;
+        url = getClientUrlFromXrmPage();
+        if (url !== undefined)
+            return url;
+        throw new Error("Context is not available.");
+    }
+    /**
+     * @internal
+     */
+    function getClientUrlFromGlobalContext() {
         try {
             if (GetGlobalContext && GetGlobalContext().getClientUrl) {
                 return GetGlobalContext().getClientUrl();
             }
         }
         catch (e) { }
+        return undefined;
+    }
+    /**
+     * @internal
+     */
+    function getClientUrlFromUtility() {
+        try {
+            if (Xrm && Xrm.Utility && Xrm.Utility.getGlobalContext) {
+                return Xrm.Utility.getGlobalContext().getClientUrl();
+            }
+        }
+        catch (e) { }
+        try {
+            if (window && window.parent && window.parent.window) {
+                var w = (window.parent.window);
+                if (w && w.Xrm && w.Xrm.Utility && w.Xrm.Utility.getGlobalContext) {
+                    return w.Xrm.Utility.getGlobalContext().getClientUrl();
+                }
+            }
+        }
+        catch (e) { }
+        return undefined;
+    }
+    /**
+     * @internal
+     */
+    function getClientUrlFromXrmPage() {
         try {
             if (Xrm && Xrm.Page && Xrm.Page.context) {
                 return Xrm.Page.context.getClientUrl();
             }
         }
         catch (e) { }
-        throw new Error("Context is not available.");
+        return undefined;
     }
     /**
-     * Converts a select object to CRM format
+     * Converts a XrmQuery select/filter name to the Web API format
      * @param name
      */
-    function selectToCrm(name) {
-        var idx = name.indexOf(GUID_ENDING);
-        if (idx == -1)
+    function xrmQueryToCrm(name) {
+        // check if the attribute name ends with '_guid'
+        var endsWithUnderscoreGuid = name.match(/_guid$/);
+        if (!endsWithUnderscoreGuid)
             return name;
-        return "_" + name.substr(0, idx) + "_value";
+        return "_" + name.substr(0, endsWithUnderscoreGuid.index) + "_value";
     }
     /**
      * Helper function to perform tagged execution and mapping to array of selects
      * @internal
      */
-    function parseSelects(f) {
-        return taggedExec(f).map(function (x) { return selectToCrm(x.toString()); });
+    function parseSelects(selectFunc) {
+        return parseWithTransform(selectFunc).map(function (x) { return x.toString(); });
+    }
+    /**
+     * Parses a given function and transforms any XrmQuery-specific values to it's corresponding CRM format
+     * @param filterFunc
+     */
+    function parseWithTransform(filterFunc) {
+        return taggedExec(filterFunc, xrmQueryToCrm);
     }
     /**
      * Transforms an object XrmQuery format to a CRM format
      * @param obj
      */
     function transformObject(obj) {
-        if (obj instanceof Object) {
-            var newObj = {};
-            Object.keys(obj).forEach(function (key) { return parseAttribute(key, transformObject(obj[key]), newObj); });
-            return newObj;
+        if (obj instanceof Date) {
+            return obj;
+        }
+        else if (typeof obj === "string" && startsWith("{", obj) && endsWith(obj, "}")) {
+            return obj.substring(1, obj.length - 1);
         }
         else if (obj instanceof Array) {
             var arr = [];
-            obj.forEach(function (v, idx) { return arr[idx] = transformObject(v); });
+            obj.forEach(function (v, idx) { return (arr[idx] = transformObject(v)); });
             return arr;
+        }
+        else if (obj instanceof Object) {
+            var newObj = {};
+            Object.keys(obj).forEach(function (key) { return parseAttribute(key, transformObject(obj[key]), newObj); });
+            return newObj;
         }
         else {
             return obj;
@@ -849,13 +1167,106 @@ var XQW;
      * @param value
      */
     function parseAttribute(key, val, newObj) {
-        var lookupIdx = key.indexOf(BIND_ID);
-        if (lookupIdx >= 0) {
-            var setName = key.substr(lookupIdx + BIND_ID.length);
-            newObj[key.substr(0, lookupIdx) + "@odata.bind"] = "/" + setName + "(" + val + ")";
+        if (key.indexOf(BIND_ID) >= 0) {
+            var lookupIdx = key.indexOf(BIND_ID);
+            if (lookupIdx >= 0) {
+                var setName = key.substr(lookupIdx + BIND_ID.length);
+                newObj[key.substr(0, lookupIdx) + "@odata.bind"] = "/" + setName + "(" + val + ")";
+            }
+        }
+        else if (key.indexOf(ID_ID) >= 0) {
+            var lookupIdx = key.indexOf(ID_ID);
+            if (lookupIdx >= 0) {
+                var setName = key.substr(lookupIdx + ID_ID.length);
+                var url = getDefaultUrl(DefaultApiVersion);
+                newObj[key.substr(0, lookupIdx) + "@odata.id"] = "" + url + setName + "(" + val + ")";
+            }
         }
         else {
             newObj[key] = val;
         }
     }
 })(XQW || (XQW = {}));
+var Filter;
+(function (Filter) {
+    var GUID_ENDING = "_value";
+    var GUID_START = "_";
+    function $in(val, listVal) {
+        return queryFunc("In", val, listVal);
+    }
+    Filter.$in = $in;
+    function notIn(val, listVal) {
+        return queryFunc("NotIn", val, listVal);
+    }
+    Filter.notIn = notIn;
+    function under(v1, v2) {
+        return queryFunc("Under", v1, v2);
+    }
+    Filter.under = under;
+    function underOrEqual(v1, v2) {
+        return queryFunc("UnderOrEqual", v1, v2);
+    }
+    Filter.underOrEqual = underOrEqual;
+    function notUnder(v1, v2) {
+        return queryFunc("NotUnder", v1, v2);
+    }
+    Filter.notUnder = notUnder;
+    function above(v1, v2) {
+        return queryFunc("Above", v1, v2);
+    }
+    Filter.above = above;
+    function equalUserId(prop) {
+        return queryFunc("EqualUserId", prop);
+    }
+    Filter.equalUserId = equalUserId;
+    function notEqualUserId(prop) {
+        return queryFunc("NotEqualUserId", prop);
+    }
+    Filter.notEqualUserId = notEqualUserId;
+    function equalBusinessId(prop) {
+        return queryFunc("EqualBusinessId", prop);
+    }
+    Filter.equalBusinessId = equalBusinessId;
+    function notEqualBusinessId(prop) {
+        return queryFunc("NotEqualBusinessId", prop);
+    }
+    Filter.notEqualBusinessId = notEqualBusinessId;
+    function queryFunc(funcName, val1, val2) {
+        if (val2 !== undefined) {
+            return ("Microsoft.Dynamics.CRM." + funcName + "(PropertyName='" + parsePropertyName(getVal(val1)) + "',PropertyValues=" + getVal(val2) + ")");
+        }
+        else {
+            return ("Microsoft.Dynamics.CRM." + funcName + "(PropertyName='" + parsePropertyName(getVal(val1)) + "')");
+        }
+    }
+    function parsePropertyName(name) {
+        var idxStart = name.indexOf(GUID_START);
+        var idxEnd = name.indexOf(GUID_ENDING);
+        if (idxStart === -1 || idxEnd === -1)
+            return name;
+        return "" + name.substr(idxStart + 1, idxEnd - 1);
+    }
+    function getVal(v) {
+        if (v === null)
+            return "null";
+        if (typeof v === "string")
+            return "'" + encodeSpecialCharacters(v) + "'";
+        if (v instanceof Date)
+            return encodeSpecialCharacters(v.toISOString());
+        if (v instanceof Array)
+            return "[" + v.map(getVal).join(",") + "]";
+        return encodeSpecialCharacters(v.toString());
+    }
+    /**
+     * @internal
+     */
+    function encodeSpecialCharacters(queryString) {
+        return encodeURI(queryString)
+            .replace(/'/g, "''")
+            .replace(/\+/g, "%2B")
+            .replace(/\//g, "%2F")
+            .replace(/\?/g, "%3F")
+            .replace(/#/g, "%23")
+            .replace(/&/g, "%26");
+    }
+})(Filter || (Filter = {}));

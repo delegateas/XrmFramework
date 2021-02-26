@@ -17,8 +17,11 @@ Solution.GenerateTypeScriptContext(Env.dev, xrmDefinitelyTyped, xrmTypings,
     ],
   entities = [
     // eg. "systemuser"
+    "account"
+    "contact"
     ],
   extraArguments = [
     "web", "XDT"
     "jsLib", jsLib
+    "labelMappings", "\u2714\uFE0F: checkmark, \u26D4\uFE0F: stopsign"
     ])

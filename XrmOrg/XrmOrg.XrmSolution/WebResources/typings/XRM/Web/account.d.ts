@@ -1,6 +1,4 @@
-/// <reference path="../_internal/web-entities.d.ts" />
-/// <reference path="../_internal/EntityEnum/account.d.ts" />
-declare namespace WebAPI {
+declare namespace XDT {
   interface Account_Base extends WebEntity {
     accountcategorycode?: account_accountcategorycode | null;
     accountclassificationcode?: account_accountclassificationcode | null;
@@ -15,11 +13,11 @@ declare namespace WebAPI {
     address1_county?: string | null;
     address1_fax?: string | null;
     address1_freighttermscode?: account_address1_freighttermscode | null;
-    address1_latitude?: string | null;
+    address1_latitude?: number | null;
     address1_line1?: string | null;
     address1_line2?: string | null;
     address1_line3?: string | null;
-    address1_longitude?: string | null;
+    address1_longitude?: number | null;
     address1_name?: string | null;
     address1_postalcode?: string | null;
     address1_postofficebox?: string | null;
@@ -39,11 +37,11 @@ declare namespace WebAPI {
     address2_county?: string | null;
     address2_fax?: string | null;
     address2_freighttermscode?: account_address2_freighttermscode | null;
-    address2_latitude?: string | null;
+    address2_latitude?: number | null;
     address2_line1?: string | null;
     address2_line2?: string | null;
     address2_line3?: string | null;
-    address2_longitude?: string | null;
+    address2_longitude?: number | null;
     address2_name?: string | null;
     address2_postalcode?: string | null;
     address2_postofficebox?: string | null;
@@ -69,10 +67,15 @@ declare namespace WebAPI {
     customersizecode?: account_customersizecode | null;
     customertypecode?: account_customertypecode | null;
     description?: string | null;
-    dg_somedecimal?: string | null;
+    dg_anonymized?: Date | null;
+    dg_deprecated_field?: string | null;
+    dg_multiselect?: dg_account_dg_multiselect | null;
+    dg_somedecimal?: number | null;
+    dg_somestringwith_guids?: string | null;
     dg_test_med_underscore?: string | null;
     dg_testcalculated?: number | null;
     dg_testcalculated_base?: number | null;
+    dg_yearonly?: Date | null;
     donotbulkemail?: boolean | null;
     donotbulkpostalmail?: boolean | null;
     donotemail?: boolean | null;
@@ -84,8 +87,9 @@ declare namespace WebAPI {
     emailaddress2?: string | null;
     emailaddress3?: string | null;
     entityimageid?: string | null;
-    exchangerate?: string | null;
+    exchangerate?: number | null;
     fax?: string | null;
+    followemail?: boolean | null;
     ftpsiteurl?: string | null;
     importsequencenumber?: number | null;
     industrycode?: account_industrycode | null;
@@ -94,9 +98,19 @@ declare namespace WebAPI {
     lastusedincampaign?: Date | null;
     marketcap?: number | null;
     marketcap_base?: number | null;
+    marketingonly?: boolean | null;
     merged?: boolean | null;
     modifiedon?: Date | null;
+    msdyn_gdproptout?: boolean | null;
+    msdyn_taxexempt?: boolean | null;
+    msdyn_taxexemptnumber?: string | null;
+    msdyn_travelcharge?: number | null;
+    msdyn_travelcharge_base?: number | null;
+    msdyn_travelchargetype?: msdyn_travelchargetype | null;
+    msdyn_workorderinstructions?: string | null;
     name?: string | null;
+    new_dateonly?: Date | null;
+    new_datetime?: Date | null;
     numberofemployees?: number | null;
     onholdtime?: number | null;
     opendeals?: number | null;
@@ -125,11 +139,13 @@ declare namespace WebAPI {
     statecode?: account_statecode | null;
     statuscode?: account_statuscode | null;
     stockexchange?: string | null;
+    teamsfollowed?: number | null;
     telephone1?: string | null;
     telephone2?: string | null;
     telephone3?: string | null;
     territorycode?: account_territorycode | null;
     tickersymbol?: string | null;
+    timespentbymeonemailandmeetings?: string | null;
     timezoneruleversionnumber?: number | null;
     transactioncurrencyid_guid?: string | null;
     traversedpath?: string | null;
@@ -138,18 +154,30 @@ declare namespace WebAPI {
     websiteurl?: string | null;
   }
   interface Account_Relationships {
-    Account_Tasks?: Task_Result[] | null;
+    CreatedAccount_BulkOperationLogs2?: BulkOperationLog_Result[] | null;
+    SourceAccount_BulkOperationLogs?: BulkOperationLog_Result[] | null;
+    account_PostFollows?: PostFollow_Result[] | null;
+    account_activity_parties?: ActivityParty_Result[] | null;
+    account_connections1?: Connection_Result[] | null;
+    account_connections2?: Connection_Result[] | null;
     account_master_account?: Account_Result[] | null;
     account_parent_account?: Account_Result[] | null;
     contact_customer_accounts?: Contact_Result[] | null;
+    dg_account_account?: Account_Result[] | null;
     dg_account_contact?: Contact_Result[] | null;
     dg_account_contact_TestAccount?: Contact_Result[] | null;
-    masterid?: Account_Result | null;
-    parentaccountid?: Account_Result | null;
-    primarycontactid?: Contact_Result | null;
+    msdyn_account_account_BillingAccount?: Account_Result[] | null;
+    msdyn_account_msdyn_accountkpiitem_accountid?: msdyn_accountkpiitem_Result[] | null;
+    msdyn_billingaccount_account?: Account_Result | null;
   }
   interface Account extends Account_Base, Account_Relationships {
     defaultpricelevelid_bind$pricelevels?: string | null;
+    msdyn_PreferredResource_bind$bookableresources?: string | null;
+    msdyn_accountkpiid_bind$msdyn_accountkpiitems?: string | null;
+    msdyn_billingaccount_account_bind$accounts?: string | null;
+    msdyn_salestaxcode_bind$msdyn_taxcodes?: string | null;
+    msdyn_serviceterritory_bind$territories?: string | null;
+    msdyn_workhourtemplate_bind$msdyn_workhourtemplates?: string | null;
     ownerid_bind$systemusers?: string | null;
     ownerid_bind$teams?: string | null;
     parentaccountid_bind$accounts?: string | null;
@@ -157,7 +185,8 @@ declare namespace WebAPI {
     preferredserviceid_bind$services?: string | null;
     preferredsystemuserid_bind$systemusers?: string | null;
     primarycontactid_bind$contacts?: string | null;
-    slaid_bind$slas?: string | null;
+    sla_account_sla_bind$slas?: string | null;
+    stageid_processstage_bind$processstages?: string | null;
     territoryid_bind$territories?: string | null;
     transactioncurrencyid_bind$transactioncurrencies?: string | null;
   }
@@ -180,11 +209,11 @@ declare namespace WebAPI {
     address1_county: WebAttribute<Account_Select, { address1_county: string | null }, {  }>;
     address1_fax: WebAttribute<Account_Select, { address1_fax: string | null }, {  }>;
     address1_freighttermscode: WebAttribute<Account_Select, { address1_freighttermscode: account_address1_freighttermscode | null }, { address1_freighttermscode_formatted?: string }>;
-    address1_latitude: WebAttribute<Account_Select, { address1_latitude: string | null }, {  }>;
+    address1_latitude: WebAttribute<Account_Select, { address1_latitude: number | null }, {  }>;
     address1_line1: WebAttribute<Account_Select, { address1_line1: string | null }, {  }>;
     address1_line2: WebAttribute<Account_Select, { address1_line2: string | null }, {  }>;
     address1_line3: WebAttribute<Account_Select, { address1_line3: string | null }, {  }>;
-    address1_longitude: WebAttribute<Account_Select, { address1_longitude: string | null }, {  }>;
+    address1_longitude: WebAttribute<Account_Select, { address1_longitude: number | null }, {  }>;
     address1_name: WebAttribute<Account_Select, { address1_name: string | null }, {  }>;
     address1_postalcode: WebAttribute<Account_Select, { address1_postalcode: string | null }, {  }>;
     address1_postofficebox: WebAttribute<Account_Select, { address1_postofficebox: string | null }, {  }>;
@@ -204,11 +233,11 @@ declare namespace WebAPI {
     address2_county: WebAttribute<Account_Select, { address2_county: string | null }, {  }>;
     address2_fax: WebAttribute<Account_Select, { address2_fax: string | null }, {  }>;
     address2_freighttermscode: WebAttribute<Account_Select, { address2_freighttermscode: account_address2_freighttermscode | null }, { address2_freighttermscode_formatted?: string }>;
-    address2_latitude: WebAttribute<Account_Select, { address2_latitude: string | null }, {  }>;
+    address2_latitude: WebAttribute<Account_Select, { address2_latitude: number | null }, {  }>;
     address2_line1: WebAttribute<Account_Select, { address2_line1: string | null }, {  }>;
     address2_line2: WebAttribute<Account_Select, { address2_line2: string | null }, {  }>;
     address2_line3: WebAttribute<Account_Select, { address2_line3: string | null }, {  }>;
-    address2_longitude: WebAttribute<Account_Select, { address2_longitude: string | null }, {  }>;
+    address2_longitude: WebAttribute<Account_Select, { address2_longitude: number | null }, {  }>;
     address2_name: WebAttribute<Account_Select, { address2_name: string | null }, {  }>;
     address2_postalcode: WebAttribute<Account_Select, { address2_postalcode: string | null }, {  }>;
     address2_postofficebox: WebAttribute<Account_Select, { address2_postofficebox: string | null }, {  }>;
@@ -238,10 +267,15 @@ declare namespace WebAPI {
     customertypecode: WebAttribute<Account_Select, { customertypecode: account_customertypecode | null }, { customertypecode_formatted?: string }>;
     defaultpricelevelid_guid: WebAttribute<Account_Select, { defaultpricelevelid_guid: string | null }, { defaultpricelevelid_formatted?: string }>;
     description: WebAttribute<Account_Select, { description: string | null }, {  }>;
-    dg_somedecimal: WebAttribute<Account_Select, { dg_somedecimal: string | null }, {  }>;
+    dg_anonymized: WebAttribute<Account_Select, { dg_anonymized: Date | null }, { dg_anonymized_formatted?: string }>;
+    dg_deprecated_field: WebAttribute<Account_Select, { dg_deprecated_field: string | null }, {  }>;
+    dg_multiselect: WebAttribute<Account_Select, { dg_multiselect: dg_account_dg_multiselect | null }, { dg_multiselect_formatted?: string }>;
+    dg_somedecimal: WebAttribute<Account_Select, { dg_somedecimal: number | null }, {  }>;
+    dg_somestringwith_guids: WebAttribute<Account_Select, { dg_somestringwith_guids: string | null }, {  }>;
     dg_test_med_underscore: WebAttribute<Account_Select, { dg_test_med_underscore: string | null }, {  }>;
     dg_testcalculated: WebAttribute<Account_Select, { dg_testcalculated: number | null; transactioncurrencyid_guid: string | null }, { dg_testcalculated_formatted?: string; transactioncurrencyid_formatted?: string }>;
     dg_testcalculated_base: WebAttribute<Account_Select, { dg_testcalculated_base: number | null; transactioncurrencyid_guid: string | null }, { dg_testcalculated_base_formatted?: string; transactioncurrencyid_formatted?: string }>;
+    dg_yearonly: WebAttribute<Account_Select, { dg_yearonly: Date | null }, { dg_yearonly_formatted?: string }>;
     donotbulkemail: WebAttribute<Account_Select, { donotbulkemail: boolean | null }, {  }>;
     donotbulkpostalmail: WebAttribute<Account_Select, { donotbulkpostalmail: boolean | null }, {  }>;
     donotemail: WebAttribute<Account_Select, { donotemail: boolean | null }, {  }>;
@@ -253,8 +287,9 @@ declare namespace WebAPI {
     emailaddress2: WebAttribute<Account_Select, { emailaddress2: string | null }, {  }>;
     emailaddress3: WebAttribute<Account_Select, { emailaddress3: string | null }, {  }>;
     entityimageid: WebAttribute<Account_Select, { entityimageid: string | null }, {  }>;
-    exchangerate: WebAttribute<Account_Select, { exchangerate: string | null }, {  }>;
+    exchangerate: WebAttribute<Account_Select, { exchangerate: number | null }, {  }>;
     fax: WebAttribute<Account_Select, { fax: string | null }, {  }>;
+    followemail: WebAttribute<Account_Select, { followemail: boolean | null }, {  }>;
     ftpsiteurl: WebAttribute<Account_Select, { ftpsiteurl: string | null }, {  }>;
     importsequencenumber: WebAttribute<Account_Select, { importsequencenumber: number | null }, {  }>;
     industrycode: WebAttribute<Account_Select, { industrycode: account_industrycode | null }, { industrycode_formatted?: string }>;
@@ -263,13 +298,29 @@ declare namespace WebAPI {
     lastusedincampaign: WebAttribute<Account_Select, { lastusedincampaign: Date | null }, { lastusedincampaign_formatted?: string }>;
     marketcap: WebAttribute<Account_Select, { marketcap: number | null; transactioncurrencyid_guid: string | null }, { marketcap_formatted?: string; transactioncurrencyid_formatted?: string }>;
     marketcap_base: WebAttribute<Account_Select, { marketcap_base: number | null; transactioncurrencyid_guid: string | null }, { marketcap_base_formatted?: string; transactioncurrencyid_formatted?: string }>;
+    marketingonly: WebAttribute<Account_Select, { marketingonly: boolean | null }, {  }>;
     masterid_guid: WebAttribute<Account_Select, { masterid_guid: string | null }, { masterid_formatted?: string }>;
     merged: WebAttribute<Account_Select, { merged: boolean | null }, {  }>;
     modifiedby_guid: WebAttribute<Account_Select, { modifiedby_guid: string | null }, { modifiedby_formatted?: string }>;
     modifiedbyexternalparty_guid: WebAttribute<Account_Select, { modifiedbyexternalparty_guid: string | null }, { modifiedbyexternalparty_formatted?: string }>;
     modifiedon: WebAttribute<Account_Select, { modifiedon: Date | null }, { modifiedon_formatted?: string }>;
     modifiedonbehalfby_guid: WebAttribute<Account_Select, { modifiedonbehalfby_guid: string | null }, { modifiedonbehalfby_formatted?: string }>;
+    msdyn_accountkpiid_guid: WebAttribute<Account_Select, { msdyn_accountkpiid_guid: string | null }, { msdyn_accountkpiid_formatted?: string }>;
+    msdyn_billingaccount_guid: WebAttribute<Account_Select, { msdyn_billingaccount_guid: string | null }, { msdyn_billingaccount_formatted?: string }>;
+    msdyn_gdproptout: WebAttribute<Account_Select, { msdyn_gdproptout: boolean | null }, {  }>;
+    msdyn_preferredresource_guid: WebAttribute<Account_Select, { msdyn_preferredresource_guid: string | null }, { msdyn_preferredresource_formatted?: string }>;
+    msdyn_salestaxcode_guid: WebAttribute<Account_Select, { msdyn_salestaxcode_guid: string | null }, { msdyn_salestaxcode_formatted?: string }>;
+    msdyn_serviceterritory_guid: WebAttribute<Account_Select, { msdyn_serviceterritory_guid: string | null }, { msdyn_serviceterritory_formatted?: string }>;
+    msdyn_taxexempt: WebAttribute<Account_Select, { msdyn_taxexempt: boolean | null }, {  }>;
+    msdyn_taxexemptnumber: WebAttribute<Account_Select, { msdyn_taxexemptnumber: string | null }, {  }>;
+    msdyn_travelcharge: WebAttribute<Account_Select, { msdyn_travelcharge: number | null; transactioncurrencyid_guid: string | null }, { msdyn_travelcharge_formatted?: string; transactioncurrencyid_formatted?: string }>;
+    msdyn_travelcharge_base: WebAttribute<Account_Select, { msdyn_travelcharge_base: number | null; transactioncurrencyid_guid: string | null }, { msdyn_travelcharge_base_formatted?: string; transactioncurrencyid_formatted?: string }>;
+    msdyn_travelchargetype: WebAttribute<Account_Select, { msdyn_travelchargetype: msdyn_travelchargetype | null }, { msdyn_travelchargetype_formatted?: string }>;
+    msdyn_workhourtemplate_guid: WebAttribute<Account_Select, { msdyn_workhourtemplate_guid: string | null }, { msdyn_workhourtemplate_formatted?: string }>;
+    msdyn_workorderinstructions: WebAttribute<Account_Select, { msdyn_workorderinstructions: string | null }, {  }>;
     name: WebAttribute<Account_Select, { name: string | null }, {  }>;
+    new_dateonly: WebAttribute<Account_Select, { new_dateonly: Date | null }, { new_dateonly_formatted?: string }>;
+    new_datetime: WebAttribute<Account_Select, { new_datetime: Date | null }, { new_datetime_formatted?: string }>;
     numberofemployees: WebAttribute<Account_Select, { numberofemployees: number | null }, {  }>;
     onholdtime: WebAttribute<Account_Select, { onholdtime: number | null }, {  }>;
     opendeals: WebAttribute<Account_Select, { opendeals: number | null }, {  }>;
@@ -310,12 +361,14 @@ declare namespace WebAPI {
     statecode: WebAttribute<Account_Select, { statecode: account_statecode | null }, { statecode_formatted?: string }>;
     statuscode: WebAttribute<Account_Select, { statuscode: account_statuscode | null }, { statuscode_formatted?: string }>;
     stockexchange: WebAttribute<Account_Select, { stockexchange: string | null }, {  }>;
+    teamsfollowed: WebAttribute<Account_Select, { teamsfollowed: number | null }, {  }>;
     telephone1: WebAttribute<Account_Select, { telephone1: string | null }, {  }>;
     telephone2: WebAttribute<Account_Select, { telephone2: string | null }, {  }>;
     telephone3: WebAttribute<Account_Select, { telephone3: string | null }, {  }>;
     territorycode: WebAttribute<Account_Select, { territorycode: account_territorycode | null }, { territorycode_formatted?: string }>;
     territoryid_guid: WebAttribute<Account_Select, { territoryid_guid: string | null }, { territoryid_formatted?: string }>;
     tickersymbol: WebAttribute<Account_Select, { tickersymbol: string | null }, {  }>;
+    timespentbymeonemailandmeetings: WebAttribute<Account_Select, { timespentbymeonemailandmeetings: string | null }, {  }>;
     timezoneruleversionnumber: WebAttribute<Account_Select, { timezoneruleversionnumber: number | null }, {  }>;
     transactioncurrencyid_guid: WebAttribute<Account_Select, { transactioncurrencyid_guid: string | null }, { transactioncurrencyid_formatted?: string }>;
     traversedpath: WebAttribute<Account_Select, { traversedpath: string | null }, {  }>;
@@ -337,11 +390,11 @@ declare namespace WebAPI {
     address1_county: string;
     address1_fax: string;
     address1_freighttermscode: account_address1_freighttermscode;
-    address1_latitude: string;
+    address1_latitude: number;
     address1_line1: string;
     address1_line2: string;
     address1_line3: string;
-    address1_longitude: string;
+    address1_longitude: number;
     address1_name: string;
     address1_postalcode: string;
     address1_postofficebox: string;
@@ -361,11 +414,11 @@ declare namespace WebAPI {
     address2_county: string;
     address2_fax: string;
     address2_freighttermscode: account_address2_freighttermscode;
-    address2_latitude: string;
+    address2_latitude: number;
     address2_line1: string;
     address2_line2: string;
     address2_line3: string;
-    address2_longitude: string;
+    address2_longitude: number;
     address2_name: string;
     address2_postalcode: string;
     address2_postofficebox: string;
@@ -384,21 +437,26 @@ declare namespace WebAPI {
     aging90: number;
     aging90_base: number;
     businesstypecode: account_businesstypecode;
-    createdby: string;
-    createdbyexternalparty: string;
+    createdby_guid: XQW.Guid;
+    createdbyexternalparty_guid: XQW.Guid;
     createdon: Date;
-    createdonbehalfby: string;
+    createdonbehalfby_guid: XQW.Guid;
     creditlimit: number;
     creditlimit_base: number;
     creditonhold: boolean;
     customersizecode: account_customersizecode;
     customertypecode: account_customertypecode;
-    defaultpricelevelid: string;
+    defaultpricelevelid_guid: XQW.Guid;
     description: string;
-    dg_somedecimal: string;
+    dg_anonymized: Date;
+    dg_deprecated_field: string;
+    dg_multiselect: dg_account_dg_multiselect;
+    dg_somedecimal: any;
+    dg_somestringwith_guids: string;
     dg_test_med_underscore: string;
     dg_testcalculated: number;
     dg_testcalculated_base: number;
+    dg_yearonly: Date;
     donotbulkemail: boolean;
     donotbulkpostalmail: boolean;
     donotemail: boolean;
@@ -410,8 +468,9 @@ declare namespace WebAPI {
     emailaddress2: string;
     emailaddress3: string;
     entityimageid: XQW.Guid;
-    exchangerate: string;
+    exchangerate: any;
     fax: string;
+    followemail: boolean;
     ftpsiteurl: string;
     importsequencenumber: number;
     industrycode: account_industrycode;
@@ -420,13 +479,29 @@ declare namespace WebAPI {
     lastusedincampaign: Date;
     marketcap: number;
     marketcap_base: number;
-    masterid: string;
+    marketingonly: boolean;
+    masterid_guid: XQW.Guid;
     merged: boolean;
-    modifiedby: string;
-    modifiedbyexternalparty: string;
+    modifiedby_guid: XQW.Guid;
+    modifiedbyexternalparty_guid: XQW.Guid;
     modifiedon: Date;
-    modifiedonbehalfby: string;
+    modifiedonbehalfby_guid: XQW.Guid;
+    msdyn_accountkpiid_guid: XQW.Guid;
+    msdyn_billingaccount_guid: XQW.Guid;
+    msdyn_gdproptout: boolean;
+    msdyn_preferredresource_guid: XQW.Guid;
+    msdyn_salestaxcode_guid: XQW.Guid;
+    msdyn_serviceterritory_guid: XQW.Guid;
+    msdyn_taxexempt: boolean;
+    msdyn_taxexemptnumber: string;
+    msdyn_travelcharge: number;
+    msdyn_travelcharge_base: number;
+    msdyn_travelchargetype: msdyn_travelchargetype;
+    msdyn_workhourtemplate_guid: XQW.Guid;
+    msdyn_workorderinstructions: string;
     name: string;
+    new_dateonly: Date;
+    new_datetime: Date;
     numberofemployees: number;
     onholdtime: number;
     opendeals: number;
@@ -436,23 +511,23 @@ declare namespace WebAPI {
     openrevenue_base: number;
     openrevenue_date: Date;
     openrevenue_state: number;
-    originatingleadid: string;
+    originatingleadid_guid: XQW.Guid;
     overriddencreatedon: Date;
-    ownerid: string;
+    ownerid_guid: XQW.Guid;
     ownershipcode: account_ownershipcode;
-    owningbusinessunit: string;
-    owningteam: string;
-    owninguser: string;
-    parentaccountid: string;
+    owningbusinessunit_guid: XQW.Guid;
+    owningteam_guid: XQW.Guid;
+    owninguser_guid: XQW.Guid;
+    parentaccountid_guid: XQW.Guid;
     participatesinworkflow: boolean;
     paymenttermscode: account_paymenttermscode;
     preferredappointmentdaycode: account_preferredappointmentdaycode;
     preferredappointmenttimecode: account_preferredappointmenttimecode;
     preferredcontactmethodcode: account_preferredcontactmethodcode;
-    preferredequipmentid: string;
-    preferredserviceid: string;
-    preferredsystemuserid: string;
-    primarycontactid: string;
+    preferredequipmentid_guid: XQW.Guid;
+    preferredserviceid_guid: XQW.Guid;
+    preferredsystemuserid_guid: XQW.Guid;
+    primarycontactid_guid: XQW.Guid;
     primarysatoriid: string;
     primarytwitterid: string;
     processid: XQW.Guid;
@@ -461,34 +536,53 @@ declare namespace WebAPI {
     sharesoutstanding: number;
     shippingmethodcode: account_shippingmethodcode;
     sic: string;
-    slaid: string;
-    slainvokedid: string;
+    slaid_guid: XQW.Guid;
+    slainvokedid_guid: XQW.Guid;
     stageid: XQW.Guid;
     statecode: account_statecode;
     statuscode: account_statuscode;
     stockexchange: string;
+    teamsfollowed: number;
     telephone1: string;
     telephone2: string;
     telephone3: string;
     territorycode: account_territorycode;
-    territoryid: string;
+    territoryid_guid: XQW.Guid;
     tickersymbol: string;
+    timespentbymeonemailandmeetings: string;
     timezoneruleversionnumber: number;
-    transactioncurrencyid: string;
+    transactioncurrencyid_guid: XQW.Guid;
     traversedpath: string;
     utcconversiontimezonecode: number;
     versionnumber: number;
     websiteurl: string;
   }
   interface Account_Expand {
-    Account_Tasks: WebExpand<Account_Expand, Task_Select, Task_Filter, { Account_Tasks: Task_Result[] }>;
+    CreatedAccount_BulkOperationLogs2: WebExpand<Account_Expand, BulkOperationLog_Select, BulkOperationLog_Filter, { CreatedAccount_BulkOperationLogs2: BulkOperationLog_Result[] }>;
+    SourceAccount_BulkOperationLogs: WebExpand<Account_Expand, BulkOperationLog_Select, BulkOperationLog_Filter, { SourceAccount_BulkOperationLogs: BulkOperationLog_Result[] }>;
+    account_PostFollows: WebExpand<Account_Expand, PostFollow_Select, PostFollow_Filter, { account_PostFollows: PostFollow_Result[] }>;
+    account_activity_parties: WebExpand<Account_Expand, ActivityParty_Select, ActivityParty_Filter, { account_activity_parties: ActivityParty_Result[] }>;
+    account_connections1: WebExpand<Account_Expand, Connection_Select, Connection_Filter, { account_connections1: Connection_Result[] }>;
+    account_connections2: WebExpand<Account_Expand, Connection_Select, Connection_Filter, { account_connections2: Connection_Result[] }>;
     account_master_account: WebExpand<Account_Expand, Account_Select, Account_Filter, { account_master_account: Account_Result[] }>;
     account_parent_account: WebExpand<Account_Expand, Account_Select, Account_Filter, { account_parent_account: Account_Result[] }>;
     contact_customer_accounts: WebExpand<Account_Expand, Contact_Select, Contact_Filter, { contact_customer_accounts: Contact_Result[] }>;
+    createdby: WebExpand<Account_Expand, SystemUser_Select, SystemUser_Filter, { createdby: SystemUser_Result }>;
+    createdonbehalfby: WebExpand<Account_Expand, SystemUser_Select, SystemUser_Filter, { createdonbehalfby: SystemUser_Result }>;
+    dg_account_account: WebExpand<Account_Expand, Account_Select, Account_Filter, { dg_account_account: Account_Result[] }>;
     dg_account_contact: WebExpand<Account_Expand, Contact_Select, Contact_Filter, { dg_account_contact: Contact_Result[] }>;
     dg_account_contact_TestAccount: WebExpand<Account_Expand, Contact_Select, Contact_Filter, { dg_account_contact_TestAccount: Contact_Result[] }>;
     masterid: WebExpand<Account_Expand, Account_Select, Account_Filter, { masterid: Account_Result }>;
+    modifiedby: WebExpand<Account_Expand, SystemUser_Select, SystemUser_Filter, { modifiedby: SystemUser_Result }>;
+    modifiedonbehalfby: WebExpand<Account_Expand, SystemUser_Select, SystemUser_Filter, { modifiedonbehalfby: SystemUser_Result }>;
+    msdyn_account_account_BillingAccount: WebExpand<Account_Expand, Account_Select, Account_Filter, { msdyn_account_account_BillingAccount: Account_Result[] }>;
+    msdyn_account_msdyn_accountkpiitem_accountid: WebExpand<Account_Expand, msdyn_accountkpiitem_Select, msdyn_accountkpiitem_Filter, { msdyn_account_msdyn_accountkpiitem_accountid: msdyn_accountkpiitem_Result[] }>;
+    msdyn_accountkpiid: WebExpand<Account_Expand, msdyn_accountkpiitem_Select, msdyn_accountkpiitem_Filter, { msdyn_accountkpiid: msdyn_accountkpiitem_Result }>;
+    msdyn_billingaccount_account: WebExpand<Account_Expand, Account_Select, Account_Filter, { msdyn_billingaccount_account: Account_Result }>;
+    ownerid: WebExpand<Account_Expand, SystemUser_Select, SystemUser_Filter, { ownerid: SystemUser_Result }>;
+    owninguser: WebExpand<Account_Expand, SystemUser_Select, SystemUser_Filter, { owninguser: SystemUser_Result }>;
     parentaccountid: WebExpand<Account_Expand, Account_Select, Account_Filter, { parentaccountid: Account_Result }>;
+    preferredsystemuserid: WebExpand<Account_Expand, SystemUser_Select, SystemUser_Filter, { preferredsystemuserid: SystemUser_Result }>;
     primarycontactid: WebExpand<Account_Expand, Contact_Select, Contact_Filter, { primarycontactid: Contact_Result }>;
   }
   interface Account_FormattedResult {
@@ -517,8 +611,11 @@ declare namespace WebAPI {
     customersizecode_formatted?: string;
     customertypecode_formatted?: string;
     defaultpricelevelid_formatted?: string;
+    dg_anonymized_formatted?: string;
+    dg_multiselect_formatted?: string;
     dg_testcalculated_base_formatted?: string;
     dg_testcalculated_formatted?: string;
+    dg_yearonly_formatted?: string;
     industrycode_formatted?: string;
     lastonholdtime_formatted?: string;
     lastusedincampaign_formatted?: string;
@@ -529,6 +626,17 @@ declare namespace WebAPI {
     modifiedbyexternalparty_formatted?: string;
     modifiedon_formatted?: string;
     modifiedonbehalfby_formatted?: string;
+    msdyn_accountkpiid_formatted?: string;
+    msdyn_billingaccount_formatted?: string;
+    msdyn_preferredresource_formatted?: string;
+    msdyn_salestaxcode_formatted?: string;
+    msdyn_serviceterritory_formatted?: string;
+    msdyn_travelcharge_base_formatted?: string;
+    msdyn_travelcharge_formatted?: string;
+    msdyn_travelchargetype_formatted?: string;
+    msdyn_workhourtemplate_formatted?: string;
+    new_dateonly_formatted?: string;
+    new_datetime_formatted?: string;
     opendeals_date_formatted?: string;
     openrevenue_base_formatted?: string;
     openrevenue_date_formatted?: string;
@@ -570,6 +678,12 @@ declare namespace WebAPI {
     modifiedby_guid: string | null;
     modifiedbyexternalparty_guid: string | null;
     modifiedonbehalfby_guid: string | null;
+    msdyn_accountkpiid_guid: string | null;
+    msdyn_billingaccount_guid: string | null;
+    msdyn_preferredresource_guid: string | null;
+    msdyn_salestaxcode_guid: string | null;
+    msdyn_serviceterritory_guid: string | null;
+    msdyn_workhourtemplate_guid: string | null;
     originatingleadid_guid: string | null;
     ownerid_guid: string | null;
     owningbusinessunit_guid: string | null;
@@ -586,19 +700,42 @@ declare namespace WebAPI {
     transactioncurrencyid_guid: string | null;
   }
   interface Account_RelatedOne {
-    masterid: WebMappingRetrieve<Account_Select,Account_Expand,Account_Filter,Account_Fixed,Account_Result,Account_FormattedResult>;
-    parentaccountid: WebMappingRetrieve<Account_Select,Account_Expand,Account_Filter,Account_Fixed,Account_Result,Account_FormattedResult>;
-    primarycontactid: WebMappingRetrieve<Contact_Select,Contact_Expand,Contact_Filter,Contact_Fixed,Contact_Result,Contact_FormattedResult>;
+    createdby: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    createdonbehalfby: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    masterid: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    modifiedby: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    modifiedonbehalfby: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    msdyn_accountkpiid: WebMappingRetrieve<XDT.msdyn_accountkpiitem_Select,XDT.msdyn_accountkpiitem_Expand,XDT.msdyn_accountkpiitem_Filter,XDT.msdyn_accountkpiitem_Fixed,XDT.msdyn_accountkpiitem_Result,XDT.msdyn_accountkpiitem_FormattedResult>;
+    msdyn_billingaccount_account: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    ownerid: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    owninguser: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    parentaccountid: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    preferredsystemuserid: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    primarycontactid: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
   }
   interface Account_RelatedMany {
-    Account_Tasks: WebMappingRetrieve<Task_Select,Task_Expand,Task_Filter,Task_Fixed,Task_Result,Task_FormattedResult>;
-    account_master_account: WebMappingRetrieve<Account_Select,Account_Expand,Account_Filter,Account_Fixed,Account_Result,Account_FormattedResult>;
-    account_parent_account: WebMappingRetrieve<Account_Select,Account_Expand,Account_Filter,Account_Fixed,Account_Result,Account_FormattedResult>;
-    contact_customer_accounts: WebMappingRetrieve<Contact_Select,Contact_Expand,Contact_Filter,Contact_Fixed,Contact_Result,Contact_FormattedResult>;
-    dg_account_contact: WebMappingRetrieve<Contact_Select,Contact_Expand,Contact_Filter,Contact_Fixed,Contact_Result,Contact_FormattedResult>;
-    dg_account_contact_TestAccount: WebMappingRetrieve<Contact_Select,Contact_Expand,Contact_Filter,Contact_Fixed,Contact_Result,Contact_FormattedResult>;
+    CreatedAccount_BulkOperationLogs2: WebMappingRetrieve<XDT.BulkOperationLog_Select,XDT.BulkOperationLog_Expand,XDT.BulkOperationLog_Filter,XDT.BulkOperationLog_Fixed,XDT.BulkOperationLog_Result,XDT.BulkOperationLog_FormattedResult>;
+    SourceAccount_BulkOperationLogs: WebMappingRetrieve<XDT.BulkOperationLog_Select,XDT.BulkOperationLog_Expand,XDT.BulkOperationLog_Filter,XDT.BulkOperationLog_Fixed,XDT.BulkOperationLog_Result,XDT.BulkOperationLog_FormattedResult>;
+    account_PostFollows: WebMappingRetrieve<XDT.PostFollow_Select,XDT.PostFollow_Expand,XDT.PostFollow_Filter,XDT.PostFollow_Fixed,XDT.PostFollow_Result,XDT.PostFollow_FormattedResult>;
+    account_activity_parties: WebMappingRetrieve<XDT.ActivityParty_Select,XDT.ActivityParty_Expand,XDT.ActivityParty_Filter,XDT.ActivityParty_Fixed,XDT.ActivityParty_Result,XDT.ActivityParty_FormattedResult>;
+    account_connections1: WebMappingRetrieve<XDT.Connection_Select,XDT.Connection_Expand,XDT.Connection_Filter,XDT.Connection_Fixed,XDT.Connection_Result,XDT.Connection_FormattedResult>;
+    account_connections2: WebMappingRetrieve<XDT.Connection_Select,XDT.Connection_Expand,XDT.Connection_Filter,XDT.Connection_Fixed,XDT.Connection_Result,XDT.Connection_FormattedResult>;
+    account_master_account: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    account_parent_account: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    contact_customer_accounts: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
+    dg_account_account: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    dg_account_contact: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
+    dg_account_contact_TestAccount: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
+    msdyn_account_account_BillingAccount: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    msdyn_account_msdyn_accountkpiitem_accountid: WebMappingRetrieve<XDT.msdyn_accountkpiitem_Select,XDT.msdyn_accountkpiitem_Expand,XDT.msdyn_accountkpiitem_Filter,XDT.msdyn_accountkpiitem_Fixed,XDT.msdyn_accountkpiitem_Result,XDT.msdyn_accountkpiitem_FormattedResult>;
   }
 }
-interface WebEntities {
-  accounts: WebMappingRetrieve<WebAPI.Account_Select,WebAPI.Account_Expand,WebAPI.Account_Filter,WebAPI.Account_Fixed,WebAPI.Account_Result,WebAPI.Account_FormattedResult> & WebMappingCUD<WebAPI.Account_Create,WebAPI.Account_Update> & WebMappingRelated<WebAPI.Account_RelatedOne,WebAPI.Account_RelatedMany>;
+interface WebEntitiesRetrieve {
+  accounts: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+}
+interface WebEntitiesRelated {
+  accounts: WebMappingRelated<XDT.Account_RelatedOne,XDT.Account_RelatedMany>;
+}
+interface WebEntitiesCUDA {
+  accounts: WebMappingCUDA<XDT.Account_Create,XDT.Account_Update,XDT.Account_Select>;
 }

@@ -16,10 +16,12 @@ Solution.GenerateCSharpContext(Env.dev, xrmContext, businessDomain,
     ],
   entities = [
       "savedquery"
-    // eg. "systemuser"
+      "account"
+      "task"
     ],
   extraArguments = [
     "deprecatedprefix", "ZZ_"
+    "labelMappings", "\u2714\uFE0F: checkmark, \u26D4\uFE0F: stopsign"
     ])
     
 let xrmMockupMetadataGen = Path.metdataFolder ++ "MetadataGenerator365.exe"
@@ -31,7 +33,7 @@ Solution.GenerateXrmMockupMetadata(Env.dev, xrmMockupMetadataGen, Path.metdataFo
       "savedquery"
       "task"
       "account"
-    // eg. "systemuser"
+      "team"
     ],
   extraArguments = [
     ]

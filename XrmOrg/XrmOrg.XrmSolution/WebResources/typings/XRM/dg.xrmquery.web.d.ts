@@ -4,45 +4,78 @@ declare namespace XrmQuery {
      * @param entityPicker Function to select which entity-type should be targeted.
      * @param id GUID of the wanted record.
      */
-    function retrieve<ISelect, IExpand, IFixed, Result, FormattedResult>(entityPicker: (x: WebEntities) => WebMappingRetrieve<ISelect, IExpand, any, IFixed, Result, FormattedResult>, id: string): XQW.RetrieveRecord<ISelect, IExpand, IFixed, Result, FormattedResult>;
+    function retrieve<ISelect, IExpand, IFixed, FormattedResult, Result>(entityPicker: (x: WebEntitiesRetrieve) => WebMappingRetrieve<ISelect, IExpand, any, IFixed, Result, FormattedResult>, id: string): XQW.RetrieveRecord<ISelect, IExpand, IFixed, FormattedResult, Result>;
     /**
      * Instantiates specification of a query that can retrieve multiple records of a certain entity.
      * @param entityPicker Function to select which entity should be targeted.
      */
-    function retrieveMultiple<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>(entityPicker: (x: WebEntities) => WebMappingRetrieve<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>): XQW.RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>;
+    function retrieveMultiple<ISelect, IExpand, IFilter, IFixed, FormattedResult, Result>(entityPicker: (x: WebEntitiesRetrieve) => WebMappingRetrieve<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>): XQW.RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, FormattedResult, Result>;
     /**
      * Instantiates specification of a query that can retrieve a related record of a given record.
      * @param entityPicker Function to select which entity-type the related record should be retrieved from.
      * @param id GUID of the record of which the related record should be retrieved.
      * @param relatedPicker Function to select which navigation property points to the related record.
      */
-    function retrieveRelated<ISingle, ISelect, IExpand, IFixed, Result, FormattedResult>(entityPicker: (x: WebEntities) => WebMappingRelated<ISingle, any>, id: string, relatedPicker: (x: ISingle) => WebMappingRetrieve<ISelect, IExpand, any, IFixed, Result, FormattedResult>): XQW.RetrieveRecord<ISelect, IExpand, IFixed, Result, FormattedResult>;
+    function retrieveRelated<ISingle, ISelect, IExpand, IFixed, FormattedResult, Result>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<ISingle, any>, id: string, relatedPicker: (x: ISingle) => WebMappingRetrieve<ISelect, IExpand, any, IFixed, Result, FormattedResult>): XQW.RetrieveRecord<ISelect, IExpand, IFixed, FormattedResult, Result>;
     /**
      * Instantiates specification of a query that can retrieve multiple related records of a given record.
      * @param entityPicker  Function to select which entity-type the related records should be retrieved from.
      * @param id GUID of the record of which the related records should be retrieved.
      * @param relatedPicker Function to select which navigation property points to the related records.
      */
-    function retrieveRelatedMultiple<IMultiple, ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>(entityPicker: (x: WebEntities) => WebMappingRelated<any, IMultiple>, id: string, relatedPicker: (x: IMultiple) => WebMappingRetrieve<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>): XQW.RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>;
+    function retrieveRelatedMultiple<IMultiple, ISelect, IExpand, IFilter, IFixed, FormattedResult, Result>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<any, IMultiple>, id: string, relatedPicker: (x: IMultiple) => WebMappingRetrieve<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>): XQW.RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, FormattedResult, Result>;
     /**
      * Instantiates a query that can create a record.
      * @param entityPicker Function to select which entity-type should be created.
      * @param record Object of the record to be created.
      */
-    function create<ICreate>(entityPicker: (x: WebEntities) => WebMappingCUD<ICreate, any>, record?: ICreate): XQW.CreateRecord<ICreate>;
+    function create<ICreate>(entityPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<ICreate, any, any>, record?: ICreate): XQW.CreateRecord<ICreate>;
     /**
      * Instantiates a query that can update a specific record.
      * @param entityPicker Function to select which entity-type should be updated.
      * @param id GUID of the record to be updated.
      * @param record Object containing the attributes to be updated.
      */
-    function update<IUpdate>(entityPicker: (x: WebEntities) => WebMappingCUD<any, IUpdate>, id?: string, record?: IUpdate): XQW.UpdateRecord<IUpdate>;
+    function update<IUpdate>(entityPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<any, IUpdate, any>, id?: string, record?: IUpdate): XQW.UpdateRecord<IUpdate>;
+    /**
+     * Instantiates a query that can associate two specific records with a N:1 relation.
+     * @param entityPicker Function to select the entity-type of the source entity.
+     * @param id GUID of the source entity.
+     * @param entityTargetPicker Function to select the entity-type of the target entity.
+     * @param targetId GUID of the target entity.
+     * @param relationPicker Function to select which N:1 relation (lookup-field) should be used to associate.
+     */
+    function associateSingle<ISingle, ISelect>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<ISingle, any>, id: string, entityTargetPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<any, any, ISelect>, targetId: string, relationPicker: (x: ISingle) => WebMappingRetrieve<ISelect, any, any, any, any, any>): XQW.AssociateRecordSingle<ISingle, ISelect>;
+    /**
+     * Instantiates a query that can associate two specific records with a N:N or 1:N relation.
+     * @param entityPicker Function to select the entity-type of the source entity.
+     * @param id GUID of the source entity.
+     * @param entityTargetPicker Function to select the entity-type of the target entity.
+     * @param targetId GUID of the target entity.
+     * @param relationPicker Function to select which N:N or 1:N relation should be used to associate.
+     */
+    function associateCollection<IMultiple, ISelect>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<any, IMultiple>, id: string, entityTargetPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<any, any, ISelect>, targetId: string, relationPicker: (x: IMultiple) => WebMappingRetrieve<ISelect, any, any, any, any, any>): XQW.AssociateRecordCollection<IMultiple, ISelect>;
+    /**
+     * Instantiates a query that can disassociate two specific records with a N:1 relation.
+     * @param entityPicker Function to select the entity-type of the source entity.
+     * @param id GUID of the source entity.
+     * @param relationPicker Function to select which N:1 relation (lookup-field) should be used to disassociate.
+     */
+    function disassociateSingle<ISingle, ISelect>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<ISingle, any>, id: string, relationPicker: (x: ISingle) => WebMappingRetrieve<ISelect, any, any, any, any, any>): XQW.DisassociateRecord<ISelect>;
+    /**
+     * Instantiates a query that can disassociate two specific records with a N:N or 1:N relation.
+     * @param entityPicker Function to select the entity-type of the source entity.
+     * @param id GUID of the source entity.
+     * @param relationPicker Function to select which N:N or 1:N relation should be used to disassociate.
+     * @param targetId GUID of the target entity.
+     */
+    function disassociateCollection<IMultiple, ISelect>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<any, IMultiple>, id: string, relationPicker: (x: IMultiple) => WebMappingRetrieve<ISelect, any, any, any, any, any>, targetId: string): XQW.DisassociateRecord<ISelect>;
     /**
      * Instantiates a query that can delete a specific record.
      * @param entityPicker Function to select which entity-type should be deleted.
      * @param id GUID of the record to be updated.
      */
-    function deleteRecord(entityPicker: (x: WebEntities) => WebMappingCUD<any, any>, id?: string): XQW.DeleteRecord;
+    function deleteRecord(entityPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<any, any, any>, id?: string): XQW.DeleteRecord;
     /**
      * Makes XrmQuery use the given custom url to access the Web API.
      * @param url The url targeting the API. For example: '/api/data/v8.2/'
@@ -54,7 +87,7 @@ declare namespace XrmQuery {
      */
     function setApiVersion(v: string): void;
     /**
-     * Send a request to the Web API with the given parameters.
+     * Sends a request to the Web API with the given parameters.
      * @param type Type of request, i.e. "GET", "POST", etc
      * @param queryString Query-string to use for the API. For example: 'accounts?$count=true'
      * @param data Object to send with request
@@ -62,19 +95,19 @@ declare namespace XrmQuery {
      * @param errorCb Error callback handler function
      * @param configure Modify the request before it it sent to the endpoint - like adding headers.
      */
-    function sendRequest(type: XQW.HttpRequestType, queryString: string, data: any, successCb: (x: XMLHttpRequest) => any, errorCb?: (err: Error) => any, configure?: (req: XMLHttpRequest) => void): void;
+    function sendRequest(type: XQW.HttpRequestType, queryString: string, data: any, successCb: (x: XMLHttpRequest) => any, errorCb?: (err: Error) => any, configure?: (req: XMLHttpRequest) => void, sync?: boolean): void;
     /**
-     * Send a request to the Web API with the given parameters and return a promise.
+     * Sends a request to the Web API with the given parameters and returns a promise.
      * @param type Type of request, i.e. "GET", "POST", etc
      * @param queryString Query-string to use for the API. For example: 'accounts?$count=true'
      * @param data Object to send with request
      * @param configure Modify the request before it it sent to the endpoint - like adding headers.
      */
-    function promiseRequest(type: XQW.HttpRequestType, queryString: string, data: any, configure?: (req: XMLHttpRequest) => void): void;
+    function promiseRequest(type: XQW.HttpRequestType, queryString: string, data: any, configure?: (req: XMLHttpRequest) => void): Promise<XMLHttpRequest>;
 }
 declare namespace Filter {
-    function equals<T extends null | string | number | Date | XQW.Guid>(v1: T, v2: T): WebFilter;
-    function notEquals<T extends null | string | number | Date | XQW.Guid>(v1: T, v2: T): WebFilter;
+    function equals<T extends null | string | number | Date | XQW.Guid | boolean>(v1: T, v2: T): WebFilter;
+    function notEquals<T extends null | string | number | Date | XQW.Guid | boolean>(v1: T, v2: T): WebFilter;
     function greaterThan<T extends number | Date>(v1: T, v2: T): WebFilter;
     function greaterThanOrEqual<T extends number | Date>(v1: T, v2: T): WebFilter;
     function lessThan<T extends number | Date>(v1: T, v2: T): WebFilter;
@@ -84,25 +117,29 @@ declare namespace Filter {
     function not(f1: WebFilter): WebFilter;
     function ands(fs: WebFilter[]): WebFilter;
     function ors(fs: WebFilter[]): WebFilter;
-    function startsWith(v1: string, v2: string): WebFilter;
-    function substringOf(v1: string, v2: string): WebFilter;
-    function endsWith(v1: string, v2: string): WebFilter;
+    function startsWith(val: string, prefix: string): WebFilter;
+    function contains(val: string, needle: string): WebFilter;
+    function endsWith(val: string, suffix: string): WebFilter;
     /**
      * Makes a string into a GUID that can be sent to the OData source
      */
     function makeGuid(id: string): XQW.Guid;
 }
-interface WebEntities {
+interface WebEntitiesRetrieve {
+}
+interface WebEntitiesRelated {
+}
+interface WebEntitiesCUDA {
 }
 declare var GetGlobalContext: any;
 interface WebMappingRetrieve<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult> {
     __WebMappingRetrieve: ISelect;
 }
-interface WebMappingCUD<ICreate, IUpdate> {
-    __WebMappingCUD: ICreate & IUpdate;
+interface WebMappingCUDA<ICreate, IUpdate, ISelect> {
+    __WebMappingCUDA: ICreate & IUpdate & ISelect;
 }
 interface WebMappingRelated<ISingle, IMultiple> {
-    _WebMappingRelated: ISingle & IMultiple;
+    __WebMappingRelated: ISingle & IMultiple;
 }
 interface WebAttribute<ISelect, Result, Formatted> {
     __WebAttribute: ISelect;
@@ -115,7 +152,7 @@ interface WebFilter {
 }
 declare const enum SortOrder {
     Ascending = 1,
-    Descending = 2,
+    Descending = 2
 }
 interface ExpandOptions<ISelect, IFilter> {
     filter?: (f: IFilter) => WebFilter;
@@ -132,6 +169,11 @@ declare namespace XQW {
     interface Guid {
         __XqwGuid: any;
     }
+    function makeTag(name: string): {
+        __str: string;
+        toString: () => any;
+    };
+    function stripGUID(guid: string): string;
     function promisifyCallback<T>(callbackFunc: (success: (t: T) => any, errorCb?: (e: Error) => any) => any): Promise<T>;
     abstract class Query<T> {
         protected requestType: HttpRequestType;
@@ -142,15 +184,16 @@ declare namespace XQW {
         protected getObjectToSend: () => any;
         promise(): Promise<T>;
         execute(successCallback: (x: T) => any, errorCallback?: (err: Error) => any): void;
+        executeSync(): T | Error;
         executeRaw(successCallback: (x: XMLHttpRequest) => any, errorCallback: (err: Error) => any, parseResult: false): void;
     }
     class RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, FormattedResult, Result> extends Query<Result[]> {
         private entitySetName;
-        private id;
-        private relatedNav;
-        static Get<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>(entityPicker: (x: WebEntities) => WebMappingRetrieve<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>): RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>;
-        static Related<IMultiple, ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>(entityPicker: (x: WebEntities) => WebMappingRelated<any, IMultiple>, id: string, relatedPicker: (x: IMultiple) => WebMappingRetrieve<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>): RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>;
-        private constructor(entitySetName, id?, relatedNav?);
+        private id?;
+        private relatedNav?;
+        static Get<ISelect, IExpand, IFilter, IFixed, FormattedResult, Result>(entityPicker: (x: WebEntitiesRetrieve) => WebMappingRetrieve<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>): RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, FormattedResult, Result>;
+        static Related<IMultiple, ISelect, IExpand, IFilter, IFixed, FormattedResult, Result>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<any, IMultiple>, id: string, relatedPicker: (x: IMultiple) => WebMappingRetrieve<ISelect, IExpand, IFilter, IFixed, Result, FormattedResult>): RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, FormattedResult, Result>;
+        private constructor();
         protected handleResponse(req: XMLHttpRequest, successCallback: (r: Result[]) => any, errorCallback: (e: Error) => any): void;
         getFirst(successCallback: (r: Result | null) => any, errorCallback?: (e: Error) => any): void;
         promiseFirst(): Promise<Result>;
@@ -185,7 +228,7 @@ declare namespace XQW {
         selectMore<R1, F1, R2, F2, R3, F3>(vars: (x: ISelect) => [WebAttribute<ISelect, R1, F1>, WebAttribute<ISelect, R2, F2>, WebAttribute<ISelect, R3, F3>]): RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, F1 & F2 & F3, Result & R1 & R2 & R3>;
         selectMore<R1, F1, R2, F2>(vars: (x: ISelect) => [WebAttribute<ISelect, R1, F1>, WebAttribute<ISelect, R2, F2>]): RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, F1 & F2, Result & R1 & R2>;
         selectMore<R1, F1>(vars: (x: ISelect) => [WebAttribute<ISelect, R1, F1>]): RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, F1, Result & R1>;
-        expand<IExpSelect, IExpFilter, IExpResult>(exps: (x: IExpand) => WebExpand<IExpand, IExpSelect, IExpFilter, IExpResult>, selectVars?: (x: IExpSelect) => WebAttribute<IExpSelect, any, any>[]): RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, FormattedResult, IExpResult & Result>;
+        expand<IExpSelect, IExpFilter, IExpResult>(exps: (x: IExpand) => WebExpand<IExpand, IExpSelect, IExpFilter, IExpResult>, selectVarFunc?: (x: IExpSelect) => WebAttribute<IExpSelect, any, any>[]): RetrieveMultipleRecords<ISelect, IExpand, IFilter, IFixed, FormattedResult, IExpResult & Result>;
         filter(filter: (x: IFilter) => WebFilter): this;
         orFilter(filter: (x: IFilter) => WebFilter): this;
         andFilter(filter: (x: IFilter) => WebFilter): this;
@@ -198,6 +241,10 @@ declare namespace XQW {
          * Sets a header that lets you retrieve formatted values as well. Should be used after using select and expand of attributes.
          */
         includeFormattedValues(): Query<(FormattedResult & Result)[]>;
+        /**
+         * Sets a header that lets you retrieve formatted values and lookup properties as well. Should be used after using select and expand of attributes.
+         */
+        includeFormattedValuesAndLookupProperties(): Query<(FormattedResult & Result)[]>;
         /**
          * Sets up the query to filter the entity using the provided FetchXML
          * @param xml The query in FetchXML format
@@ -213,10 +260,10 @@ declare namespace XQW {
     class RetrieveRecord<ISelect, IExpand, IFixed, FormattedResult, Result> extends Query<Result> {
         private entitySetName;
         private id;
-        private relatedNav;
-        static Related<ISingle, ISelect, IExpand, IFixed, Result, FormattedResult>(entityPicker: (x: WebEntities) => WebMappingRelated<ISingle, any>, id: string, relatedPicker: (x: ISingle) => WebMappingRetrieve<ISelect, IExpand, any, IFixed, Result, FormattedResult>): RetrieveRecord<ISelect, IExpand, IFixed, Result, FormattedResult>;
-        static Get<ISelect, IExpand, IFixed, Result, FormattedResult>(entityPicker: (x: WebEntities) => WebMappingRetrieve<ISelect, IExpand, any, IFixed, Result, FormattedResult>, id: string): RetrieveRecord<ISelect, IExpand, IFixed, Result, FormattedResult>;
-        private constructor(entitySetName, id, relatedNav?);
+        private relatedNav?;
+        static Related<ISingle, ISelect, IExpand, IFixed, FormattedResult, Result>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<ISingle, any>, id: string, relatedPicker: (x: ISingle) => WebMappingRetrieve<ISelect, IExpand, any, IFixed, Result, FormattedResult>): RetrieveRecord<ISelect, IExpand, IFixed, FormattedResult, Result>;
+        static Get<ISelect, IExpand, IFixed, FormattedResult, Result>(entityPicker: (x: WebEntitiesRetrieve) => WebMappingRetrieve<ISelect, IExpand, any, IFixed, Result, FormattedResult>, id: string): RetrieveRecord<ISelect, IExpand, IFixed, FormattedResult, Result>;
+        private constructor();
         protected handleResponse(req: XMLHttpRequest, successCallback: (r: Result) => any, errorCallback: (e: Error) => any): void;
         select<R1, F1, R2, F2, R3, F3, R4, F4, R5, F5, R6, F6, R7, F7, R8, F8, R9, F9, R10, F10, R11, F11, R12, F12, R13, F13, R14, F14, R15, F15>(vars: (x: ISelect) => [WebAttribute<ISelect, R1, F1>, WebAttribute<ISelect, R2, F2>, WebAttribute<ISelect, R3, F3>, WebAttribute<ISelect, R4, F4>, WebAttribute<ISelect, R5, F5>, WebAttribute<ISelect, R6, F6>, WebAttribute<ISelect, R7, F7>, WebAttribute<ISelect, R8, F8>, WebAttribute<ISelect, R9, F9>, WebAttribute<ISelect, R10, F10>, WebAttribute<ISelect, R11, F11>, WebAttribute<ISelect, R12, F12>, WebAttribute<ISelect, R13, F13>, WebAttribute<ISelect, R14, F14>, WebAttribute<ISelect, R15, F15>]): RetrieveRecord<ISelect, IExpand, IFixed, F1 & F2 & F3 & F4 & F5 & F6 & F7 & F8 & F9 & F10 & F11 & F12 & F13 & F14 & F15, IFixed & R1 & R2 & R3 & R4 & R5 & R6 & R7 & R8 & R9 & R10 & R11 & R12 & R13 & R14 & R15>;
         select<R1, F1, R2, F2, R3, F3, R4, F4, R5, F5, R6, F6, R7, F7, R8, F8, R9, F9, R10, F10, R11, F11, R12, F12, R13, F13, R14, F14>(vars: (x: ISelect) => [WebAttribute<ISelect, R1, F1>, WebAttribute<ISelect, R2, F2>, WebAttribute<ISelect, R3, F3>, WebAttribute<ISelect, R4, F4>, WebAttribute<ISelect, R5, F5>, WebAttribute<ISelect, R6, F6>, WebAttribute<ISelect, R7, F7>, WebAttribute<ISelect, R8, F8>, WebAttribute<ISelect, R9, F9>, WebAttribute<ISelect, R10, F10>, WebAttribute<ISelect, R11, F11>, WebAttribute<ISelect, R12, F12>, WebAttribute<ISelect, R13, F13>, WebAttribute<ISelect, R14, F14>]): RetrieveRecord<ISelect, IExpand, IFixed, F1 & F2 & F3 & F4 & F5 & F6 & F7 & F8 & F9 & F10 & F11 & F12 & F13 & F14, IFixed & R1 & R2 & R3 & R4 & R5 & R6 & R7 & R8 & R9 & R10 & R11 & R12 & R13 & R14>;
@@ -248,16 +295,23 @@ declare namespace XQW {
         selectMore<R1, F1, R2, F2, R3, F3>(vars: (x: ISelect) => [WebAttribute<ISelect, R1, F1>, WebAttribute<ISelect, R2, F2>, WebAttribute<ISelect, R3, F3>]): RetrieveRecord<ISelect, IExpand, IFixed, F1 & F2 & F3, Result & R1 & R2 & R3>;
         selectMore<R1, F1, R2, F2>(vars: (x: ISelect) => [WebAttribute<ISelect, R1, F1>, WebAttribute<ISelect, R2, F2>]): RetrieveRecord<ISelect, IExpand, IFixed, F1 & F2, Result & R1 & R2>;
         selectMore<R1, F1>(vars: (x: ISelect) => [WebAttribute<ISelect, R1, F1>]): RetrieveRecord<ISelect, IExpand, IFixed, F1, Result & R1>;
-        expand<IExpSelect, IExpFilter, IExpResult>(exps: (x: IExpand) => WebExpand<IExpand, IExpSelect, IExpFilter, IExpResult>, selectVars?: (x: IExpSelect) => WebAttribute<IExpSelect, any, any>[], optArgs?: ExpandOptions<IExpSelect, IExpFilter>): RetrieveRecord<ISelect, IExpand, IFixed, FormattedResult, Result & IExpResult>;
+        expand<IExpSelect, IExpFilter, IExpResult>(exps: (x: IExpand) => WebExpand<IExpand, IExpSelect, IExpFilter, IExpResult>, selectVarFunc?: (x: IExpSelect) => WebAttribute<IExpSelect, any, any>[], optArgs?: ExpandOptions<IExpSelect, IExpFilter>): RetrieveRecord<ISelect, IExpand, IFixed, FormattedResult, IExpResult & Result>;
         getQueryString(): string;
+        /**
+         * Sets a header that lets you retrieve formatted values as well. Should be used after using select and expand of attributes.
+         */
         includeFormattedValues(): Query<FormattedResult & Result>;
+        /**
+         * Sets a header that lets you retrieve formatted values and lookup properties as well. Should be used after using select and expand of attributes.
+         */
+        includeFormattedValuesAndLookupProperties(): Query<(FormattedResult & Result)[]>;
     }
     /**
      * Contains information about a Create query
      */
     class CreateRecord<ICreate> extends Query<string> {
-        private record;
-        constructor(entityPicker: (x: WebEntities) => WebMappingCUD<ICreate, any>, record?: ICreate);
+        private record?;
+        constructor(entityPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<ICreate, any, any>, record?: ICreate | undefined);
         protected handleResponse(req: XMLHttpRequest, successCallback: (r: string) => any, errorCallback: (e: Error) => any): void;
         setData(record: ICreate): this;
         protected getObjectToSend: () => string;
@@ -266,25 +320,82 @@ declare namespace XQW {
     /**
      * Contains information about a Delete query
      */
-    class DeleteRecord extends Query<void> {
-        private id;
-        constructor(entityPicker: (x: WebEntities) => WebMappingCUD<any, any>, id?: string);
-        protected handleResponse(req: XMLHttpRequest, successCallback: () => any): void;
+    class DeleteRecord extends Query<undefined> {
+        private id?;
+        constructor(entityPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<any, any, any>, id?: string | undefined);
+        protected handleResponse(req: XMLHttpRequest, successCallback: (x?: undefined) => any): void;
         setId(id: string): this;
         getQueryString(): string;
     }
     /**
      * Contains information about an UpdateRecord query
      */
-    class UpdateRecord<IUpdate> extends Query<void> {
-        private id;
-        private record;
-        constructor(entityPicker: (x: WebEntities) => WebMappingCUD<any, IUpdate>, id?: string, record?: IUpdate);
-        protected handleResponse(req: XMLHttpRequest, successCallback: () => any): void;
+    class UpdateRecord<IUpdate> extends Query<undefined> {
+        private id?;
+        private record?;
+        constructor(entityPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<any, IUpdate, any>, id?: string | undefined, record?: IUpdate | undefined);
+        protected handleResponse(req: XMLHttpRequest, successCallback: (x?: undefined) => any): void;
         setData(id: string, record: IUpdate): this;
         protected getObjectToSend: () => string;
         getQueryString(): string;
     }
+    /**
+     * Contains information about an AssociateRecord query for single-valued properties
+     */
+    class AssociateRecordSingle<ISingle, ISelect> extends Query<undefined> {
+        private id;
+        private entitySetNameTarget;
+        private targetId;
+        private relation;
+        private record;
+        constructor(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<ISingle, any>, id: string, entityTargetPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<any, any, ISelect>, targetid: string, relationPicker: (x: ISingle) => WebMappingRetrieve<ISelect, any, any, any, any, any>);
+        protected handleResponse(req: XMLHttpRequest, successCallback: (x?: undefined) => any): void;
+        setData(id: string, record: any): this;
+        protected getObjectToSend: () => string;
+        getQueryString(): string;
+    }
+    /**
+     * Contains information about an AssociateRecord query for collection-valued properties
+     */
+    class AssociateRecordCollection<IMultiple, ISelect> extends Query<undefined> {
+        private id;
+        private entitySetNameTarget;
+        private targetId;
+        private relation;
+        private record;
+        constructor(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<any, IMultiple>, id: string, entityTargetPicker: (x: WebEntitiesCUDA) => WebMappingCUDA<any, any, ISelect>, targetid: string, relationPicker: (x: IMultiple) => WebMappingRetrieve<ISelect, any, any, any, any, any>);
+        protected handleResponse(req: XMLHttpRequest, successCallback: (x?: undefined) => any): void;
+        setData(id: string, record: any): this;
+        protected getObjectToSend: () => string;
+        getQueryString(): string;
+    }
+    /**
+     * Contains information about a Disassociate query
+     */
+    class DisassociateRecord<ISelect> extends Query<undefined> {
+        private id;
+        private targetid?;
+        private relation;
+        private targetId;
+        static Single<ISingle, ISelect>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<ISingle, any>, id: string, relationPicker: (x: ISingle) => WebMappingRetrieve<ISelect, any, any, any, any, any>): DisassociateRecord<ISelect>;
+        static Collection<IMultiple, ISelect>(entityPicker: (x: WebEntitiesRelated) => WebMappingRelated<any, IMultiple>, id: string, relationPicker: (x: IMultiple) => WebMappingRetrieve<ISelect, any, any, any, any, any>, targetId: string): DisassociateRecord<ISelect>;
+        constructor(entityName: string, id: string, rel: string, targetid?: string | undefined);
+        protected handleResponse(req: XMLHttpRequest, successCallback: (x?: undefined) => any): void;
+        setId(id: string): this;
+        getQueryString(): string;
+    }
     function getDefaultUrl(v: string): string;
     function getApiUrl(): string;
+}
+declare namespace Filter {
+  function $in<T extends string | number | XQW.Guid>(val: T, listVal: T[]): WebFilter;
+  function notIn<T extends string | number | XQW.Guid>(val: T, listVal: T[]): WebFilter;
+  function under(v1: XQW.Guid, v2: string | XQW.Guid): WebFilter;
+  function underOrEqual(v1: XQW.Guid, v2: string | XQW.Guid): WebFilter;
+  function notUnder(v1: XQW.Guid, v2: string | XQW.Guid): WebFilter;
+  function above(v1: XQW.Guid, v2: string | XQW.Guid): WebFilter;
+  function equalUserId(prop: XQW.Guid): WebFilter;
+  function notEqualUserId(prop: XQW.Guid): WebFilter;
+  function equalBusinessId(prop: XQW.Guid): WebFilter;
+  function notEqualBusinessId(prop: XQW.Guid): WebFilter;
 }

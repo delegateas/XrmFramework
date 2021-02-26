@@ -1,6 +1,4 @@
-/// <reference path="../_internal/web-entities.d.ts" />
-/// <reference path="../_internal/EntityEnum/contact.d.ts" />
-declare namespace WebAPI {
+declare namespace XDT {
   interface Contact_Base extends WebEntity {
     accountrolecode?: contact_accountrolecode | null;
     address1_addressid?: string | null;
@@ -11,11 +9,11 @@ declare namespace WebAPI {
     address1_county?: string | null;
     address1_fax?: string | null;
     address1_freighttermscode?: contact_address1_freighttermscode | null;
-    address1_latitude?: string | null;
+    address1_latitude?: number | null;
     address1_line1?: string | null;
     address1_line2?: string | null;
     address1_line3?: string | null;
-    address1_longitude?: string | null;
+    address1_longitude?: number | null;
     address1_name?: string | null;
     address1_postalcode?: string | null;
     address1_postofficebox?: string | null;
@@ -35,11 +33,11 @@ declare namespace WebAPI {
     address2_county?: string | null;
     address2_fax?: string | null;
     address2_freighttermscode?: contact_address2_freighttermscode | null;
-    address2_latitude?: string | null;
+    address2_latitude?: number | null;
     address2_line1?: string | null;
     address2_line2?: string | null;
     address2_line3?: string | null;
-    address2_longitude?: string | null;
+    address2_longitude?: number | null;
     address2_name?: string | null;
     address2_postalcode?: string | null;
     address2_postofficebox?: string | null;
@@ -59,11 +57,11 @@ declare namespace WebAPI {
     address3_county?: string | null;
     address3_fax?: string | null;
     address3_freighttermscode?: contact_address3_freighttermscode | null;
-    address3_latitude?: string | null;
+    address3_latitude?: number | null;
     address3_line1?: string | null;
     address3_line2?: string | null;
     address3_line3?: string | null;
-    address3_longitude?: string | null;
+    address3_longitude?: number | null;
     address3_name?: string | null;
     address3_postalcode?: string | null;
     address3_postofficebox?: string | null;
@@ -88,6 +86,8 @@ declare namespace WebAPI {
     assistantphone?: string | null;
     birthdate?: Date | null;
     business2?: string | null;
+    businesscard?: string | null;
+    businesscardattributes?: string | null;
     callback?: string | null;
     childrensnames?: string | null;
     company?: string | null;
@@ -100,6 +100,7 @@ declare namespace WebAPI {
     customertypecode?: contact_customertypecode | null;
     department?: string | null;
     description?: string | null;
+    dg_anonymized?: Date | null;
     donotbulkemail?: boolean | null;
     donotbulkpostalmail?: boolean | null;
     donotemail?: boolean | null;
@@ -113,11 +114,12 @@ declare namespace WebAPI {
     emailaddress3?: string | null;
     employeeid?: string | null;
     entityimageid?: string | null;
-    exchangerate?: string | null;
+    exchangerate?: number | null;
     externaluseridentifier?: string | null;
     familystatuscode?: contact_familystatuscode | null;
     fax?: string | null;
     firstname?: string | null;
+    followemail?: boolean | null;
     ftpsiteurl?: string | null;
     fullname?: string | null;
     gendercode?: contact_gendercode | null;
@@ -135,10 +137,13 @@ declare namespace WebAPI {
     leadsourcecode?: contact_leadsourcecode | null;
     managername?: string | null;
     managerphone?: string | null;
+    marketingonly?: boolean | null;
     merged?: boolean | null;
     middlename?: string | null;
     mobilephone?: string | null;
     modifiedon?: Date | null;
+    msdyn_gdproptout?: boolean | null;
+    msdyn_orgchangestatus?: contact_msdyn_orgchangestatus | null;
     nickname?: string | null;
     numberofchildren?: number | null;
     onholdtime?: number | null;
@@ -158,10 +163,12 @@ declare namespace WebAPI {
     statuscode?: contact_statuscode | null;
     subscriptionid?: string | null;
     suffix?: string | null;
+    teamsfollowed?: number | null;
     telephone1?: string | null;
     telephone2?: string | null;
     telephone3?: string | null;
     territorycode?: contact_territorycode | null;
+    timespentbymeonemailandmeetings?: string | null;
     timezoneruleversionnumber?: number | null;
     transactioncurrencyid_guid?: string | null;
     traversedpath?: string | null;
@@ -170,27 +177,34 @@ declare namespace WebAPI {
     websiteurl?: string | null;
   }
   interface Contact_Relationships {
-    Contact_Tasks?: Task_Result[] | null;
+    CreatedContact_BulkOperationLogs?: BulkOperationLog_Result[] | null;
+    SourceContact_BulkOperationLogs?: BulkOperationLog_Result[] | null;
     account_primary_contact?: Account_Result[] | null;
+    contact_PostFollows?: PostFollow_Result[] | null;
+    contact_activity_parties?: ActivityParty_Result[] | null;
+    contact_connections1?: Connection_Result[] | null;
+    contact_connections2?: Connection_Result[] | null;
     contact_customer_contacts?: Contact_Result[] | null;
     contact_master_contact?: Contact_Result[] | null;
     dg_TestAccount?: Account_Result | null;
     dg_account_contact?: Account_Result[] | null;
-    masterid?: Contact_Result | null;
+    msdyn_contact_msdyn_contactkpiitem_contactid?: msdyn_contactkpiitem_Result[] | null;
     parentcustomerid_account?: Account_Result | null;
     parentcustomerid_contact?: Contact_Result | null;
   }
   interface Contact extends Contact_Base, Contact_Relationships {
     defaultpricelevelid_bind$pricelevels?: string | null;
-    dg_testaccount_bind$accounts?: string | null;
+    dg_TestAccount_bind$accounts?: string | null;
+    msdyn_contactkpiid_bind$msdyn_contactkpiitems?: string | null;
     ownerid_bind$systemusers?: string | null;
     ownerid_bind$teams?: string | null;
-    parentcustomerid_bind$accounts?: string | null;
-    parentcustomerid_bind$contacts?: string | null;
+    parentcustomerid_account_bind$accounts?: string | null;
+    parentcustomerid_contact_bind$contacts?: string | null;
     preferredequipmentid_bind$equipments?: string | null;
     preferredserviceid_bind$services?: string | null;
     preferredsystemuserid_bind$systemusers?: string | null;
-    slaid_bind$slas?: string | null;
+    sla_contact_sla_bind$slas?: string | null;
+    stageid_processstage_bind$processstages?: string | null;
     transactioncurrencyid_bind$transactioncurrencies?: string | null;
   }
   interface Contact_Create extends Contact {
@@ -209,11 +223,11 @@ declare namespace WebAPI {
     address1_county: WebAttribute<Contact_Select, { address1_county: string | null }, {  }>;
     address1_fax: WebAttribute<Contact_Select, { address1_fax: string | null }, {  }>;
     address1_freighttermscode: WebAttribute<Contact_Select, { address1_freighttermscode: contact_address1_freighttermscode | null }, { address1_freighttermscode_formatted?: string }>;
-    address1_latitude: WebAttribute<Contact_Select, { address1_latitude: string | null }, {  }>;
+    address1_latitude: WebAttribute<Contact_Select, { address1_latitude: number | null }, {  }>;
     address1_line1: WebAttribute<Contact_Select, { address1_line1: string | null }, {  }>;
     address1_line2: WebAttribute<Contact_Select, { address1_line2: string | null }, {  }>;
     address1_line3: WebAttribute<Contact_Select, { address1_line3: string | null }, {  }>;
-    address1_longitude: WebAttribute<Contact_Select, { address1_longitude: string | null }, {  }>;
+    address1_longitude: WebAttribute<Contact_Select, { address1_longitude: number | null }, {  }>;
     address1_name: WebAttribute<Contact_Select, { address1_name: string | null }, {  }>;
     address1_postalcode: WebAttribute<Contact_Select, { address1_postalcode: string | null }, {  }>;
     address1_postofficebox: WebAttribute<Contact_Select, { address1_postofficebox: string | null }, {  }>;
@@ -233,11 +247,11 @@ declare namespace WebAPI {
     address2_county: WebAttribute<Contact_Select, { address2_county: string | null }, {  }>;
     address2_fax: WebAttribute<Contact_Select, { address2_fax: string | null }, {  }>;
     address2_freighttermscode: WebAttribute<Contact_Select, { address2_freighttermscode: contact_address2_freighttermscode | null }, { address2_freighttermscode_formatted?: string }>;
-    address2_latitude: WebAttribute<Contact_Select, { address2_latitude: string | null }, {  }>;
+    address2_latitude: WebAttribute<Contact_Select, { address2_latitude: number | null }, {  }>;
     address2_line1: WebAttribute<Contact_Select, { address2_line1: string | null }, {  }>;
     address2_line2: WebAttribute<Contact_Select, { address2_line2: string | null }, {  }>;
     address2_line3: WebAttribute<Contact_Select, { address2_line3: string | null }, {  }>;
-    address2_longitude: WebAttribute<Contact_Select, { address2_longitude: string | null }, {  }>;
+    address2_longitude: WebAttribute<Contact_Select, { address2_longitude: number | null }, {  }>;
     address2_name: WebAttribute<Contact_Select, { address2_name: string | null }, {  }>;
     address2_postalcode: WebAttribute<Contact_Select, { address2_postalcode: string | null }, {  }>;
     address2_postofficebox: WebAttribute<Contact_Select, { address2_postofficebox: string | null }, {  }>;
@@ -257,11 +271,11 @@ declare namespace WebAPI {
     address3_county: WebAttribute<Contact_Select, { address3_county: string | null }, {  }>;
     address3_fax: WebAttribute<Contact_Select, { address3_fax: string | null }, {  }>;
     address3_freighttermscode: WebAttribute<Contact_Select, { address3_freighttermscode: contact_address3_freighttermscode | null }, { address3_freighttermscode_formatted?: string }>;
-    address3_latitude: WebAttribute<Contact_Select, { address3_latitude: string | null }, {  }>;
+    address3_latitude: WebAttribute<Contact_Select, { address3_latitude: number | null }, {  }>;
     address3_line1: WebAttribute<Contact_Select, { address3_line1: string | null }, {  }>;
     address3_line2: WebAttribute<Contact_Select, { address3_line2: string | null }, {  }>;
     address3_line3: WebAttribute<Contact_Select, { address3_line3: string | null }, {  }>;
-    address3_longitude: WebAttribute<Contact_Select, { address3_longitude: string | null }, {  }>;
+    address3_longitude: WebAttribute<Contact_Select, { address3_longitude: number | null }, {  }>;
     address3_name: WebAttribute<Contact_Select, { address3_name: string | null }, {  }>;
     address3_postalcode: WebAttribute<Contact_Select, { address3_postalcode: string | null }, {  }>;
     address3_postofficebox: WebAttribute<Contact_Select, { address3_postofficebox: string | null }, {  }>;
@@ -286,6 +300,8 @@ declare namespace WebAPI {
     assistantphone: WebAttribute<Contact_Select, { assistantphone: string | null }, {  }>;
     birthdate: WebAttribute<Contact_Select, { birthdate: Date | null }, { birthdate_formatted?: string }>;
     business2: WebAttribute<Contact_Select, { business2: string | null }, {  }>;
+    businesscard: WebAttribute<Contact_Select, { businesscard: string | null }, {  }>;
+    businesscardattributes: WebAttribute<Contact_Select, { businesscardattributes: string | null }, {  }>;
     callback: WebAttribute<Contact_Select, { callback: string | null }, {  }>;
     childrensnames: WebAttribute<Contact_Select, { childrensnames: string | null }, {  }>;
     company: WebAttribute<Contact_Select, { company: string | null }, {  }>;
@@ -302,6 +318,7 @@ declare namespace WebAPI {
     defaultpricelevelid_guid: WebAttribute<Contact_Select, { defaultpricelevelid_guid: string | null }, { defaultpricelevelid_formatted?: string }>;
     department: WebAttribute<Contact_Select, { department: string | null }, {  }>;
     description: WebAttribute<Contact_Select, { description: string | null }, {  }>;
+    dg_anonymized: WebAttribute<Contact_Select, { dg_anonymized: Date | null }, { dg_anonymized_formatted?: string }>;
     dg_testaccount_guid: WebAttribute<Contact_Select, { dg_testaccount_guid: string | null }, { dg_testaccount_formatted?: string }>;
     donotbulkemail: WebAttribute<Contact_Select, { donotbulkemail: boolean | null }, {  }>;
     donotbulkpostalmail: WebAttribute<Contact_Select, { donotbulkpostalmail: boolean | null }, {  }>;
@@ -316,11 +333,12 @@ declare namespace WebAPI {
     emailaddress3: WebAttribute<Contact_Select, { emailaddress3: string | null }, {  }>;
     employeeid: WebAttribute<Contact_Select, { employeeid: string | null }, {  }>;
     entityimageid: WebAttribute<Contact_Select, { entityimageid: string | null }, {  }>;
-    exchangerate: WebAttribute<Contact_Select, { exchangerate: string | null }, {  }>;
+    exchangerate: WebAttribute<Contact_Select, { exchangerate: number | null }, {  }>;
     externaluseridentifier: WebAttribute<Contact_Select, { externaluseridentifier: string | null }, {  }>;
     familystatuscode: WebAttribute<Contact_Select, { familystatuscode: contact_familystatuscode | null }, { familystatuscode_formatted?: string }>;
     fax: WebAttribute<Contact_Select, { fax: string | null }, {  }>;
     firstname: WebAttribute<Contact_Select, { firstname: string | null }, {  }>;
+    followemail: WebAttribute<Contact_Select, { followemail: boolean | null }, {  }>;
     ftpsiteurl: WebAttribute<Contact_Select, { ftpsiteurl: string | null }, {  }>;
     fullname: WebAttribute<Contact_Select, { fullname: string | null }, {  }>;
     gendercode: WebAttribute<Contact_Select, { gendercode: contact_gendercode | null }, { gendercode_formatted?: string }>;
@@ -338,6 +356,7 @@ declare namespace WebAPI {
     leadsourcecode: WebAttribute<Contact_Select, { leadsourcecode: contact_leadsourcecode | null }, { leadsourcecode_formatted?: string }>;
     managername: WebAttribute<Contact_Select, { managername: string | null }, {  }>;
     managerphone: WebAttribute<Contact_Select, { managerphone: string | null }, {  }>;
+    marketingonly: WebAttribute<Contact_Select, { marketingonly: boolean | null }, {  }>;
     masterid_guid: WebAttribute<Contact_Select, { masterid_guid: string | null }, { masterid_formatted?: string }>;
     merged: WebAttribute<Contact_Select, { merged: boolean | null }, {  }>;
     middlename: WebAttribute<Contact_Select, { middlename: string | null }, {  }>;
@@ -346,6 +365,9 @@ declare namespace WebAPI {
     modifiedbyexternalparty_guid: WebAttribute<Contact_Select, { modifiedbyexternalparty_guid: string | null }, { modifiedbyexternalparty_formatted?: string }>;
     modifiedon: WebAttribute<Contact_Select, { modifiedon: Date | null }, { modifiedon_formatted?: string }>;
     modifiedonbehalfby_guid: WebAttribute<Contact_Select, { modifiedonbehalfby_guid: string | null }, { modifiedonbehalfby_formatted?: string }>;
+    msdyn_contactkpiid_guid: WebAttribute<Contact_Select, { msdyn_contactkpiid_guid: string | null }, { msdyn_contactkpiid_formatted?: string }>;
+    msdyn_gdproptout: WebAttribute<Contact_Select, { msdyn_gdproptout: boolean | null }, {  }>;
+    msdyn_orgchangestatus: WebAttribute<Contact_Select, { msdyn_orgchangestatus: contact_msdyn_orgchangestatus | null }, { msdyn_orgchangestatus_formatted?: string }>;
     nickname: WebAttribute<Contact_Select, { nickname: string | null }, {  }>;
     numberofchildren: WebAttribute<Contact_Select, { numberofchildren: number | null }, {  }>;
     onholdtime: WebAttribute<Contact_Select, { onholdtime: number | null }, {  }>;
@@ -377,10 +399,12 @@ declare namespace WebAPI {
     statuscode: WebAttribute<Contact_Select, { statuscode: contact_statuscode | null }, { statuscode_formatted?: string }>;
     subscriptionid: WebAttribute<Contact_Select, { subscriptionid: string | null }, {  }>;
     suffix: WebAttribute<Contact_Select, { suffix: string | null }, {  }>;
+    teamsfollowed: WebAttribute<Contact_Select, { teamsfollowed: number | null }, {  }>;
     telephone1: WebAttribute<Contact_Select, { telephone1: string | null }, {  }>;
     telephone2: WebAttribute<Contact_Select, { telephone2: string | null }, {  }>;
     telephone3: WebAttribute<Contact_Select, { telephone3: string | null }, {  }>;
     territorycode: WebAttribute<Contact_Select, { territorycode: contact_territorycode | null }, { territorycode_formatted?: string }>;
+    timespentbymeonemailandmeetings: WebAttribute<Contact_Select, { timespentbymeonemailandmeetings: string | null }, {  }>;
     timezoneruleversionnumber: WebAttribute<Contact_Select, { timezoneruleversionnumber: number | null }, {  }>;
     transactioncurrencyid_guid: WebAttribute<Contact_Select, { transactioncurrencyid_guid: string | null }, { transactioncurrencyid_formatted?: string }>;
     traversedpath: WebAttribute<Contact_Select, { traversedpath: string | null }, {  }>;
@@ -389,7 +413,7 @@ declare namespace WebAPI {
     websiteurl: WebAttribute<Contact_Select, { websiteurl: string | null }, {  }>;
   }
   interface Contact_Filter {
-    accountid: string;
+    accountid_guid: XQW.Guid;
     accountrolecode: contact_accountrolecode;
     address1_addressid: XQW.Guid;
     address1_addresstypecode: contact_address1_addresstypecode;
@@ -399,11 +423,11 @@ declare namespace WebAPI {
     address1_county: string;
     address1_fax: string;
     address1_freighttermscode: contact_address1_freighttermscode;
-    address1_latitude: string;
+    address1_latitude: number;
     address1_line1: string;
     address1_line2: string;
     address1_line3: string;
-    address1_longitude: string;
+    address1_longitude: number;
     address1_name: string;
     address1_postalcode: string;
     address1_postofficebox: string;
@@ -423,11 +447,11 @@ declare namespace WebAPI {
     address2_county: string;
     address2_fax: string;
     address2_freighttermscode: contact_address2_freighttermscode;
-    address2_latitude: string;
+    address2_latitude: number;
     address2_line1: string;
     address2_line2: string;
     address2_line3: string;
-    address2_longitude: string;
+    address2_longitude: number;
     address2_name: string;
     address2_postalcode: string;
     address2_postofficebox: string;
@@ -447,11 +471,11 @@ declare namespace WebAPI {
     address3_county: string;
     address3_fax: string;
     address3_freighttermscode: contact_address3_freighttermscode;
-    address3_latitude: string;
+    address3_latitude: number;
     address3_line1: string;
     address3_line2: string;
     address3_line3: string;
-    address3_longitude: string;
+    address3_longitude: number;
     address3_name: string;
     address3_postalcode: string;
     address3_postofficebox: string;
@@ -476,23 +500,26 @@ declare namespace WebAPI {
     assistantphone: string;
     birthdate: Date;
     business2: string;
+    businesscard: string;
+    businesscardattributes: string;
     callback: string;
     childrensnames: string;
     company: string;
     contactid: XQW.Guid;
-    createdby: string;
-    createdbyexternalparty: string;
+    createdby_guid: XQW.Guid;
+    createdbyexternalparty_guid: XQW.Guid;
     createdon: Date;
-    createdonbehalfby: string;
+    createdonbehalfby_guid: XQW.Guid;
     creditlimit: number;
     creditlimit_base: number;
     creditonhold: boolean;
     customersizecode: contact_customersizecode;
     customertypecode: contact_customertypecode;
-    defaultpricelevelid: string;
+    defaultpricelevelid_guid: XQW.Guid;
     department: string;
     description: string;
-    dg_testaccount: string;
+    dg_anonymized: Date;
+    dg_testaccount_guid: XQW.Guid;
     donotbulkemail: boolean;
     donotbulkpostalmail: boolean;
     donotemail: boolean;
@@ -506,11 +533,12 @@ declare namespace WebAPI {
     emailaddress3: string;
     employeeid: string;
     entityimageid: XQW.Guid;
-    exchangerate: string;
+    exchangerate: any;
     externaluseridentifier: string;
     familystatuscode: contact_familystatuscode;
     fax: string;
     firstname: string;
+    followemail: boolean;
     ftpsiteurl: string;
     fullname: string;
     gendercode: contact_gendercode;
@@ -528,66 +556,86 @@ declare namespace WebAPI {
     leadsourcecode: contact_leadsourcecode;
     managername: string;
     managerphone: string;
-    masterid: string;
+    marketingonly: boolean;
+    masterid_guid: XQW.Guid;
     merged: boolean;
     middlename: string;
     mobilephone: string;
-    modifiedby: string;
-    modifiedbyexternalparty: string;
+    modifiedby_guid: XQW.Guid;
+    modifiedbyexternalparty_guid: XQW.Guid;
     modifiedon: Date;
-    modifiedonbehalfby: string;
+    modifiedonbehalfby_guid: XQW.Guid;
+    msdyn_contactkpiid_guid: XQW.Guid;
+    msdyn_gdproptout: boolean;
+    msdyn_orgchangestatus: contact_msdyn_orgchangestatus;
     nickname: string;
     numberofchildren: number;
     onholdtime: number;
-    originatingleadid: string;
+    originatingleadid_guid: XQW.Guid;
     overriddencreatedon: Date;
-    ownerid: string;
-    owningbusinessunit: string;
-    owningteam: string;
-    owninguser: string;
+    ownerid_guid: XQW.Guid;
+    owningbusinessunit_guid: XQW.Guid;
+    owningteam_guid: XQW.Guid;
+    owninguser_guid: XQW.Guid;
     pager: string;
-    parentcontactid: string;
-    parentcustomerid: string;
+    parentcontactid_guid: XQW.Guid;
+    parentcustomerid_guid: XQW.Guid;
     participatesinworkflow: boolean;
     paymenttermscode: contact_paymenttermscode;
     preferredappointmentdaycode: contact_preferredappointmentdaycode;
     preferredappointmenttimecode: contact_preferredappointmenttimecode;
     preferredcontactmethodcode: contact_preferredcontactmethodcode;
-    preferredequipmentid: string;
-    preferredserviceid: string;
-    preferredsystemuserid: string;
+    preferredequipmentid_guid: XQW.Guid;
+    preferredserviceid_guid: XQW.Guid;
+    preferredsystemuserid_guid: XQW.Guid;
     processid: XQW.Guid;
     salutation: string;
     shippingmethodcode: contact_shippingmethodcode;
-    slaid: string;
-    slainvokedid: string;
+    slaid_guid: XQW.Guid;
+    slainvokedid_guid: XQW.Guid;
     spousesname: string;
     stageid: XQW.Guid;
     statecode: contact_statecode;
     statuscode: contact_statuscode;
     subscriptionid: XQW.Guid;
     suffix: string;
+    teamsfollowed: number;
     telephone1: string;
     telephone2: string;
     telephone3: string;
     territorycode: contact_territorycode;
+    timespentbymeonemailandmeetings: string;
     timezoneruleversionnumber: number;
-    transactioncurrencyid: string;
+    transactioncurrencyid_guid: XQW.Guid;
     traversedpath: string;
     utcconversiontimezonecode: number;
     versionnumber: number;
     websiteurl: string;
   }
   interface Contact_Expand {
-    Contact_Tasks: WebExpand<Contact_Expand, Task_Select, Task_Filter, { Contact_Tasks: Task_Result[] }>;
+    CreatedContact_BulkOperationLogs: WebExpand<Contact_Expand, BulkOperationLog_Select, BulkOperationLog_Filter, { CreatedContact_BulkOperationLogs: BulkOperationLog_Result[] }>;
+    SourceContact_BulkOperationLogs: WebExpand<Contact_Expand, BulkOperationLog_Select, BulkOperationLog_Filter, { SourceContact_BulkOperationLogs: BulkOperationLog_Result[] }>;
     account_primary_contact: WebExpand<Contact_Expand, Account_Select, Account_Filter, { account_primary_contact: Account_Result[] }>;
+    contact_PostFollows: WebExpand<Contact_Expand, PostFollow_Select, PostFollow_Filter, { contact_PostFollows: PostFollow_Result[] }>;
+    contact_activity_parties: WebExpand<Contact_Expand, ActivityParty_Select, ActivityParty_Filter, { contact_activity_parties: ActivityParty_Result[] }>;
+    contact_connections1: WebExpand<Contact_Expand, Connection_Select, Connection_Filter, { contact_connections1: Connection_Result[] }>;
+    contact_connections2: WebExpand<Contact_Expand, Connection_Select, Connection_Filter, { contact_connections2: Connection_Result[] }>;
     contact_customer_contacts: WebExpand<Contact_Expand, Contact_Select, Contact_Filter, { contact_customer_contacts: Contact_Result[] }>;
     contact_master_contact: WebExpand<Contact_Expand, Contact_Select, Contact_Filter, { contact_master_contact: Contact_Result[] }>;
+    createdby: WebExpand<Contact_Expand, SystemUser_Select, SystemUser_Filter, { createdby: SystemUser_Result }>;
+    createdonbehalfby: WebExpand<Contact_Expand, SystemUser_Select, SystemUser_Filter, { createdonbehalfby: SystemUser_Result }>;
     dg_TestAccount: WebExpand<Contact_Expand, Account_Select, Account_Filter, { dg_TestAccount: Account_Result }>;
     dg_account_contact: WebExpand<Contact_Expand, Account_Select, Account_Filter, { dg_account_contact: Account_Result[] }>;
     masterid: WebExpand<Contact_Expand, Contact_Select, Contact_Filter, { masterid: Contact_Result }>;
+    modifiedby: WebExpand<Contact_Expand, SystemUser_Select, SystemUser_Filter, { modifiedby: SystemUser_Result }>;
+    modifiedonbehalfby: WebExpand<Contact_Expand, SystemUser_Select, SystemUser_Filter, { modifiedonbehalfby: SystemUser_Result }>;
+    msdyn_contact_msdyn_contactkpiitem_contactid: WebExpand<Contact_Expand, msdyn_contactkpiitem_Select, msdyn_contactkpiitem_Filter, { msdyn_contact_msdyn_contactkpiitem_contactid: msdyn_contactkpiitem_Result[] }>;
+    msdyn_contactkpiid: WebExpand<Contact_Expand, msdyn_contactkpiitem_Select, msdyn_contactkpiitem_Filter, { msdyn_contactkpiid: msdyn_contactkpiitem_Result }>;
+    ownerid: WebExpand<Contact_Expand, SystemUser_Select, SystemUser_Filter, { ownerid: SystemUser_Result }>;
+    owninguser: WebExpand<Contact_Expand, SystemUser_Select, SystemUser_Filter, { owninguser: SystemUser_Result }>;
     parentcustomerid_account: WebExpand<Contact_Expand, Account_Select, Account_Filter, { parentcustomerid_account: Account_Result }>;
     parentcustomerid_contact: WebExpand<Contact_Expand, Contact_Select, Contact_Filter, { parentcustomerid_contact: Contact_Result }>;
+    preferredsystemuserid: WebExpand<Contact_Expand, SystemUser_Select, SystemUser_Filter, { preferredsystemuserid: SystemUser_Result }>;
   }
   interface Contact_FormattedResult {
     accountid_formatted?: string;
@@ -620,6 +668,7 @@ declare namespace WebAPI {
     customersizecode_formatted?: string;
     customertypecode_formatted?: string;
     defaultpricelevelid_formatted?: string;
+    dg_anonymized_formatted?: string;
     dg_testaccount_formatted?: string;
     educationcode_formatted?: string;
     familystatuscode_formatted?: string;
@@ -633,6 +682,8 @@ declare namespace WebAPI {
     modifiedbyexternalparty_formatted?: string;
     modifiedon_formatted?: string;
     modifiedonbehalfby_formatted?: string;
+    msdyn_contactkpiid_formatted?: string;
+    msdyn_orgchangestatus_formatted?: string;
     originatingleadid_formatted?: string;
     overriddencreatedon_formatted?: string;
     ownerid_formatted?: string;
@@ -668,6 +719,7 @@ declare namespace WebAPI {
     modifiedby_guid: string | null;
     modifiedbyexternalparty_guid: string | null;
     modifiedonbehalfby_guid: string | null;
+    msdyn_contactkpiid_guid: string | null;
     originatingleadid_guid: string | null;
     ownerid_guid: string | null;
     owningbusinessunit_guid: string | null;
@@ -683,19 +735,39 @@ declare namespace WebAPI {
     transactioncurrencyid_guid: string | null;
   }
   interface Contact_RelatedOne {
-    dg_TestAccount: WebMappingRetrieve<Account_Select,Account_Expand,Account_Filter,Account_Fixed,Account_Result,Account_FormattedResult>;
-    masterid: WebMappingRetrieve<Contact_Select,Contact_Expand,Contact_Filter,Contact_Fixed,Contact_Result,Contact_FormattedResult>;
-    parentcustomerid_account: WebMappingRetrieve<Account_Select,Account_Expand,Account_Filter,Account_Fixed,Account_Result,Account_FormattedResult>;
-    parentcustomerid_contact: WebMappingRetrieve<Contact_Select,Contact_Expand,Contact_Filter,Contact_Fixed,Contact_Result,Contact_FormattedResult>;
+    createdby: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    createdonbehalfby: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    dg_TestAccount: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    masterid: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
+    modifiedby: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    modifiedonbehalfby: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    msdyn_contactkpiid: WebMappingRetrieve<XDT.msdyn_contactkpiitem_Select,XDT.msdyn_contactkpiitem_Expand,XDT.msdyn_contactkpiitem_Filter,XDT.msdyn_contactkpiitem_Fixed,XDT.msdyn_contactkpiitem_Result,XDT.msdyn_contactkpiitem_FormattedResult>;
+    ownerid: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    owninguser: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
+    parentcustomerid_account: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    parentcustomerid_contact: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
+    preferredsystemuserid: WebMappingRetrieve<XDT.SystemUser_Select,XDT.SystemUser_Expand,XDT.SystemUser_Filter,XDT.SystemUser_Fixed,XDT.SystemUser_Result,XDT.SystemUser_FormattedResult>;
   }
   interface Contact_RelatedMany {
-    Contact_Tasks: WebMappingRetrieve<Task_Select,Task_Expand,Task_Filter,Task_Fixed,Task_Result,Task_FormattedResult>;
-    account_primary_contact: WebMappingRetrieve<Account_Select,Account_Expand,Account_Filter,Account_Fixed,Account_Result,Account_FormattedResult>;
-    contact_customer_contacts: WebMappingRetrieve<Contact_Select,Contact_Expand,Contact_Filter,Contact_Fixed,Contact_Result,Contact_FormattedResult>;
-    contact_master_contact: WebMappingRetrieve<Contact_Select,Contact_Expand,Contact_Filter,Contact_Fixed,Contact_Result,Contact_FormattedResult>;
-    dg_account_contact: WebMappingRetrieve<Account_Select,Account_Expand,Account_Filter,Account_Fixed,Account_Result,Account_FormattedResult>;
+    CreatedContact_BulkOperationLogs: WebMappingRetrieve<XDT.BulkOperationLog_Select,XDT.BulkOperationLog_Expand,XDT.BulkOperationLog_Filter,XDT.BulkOperationLog_Fixed,XDT.BulkOperationLog_Result,XDT.BulkOperationLog_FormattedResult>;
+    SourceContact_BulkOperationLogs: WebMappingRetrieve<XDT.BulkOperationLog_Select,XDT.BulkOperationLog_Expand,XDT.BulkOperationLog_Filter,XDT.BulkOperationLog_Fixed,XDT.BulkOperationLog_Result,XDT.BulkOperationLog_FormattedResult>;
+    account_primary_contact: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    contact_PostFollows: WebMappingRetrieve<XDT.PostFollow_Select,XDT.PostFollow_Expand,XDT.PostFollow_Filter,XDT.PostFollow_Fixed,XDT.PostFollow_Result,XDT.PostFollow_FormattedResult>;
+    contact_activity_parties: WebMappingRetrieve<XDT.ActivityParty_Select,XDT.ActivityParty_Expand,XDT.ActivityParty_Filter,XDT.ActivityParty_Fixed,XDT.ActivityParty_Result,XDT.ActivityParty_FormattedResult>;
+    contact_connections1: WebMappingRetrieve<XDT.Connection_Select,XDT.Connection_Expand,XDT.Connection_Filter,XDT.Connection_Fixed,XDT.Connection_Result,XDT.Connection_FormattedResult>;
+    contact_connections2: WebMappingRetrieve<XDT.Connection_Select,XDT.Connection_Expand,XDT.Connection_Filter,XDT.Connection_Fixed,XDT.Connection_Result,XDT.Connection_FormattedResult>;
+    contact_customer_contacts: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
+    contact_master_contact: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
+    dg_account_contact: WebMappingRetrieve<XDT.Account_Select,XDT.Account_Expand,XDT.Account_Filter,XDT.Account_Fixed,XDT.Account_Result,XDT.Account_FormattedResult>;
+    msdyn_contact_msdyn_contactkpiitem_contactid: WebMappingRetrieve<XDT.msdyn_contactkpiitem_Select,XDT.msdyn_contactkpiitem_Expand,XDT.msdyn_contactkpiitem_Filter,XDT.msdyn_contactkpiitem_Fixed,XDT.msdyn_contactkpiitem_Result,XDT.msdyn_contactkpiitem_FormattedResult>;
   }
 }
-interface WebEntities {
-  contacts: WebMappingRetrieve<WebAPI.Contact_Select,WebAPI.Contact_Expand,WebAPI.Contact_Filter,WebAPI.Contact_Fixed,WebAPI.Contact_Result,WebAPI.Contact_FormattedResult> & WebMappingCUD<WebAPI.Contact_Create,WebAPI.Contact_Update> & WebMappingRelated<WebAPI.Contact_RelatedOne,WebAPI.Contact_RelatedMany>;
+interface WebEntitiesRetrieve {
+  contacts: WebMappingRetrieve<XDT.Contact_Select,XDT.Contact_Expand,XDT.Contact_Filter,XDT.Contact_Fixed,XDT.Contact_Result,XDT.Contact_FormattedResult>;
+}
+interface WebEntitiesRelated {
+  contacts: WebMappingRelated<XDT.Contact_RelatedOne,XDT.Contact_RelatedMany>;
+}
+interface WebEntitiesCUDA {
+  contacts: WebMappingCUDA<XDT.Contact_Create,XDT.Contact_Update,XDT.Contact_Select>;
 }

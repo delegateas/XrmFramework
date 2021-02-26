@@ -57,17 +57,17 @@
  Use argument and pass it along
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.InterpretOptionSetMetadata.interpretOptionSet(Microsoft.FSharp.Collections.FSharpSet{System.String},Microsoft.Xrm.Sdk.Metadata.OptionSetMetadataBase)">
+<member name="M:DG.XrmDefinitelyTyped.InterpretOptionSetMetadata.interpretOptionSet(Microsoft.FSharp.Collections.FSharpSet{System.String},Microsoft.Xrm.Sdk.Metadata.OptionSetMetadataBase,Microsoft.FSharp.Core.FSharpOption{System.Tuple{System.String,System.String}[]})">
 <summary>
  Interprets CRM OptionSetMetadata into intermediate type
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.InterpretFormXml.interpretFormXmls(DG.XrmDefinitelyTyped.IntermediateRepresentation.XrmEntity[],Microsoft.FSharp.Collections.FSharpMap{System.String,Microsoft.Xrm.Sdk.Entity[]},Microsoft.FSharp.Collections.FSharpMap{System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlClassId,System.Boolean,Microsoft.FSharp.Core.FSharpOption{System.String}}}})">
+<member name="M:DG.XrmDefinitelyTyped.InterpretFormXml.interpretFormXmls(DG.XrmDefinitelyTyped.IntermediateRepresentation.XrmEntity[],Microsoft.FSharp.Collections.FSharpMap{System.String,Microsoft.Xrm.Sdk.Entity[]},Microsoft.FSharp.Collections.FSharpMap{System.String,Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlClassId,System.Boolean,System.Boolean,Microsoft.FSharp.Core.FSharpOption{System.String}}}})">
 <summary>
  Main function to interpret a grouping of FormXmls
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.InterpretFormXml.interpretFormXml(Microsoft.FSharp.Collections.FSharpMap{System.String,DG.XrmDefinitelyTyped.TsType},Microsoft.FSharp.Core.FSharpOption{Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlClassId,System.Boolean,Microsoft.FSharp.Core.FSharpOption{System.String}}}},DG.XrmDefinitelyTyped.IntermediateRepresentation.XrmEntity,Microsoft.Xrm.Sdk.Entity)">
+<member name="M:DG.XrmDefinitelyTyped.InterpretFormXml.interpretFormXml(Microsoft.FSharp.Collections.FSharpMap{System.String,DG.XrmDefinitelyTyped.TsType},Microsoft.FSharp.Core.FSharpOption{Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlClassId,System.Boolean,System.Boolean,Microsoft.FSharp.Core.FSharpOption{System.String}}}},DG.XrmDefinitelyTyped.IntermediateRepresentation.XrmEntity,Microsoft.Xrm.Sdk.Entity)">
 <summary>
  Function to interpret a single FormXml
 </summary>
@@ -77,7 +77,7 @@
  Finds all composite fields and adds the sub-fields that they bring along
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.InterpretFormXml.renameControls(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType},DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlType,System.Boolean}})">
+<member name="M:DG.XrmDefinitelyTyped.InterpretFormXml.renameControls(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType},DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlType,System.Boolean,System.Boolean}})">
 <summary>
  Renames controls with number suffixes if some share the same id
 </summary>
@@ -93,7 +93,7 @@
  Analyzes a BPF json file recursively
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.InterpretBpfJson.analyzeEntity(System.Collections.Generic.List{DG.XrmDefinitelyTyped.InterpretBpfJson.InnerData},Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlClassId,System.Boolean,Microsoft.FSharp.Core.FSharpOption{System.String}}})">
+<member name="M:DG.XrmDefinitelyTyped.InterpretBpfJson.analyzeEntity(System.Collections.Generic.List{DG.XrmDefinitelyTyped.InterpretBpfJson.InnerData},Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlClassId,System.Boolean,System.Boolean,Microsoft.FSharp.Core.FSharpOption{System.String}}})">
 <summary>
  Recursive helper function to analyze a BPF json file
 </summary>
@@ -139,12 +139,12 @@
  Generate internal namespace for keeping track all the collections.
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getControlFuncs(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType},DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlType,System.Boolean}},System.Int32,System.Int32,System.Int32,System.Int32)">
+<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getControlFuncs(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType},DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlType,System.Boolean,System.Boolean}},System.Int32,System.Int32,System.Int32,System.Int32)">
 <summary>
  Generate Xrm.Page.getControl(&lt;string&gt;) functions.
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getAttributeFuncs(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType}})">
+<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getAttributeFuncs(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType,System.Boolean}})">
 <summary>
  Generate Xrm.Page.getAttribute(&lt;string&gt;) functions.
 </summary>
@@ -159,12 +159,12 @@
  Generate Xrm.Page.ui.tabs.get(&lt;string&gt;) functions.
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getControlCollectionMap(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType},DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlType,System.Boolean}},System.Int32,System.Int32,System.Int32,System.Int32)">
+<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getControlCollectionMap(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType},DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlType,System.Boolean,System.Boolean}},System.Int32,System.Int32,System.Int32,System.Int32)">
 <summary>
  Generate Xrm.Page.ui.controls map.
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getControlCollection(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType},DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlType,System.Boolean}},System.Int32,System.Int32,System.Int32,System.Int32)">
+<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getControlCollection(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,Microsoft.FSharp.Core.FSharpOption{DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType},DG.XrmDefinitelyTyped.IntermediateRepresentation.ControlType,System.Boolean,System.Boolean}},System.Int32,System.Int32,System.Int32,System.Int32)">
 <summary>
  Generate Xrm.Page.ui.controls.get(&lt;string&gt;) functions.
 </summary>
@@ -174,12 +174,12 @@
  Auxiliary function that determines if a control is to be included based on it&apos;s name and the crmVersion
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getAttributeCollectionMap(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType}})">
+<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getAttributeCollectionMap(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType,System.Boolean}})">
 <summary>
  Generate Xrm.Page.data.entity.attributes Map.
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getAttributeCollection(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType}})">
+<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getAttributeCollection(Microsoft.FSharp.Collections.FSharpList{System.Tuple{System.String,DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType,System.Boolean}})">
 <summary>
  Generate Xrm.Page.data.entity.attributes.get(&lt;string&gt;) functions.
 </summary>
@@ -199,22 +199,22 @@
  Gets the corresponding enum of the option set if possible
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getAttributeInterface(DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType)">
+<member name="M:DG.XrmDefinitelyTyped.CreateFormDts.getAttributeInterface(DG.XrmDefinitelyTyped.IntermediateRepresentation.AttributeType,System.Boolean)">
 <summary>
  Translate internal attribute type to corresponding TypeScript interface.
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.DataRetrieval.getFullEntityList``1(Microsoft.FSharp.Core.FSharpOption{System.String[]},Microsoft.FSharp.Core.FSharpOption{``0[]},Microsoft.Xrm.Sdk.Client.OrganizationServiceProxy)">
+<member name="M:DG.XrmDefinitelyTyped.DataRetrieval.getFullEntityList``1(Microsoft.FSharp.Core.FSharpOption{System.String[]},Microsoft.FSharp.Core.FSharpOption{``0[]},Microsoft.Xrm.Sdk.IOrganizationService)">
 <summary>
  Gets all the entities related to the given solutions and merges with the given entities
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.DataRetrieval.retrieveCrmData(System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.FSharp.Core.FSharpOption{System.String[]},Microsoft.FSharp.Core.FSharpOption{System.String[]},Microsoft.Xrm.Sdk.Client.OrganizationServiceProxy,System.Boolean)">
+<member name="M:DG.XrmDefinitelyTyped.DataRetrieval.retrieveCrmData(System.Int32,System.Int32,System.Int32,System.Int32,Microsoft.FSharp.Core.FSharpOption{System.String[]},Microsoft.FSharp.Core.FSharpOption{System.String[]},Microsoft.Xrm.Sdk.IOrganizationService,System.Boolean)">
 <summary>
  Retrieve all the necessary CRM data
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.DataRetrieval.retrieveCrmVersion(Microsoft.Xrm.Sdk.Client.OrganizationServiceProxy)">
+<member name="M:DG.XrmDefinitelyTyped.DataRetrieval.retrieveCrmVersion(Microsoft.Xrm.Sdk.IOrganizationService)">
 <summary>
  Retrieve version from CRM
 </summary>
@@ -224,7 +224,7 @@
  Connect to CRM with the given authentication
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.Setup.interpretCrmData(System.String,System.Tuple{System.String,System.Guid[]}[],System.Tuple{System.String,System.Guid[]}[],DG.XrmDefinitelyTyped.RawState)">
+<member name="M:DG.XrmDefinitelyTyped.Setup.interpretCrmData(System.String,System.Tuple{System.String,System.Guid[]}[],System.Tuple{System.String,System.Guid[]}[],DG.XrmDefinitelyTyped.RawState,Microsoft.FSharp.Core.FSharpOption{System.Tuple{System.String,System.String}[]})">
 <summary>
  Interprets the raw CRM data into an intermediate state used for further generation
 </summary>
@@ -274,7 +274,7 @@
  Copy the js files stored as resources
 </summary>
 </member>
-<member name="M:DG.XrmDefinitelyTyped.FileGeneration.generateDtsResourceFiles(System.Int32,System.Int32,System.Int32,System.Int32,DG.XrmDefinitelyTyped.XdtGenerationSettings,DG.XrmDefinitelyTyped.IntermediateRepresentation.InterpretedState)">
+<member name="M:DG.XrmDefinitelyTyped.FileGeneration.generateDtsResourceFiles(System.Int32,System.Int32,System.Int32,System.Int32,DG.XrmDefinitelyTyped.XdtGenerationSettings,System.String)">
 <summary>
  Generate the declaration files stored as resources
 </summary>
