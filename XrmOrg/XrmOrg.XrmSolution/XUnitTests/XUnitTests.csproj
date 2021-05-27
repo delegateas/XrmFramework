@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="FluentAssertions" Version="5.10.3" />
+        <PackageReference Include="Moq" Version="4.16.1" />
+        <PackageReference Include="XrmMockup365" Version="1.8.1" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="XunitContext" Version="3.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BusinessDomain\BusinessDomain.csproj" />
+      <ProjectReference Include="..\Plugins\Plugins.csproj" />
+      <ProjectReference Include="..\Workflow\Workflow.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="obj\**" />
+      <Compile Remove="Metadata\SecurityRoles\**" />
+      <Compile Remove="Metadata\Workflows\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="obj\**" />
+      <EmbeddedResource Remove="Metadata\SecurityRoles\**" />
+      <EmbeddedResource Remove="Metadata\Workflows\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="obj\**" />
+      <None Remove="Metadata\SecurityRoles\**" />
+      <None Remove="Metadata\Workflows\**" />
+      <None Remove="Metadata\Metadata.xml" />
+    </ItemGroup>
+
+</Project>
