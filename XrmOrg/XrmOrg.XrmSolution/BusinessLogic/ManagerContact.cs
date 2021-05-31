@@ -16,12 +16,12 @@ using Microsoft.Xrm.Sdk.Workflow;
 
 namespace DG.XrmFramework.BusinessLogic.Managers
 {
-    public class ManagerAccount : ManagerBase
+    public class ManagerContact : ManagerBase
     {
 
         #region Constructors
 
-        public ManagerAccount(
+        public ManagerContact(
             ITracingService pluginTracingService,
             IPluginExecutionContext pluginExecutionContext,
             IOrganizationService pluginOrgService,
@@ -29,7 +29,7 @@ namespace DG.XrmFramework.BusinessLogic.Managers
             : base(pluginTracingService, pluginExecutionContext,
                 pluginOrgService, pluginOrgAdminService) { }
 
-        public ManagerAccount(
+        public ManagerContact(
             ITracingService tracingService,
             IWorkflowContext workflowExecutionContext,
             IOrganizationService orgService,
@@ -37,7 +37,7 @@ namespace DG.XrmFramework.BusinessLogic.Managers
             : base(tracingService, workflowExecutionContext,
                 orgService, orgAdminService) { }
 
-        public ManagerAccount(
+        public ManagerContact(
             ITracingService tracingService,
             IOrganizationService orgService,
             IOrganizationService orgAdminService)
@@ -46,18 +46,9 @@ namespace DG.XrmFramework.BusinessLogic.Managers
         #endregion
 
 
-        public void FooPlugin(Guid primaryEntityId, bool isUpdate) {
-            var contactManager = GetManager<ManagerContact>();
-            using (var context = new Xrm(this.orgService)) {
-                var account = context.AccountSet.FirstOrDefault();
-                throw new NotImplementedException();
-            }
+        public void Baz() {
         }
-
-        public Guid BarWorkflow(Guid accountId) {
-            throw new NotImplementedException();
-        }
-        
+                
     }
 
 }
