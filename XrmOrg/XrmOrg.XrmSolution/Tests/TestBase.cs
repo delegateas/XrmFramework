@@ -6,7 +6,7 @@ using DG.Tools.XrmMockup;
 using DG.XrmOrg.XrmSolution.Workflow;
 using DG.XrmFramework.BusinessDomain.ServiceContext;
 
-namespace DG.XrmFramework.Tests
+namespace DG.XrmOrg.XrmSolution.Tests
 {
 
     [TestClass]

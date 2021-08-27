@@ -8,8 +8,8 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Workflow;
 
 using DG.XrmFramework.BusinessDomain.ServiceContext;
-using DG.XrmFramework.BusinessLogic.Managers;
-using HU = DG.XrmFramework.BusinessLogic.Helpers.HelperUtils;
+using DG.XrmOrg.XrmSolution.BusinessLogic.Managers;
+using HU = DG.XrmOrg.XrmSolution.BusinessLogic.Helpers.HelperUtils;
 
 namespace DG.XrmOrg.XrmSolution.Workflow
 {

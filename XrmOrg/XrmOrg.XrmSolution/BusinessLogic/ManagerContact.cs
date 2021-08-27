@@ -8,13 +8,13 @@ using Microsoft.Xrm.Sdk;
 using System.ServiceModel.Description;
 
 using DG.XrmFramework.BusinessDomain.ServiceContext;
-using DG.XrmFramework.BusinessLogic.Helpers;
-using HBD = DG.XrmFramework.BusinessLogic.Helpers.HelperBusinessDomain;
-using HP = DG.XrmFramework.BusinessLogic.Helpers.HelperPlugin;
-using HU = DG.XrmFramework.BusinessLogic.Helpers.HelperUtils;
+using DG.XrmOrg.XrmSolution.BusinessLogic.Helpers;
+using HBD = DG.XrmOrg.XrmSolution.BusinessLogic.Helpers.HelperBusinessDomain;
+using HP = DG.XrmOrg.XrmSolution.BusinessLogic.Helpers.HelperPlugin;
+using HU = DG.XrmOrg.XrmSolution.BusinessLogic.Helpers.HelperUtils;
 using Microsoft.Xrm.Sdk.Workflow;
 
-namespace DG.XrmFramework.BusinessLogic.Managers
+namespace DG.XrmOrg.XrmSolution.BusinessLogic.Managers
 {
     public class ManagerContact : ManagerBase
     {

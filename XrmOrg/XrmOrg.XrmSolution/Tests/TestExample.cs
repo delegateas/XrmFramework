@@ -3,7 +3,7 @@ using System.Linq;
 using DG.XrmFramework.BusinessDomain.ServiceContext;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DG.XrmFramework.Tests
+namespace DG.XrmOrg.XrmSolution.Tests
 {
     [TestClass]
     public class TestExample : TestBase

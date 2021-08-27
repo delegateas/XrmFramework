@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DG.XrmFramework.BusinessLogic
+namespace DG.XrmOrg.XrmSolution.BusinessLogic
 {
     public class BusinessException : Exception
     {

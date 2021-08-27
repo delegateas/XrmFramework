@@ -11,7 +11,7 @@ using Microsoft.Xrm.Sdk.Workflow;
 
 using DG.XrmFramework.BusinessDomain.ServiceContext;
 
-namespace DG.XrmFramework.BusinessLogic.Managers
+namespace DG.XrmOrg.XrmSolution.BusinessLogic.Managers
 {
     public class ManagerBase
     {

@@ -7,7 +7,7 @@ using Microsoft.Xrm.Sdk;
 
 using DG.XrmFramework.BusinessDomain.ServiceContext;
 
-namespace DG.XrmFramework.BusinessLogic.Helpers
+namespace DG.XrmOrg.XrmSolution.BusinessLogic.Helpers
 {
     public static class HelperPlugin
     {

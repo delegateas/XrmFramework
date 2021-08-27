@@ -9,11 +9,11 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
 
-using DG.XrmContext;
+using DG.XrmFramework.BusinessDomain.XrmContext;
 using DG.XrmFramework.BusinessDomain.ServiceContext;
-using HU = DG.XrmFramework.BusinessLogic.Helpers.HelperUtils;
+using HU = DG.XrmOrg.XrmSolution.BusinessLogic.Helpers.HelperUtils;
 
-namespace DG.XrmFramework.BusinessLogic.Helpers
+namespace DG.XrmOrg.XrmSolution.BusinessLogic.Helpers
 {
   public static class HelperBusinessDomain
   {

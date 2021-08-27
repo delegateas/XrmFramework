@@ -4,9 +4,9 @@ namespace DG.XrmOrg.XrmSolution.Plugins {
     using System.ServiceModel;
     using Microsoft.Xrm.Sdk;
 
-    using DG.XrmFramework.BusinessDomain.ServiceContext;
-    using DG.XrmFramework.BusinessLogic.Managers;
-    using HU = DG.XrmFramework.BusinessLogic.Helpers.HelperUtils;
+    using XrmFramework.BusinessDomain.ServiceContext;
+    using DG.XrmOrg.XrmSolution.BusinessLogic.Managers;
+    using HU = DG.XrmOrg.XrmSolution.BusinessLogic.Helpers.HelperUtils;
 
     public class AccountPostPlugin : Plugin {
         public AccountPostPlugin()

@@ -10,7 +10,7 @@ using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Messages;
 
-namespace DG.XrmContext
+namespace DG.XrmFramework.BusinessDomain.XrmContext
 {
 
     public enum EmptyEnum { }

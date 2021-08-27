@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DG.XrmContext;
+using DG.XrmFramework.BusinessDomain.XrmContext;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 using System;
@@ -2428,7 +2428,7 @@ namespace DG.XrmFramework.BusinessDomain.ServiceContext {
         [AttributeLogicalName("dg_deprecated_field")]
         [DisplayName("ZZ_deprecated_field")]
         [MaxLength(100)]
-        [ObsoleteAttribute()]
+        [Obsolete()]
         public string dg_deprecated_field {
             get {
                 return GetAttributeValue<string>("dg_deprecated_field");
