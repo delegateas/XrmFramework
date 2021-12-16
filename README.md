@@ -1,4 +1,4 @@
-# XrmFramework [![Join the chat at https://gitter.im/delegateas/XrmFramework](https://badges.gitter.im/delegateas/XrmFramework.svg)](https://gitter.im/delegateas/XrmFramework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+﻿# XrmFramework [![Join the chat at https://gitter.im/delegateas/XrmFramework](https://badges.gitter.im/delegateas/XrmFramework.svg)](https://gitter.im/delegateas/XrmFramework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 XrmFramework is a project that contains the structure Delegate uses for every XRM project. It has all of our tools and shows how we use our tools together to create a better experience for developers.
 
 ## Solution structure
@@ -17,7 +17,7 @@ There is a renaming script file at the root. Ensure you have F# installed, open 
 ```
 rename.cmd comp=Company org=Organization sol=Solution
 ``` 
-where Company is the name of your company, Organization is the name of your organization and Solution is the name of the solution you want to sync your project with. This will replace all occurrences of `DG` with your company, `XrmOrg` with your organization and `XrmSolution` with your solution.
+where Company is the name of your company, Organization is the name of your organization and Solution is the name of the solution you want to sync your project with. This will replace all occurrences of `DG` with your company, `BH` with your organization and `EIP.GRM` with your solution.
 
 ## Configuring DAXIF
 The final configuration is done inside `Tools > Daxif > _Config.fsx`. You will see definitions like this.

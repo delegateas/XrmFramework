@@ -1,1 +1,0 @@
-.\XrmDefinitelyTyped.exe
