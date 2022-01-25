@@ -211,35 +211,6 @@ namespace DG.XrmContext
             return service.Retrieve(id, attributes);
         }
 
-        public SetStateResponse SetState(IOrganizationService service, State state)
-        {
-            return SetState(service, state, (Status)(object)-1);
-        }
-
-        public SetStateResponse SetState(IOrganizationService service, State state, Status status)
-        {
-            return service.Execute(MakeSetStateRequest(state, status)) as SetStateResponse;
-        }
-
-        public AssignResponse AssignTo(IOrganizationService service, EntityReference owner)
-        {
-            return service.Execute(MakeAssignRequest(owner)) as AssignResponse;
-        }
-
-        public SetStateRequest MakeSetStateRequest(State state, Status status)
-        {
-            var req = new SetStateRequest();
-            req.EntityMoniker = ToEntityReference();
-            req.State = new OptionSetValue((int)(object)state);
-            req.Status = new OptionSetValue((int)(object)status);
-            return req;
-        }
-
-        public AssignRequest MakeAssignRequest(EntityReference owner)
-        {
-            return new AssignRequest() { Assignee = owner, Target = ToEntityReference() };
-        }
-
         public CreateRequest MakeCreateRequest()
         {
             return new CreateRequest() { Target = this };
@@ -313,26 +284,7 @@ namespace DG.XrmContext
             return resp;
         }
 
-        public static AssignResponse Assign(this IOrganizationService service, EntityReference target, EntityReference owner)
-        {
-            var req = new AssignRequest() { Target = target, Assignee = owner };
-            return service.Execute(req) as AssignResponse;
-        }
-
-        public static SetStateResponse SetState<T, U>(this IOrganizationService service, ExtendedEntity<T, U> entity, T state)
-                where T : struct, IComparable, IConvertible, IFormattable
-                where U : struct, IComparable, IConvertible, IFormattable
-        {
-            return entity.SetState(service, state);
-        }
-
-        public static SetStateResponse SetState<T, U>(this IOrganizationService service, ExtendedEntity<T, U> entity, T state, U status)
-                where T : struct, IComparable, IConvertible, IFormattable
-                where U : struct, IComparable, IConvertible, IFormattable
-        {
-            return entity.SetState(service, state, status);
-        }
-
+        
         public static List<ExecuteMultipleResponseItem> PerformAsBulk<T>(this IOrganizationService service, IEnumerable<T> requests, bool continueOnError = true, int chunkSize = 1000) where T : OrganizationRequest
         {
             var arr = requests.ToArray();
