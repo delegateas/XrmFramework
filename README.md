@@ -19,16 +19,22 @@ rename.cmd comp=Company org=Organization sol=Solution
 ``` 
 where Company is the name of your company, Organization is the name of your organization and Solution is the name of the solution you want to sync your project with. This will replace all occurrences of `DG` with your company, `XrmOrg` with your organization and `XrmSolution` with your solution.
 
-The rename.cmd looks for your fsi.exe and fsianycpu.exe in:(default) 
+The rename.cmd looks for your fsi.exe and fsianycpu.exe in several different locations, as both your visual studio version and edition can impact the default location.:
 ```
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\FSharp
+C:\Program Files (x86)\Microsoft Visual Studio\<2017|2019>\<Enterprise|Professional|Community>\Common7\IDE\CommonExtensions\Microsoft\FSharp
 ```
 
-Newer versions of VS have placed the fsi.exe and fsianycpu.exe in:(default) 
+Newer versions of VS have placed the fsi.exe and fsianycpu.exe in:
 ```
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools
+C:\Program Files (x86)\Microsoft Visual Studio\2019\<Enterprise|Professional|Community>\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools
 ```
-folder so you might have to manually change it to the correct path in the `rename.cmd` by opening it with your editor.
+
+Lastly, Visual studio 2022 seems to have moved the installation path to C:\Program Files (ie. no `(x86)`). Thus, it also looks in:
+```
+C:\Program Files\Microsoft Visual Studio\2022\<Enterprise|Professional|Community>\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools
+```
+
+If the above mentioned folders does not apply to your setup, you can manually change the path in `rename.cmd` by opening it with your editor.
 
 ## Configuring DAXIF
 The final configuration is done inside `Tools > Daxif > _Config.fsx`. You will see definitions like this.
