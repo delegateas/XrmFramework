@@ -2,6 +2,6 @@
 {
     interface IJob
     {
-        void Run(Environment env);
+        void Run(EnvironmentConfig env);
     }
 }

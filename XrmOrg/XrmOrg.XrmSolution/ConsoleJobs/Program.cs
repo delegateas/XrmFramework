@@ -23,7 +23,7 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs
             Console.WriteLine("Secret to service account:");
             var secret = Console.ReadLine();
 
-            var environment = Environment.Create(env, clientId, secret);
+            var environment = EnvironmentConfig.Create(env, clientId, secret);
             try
             {
                 job.Run(environment);

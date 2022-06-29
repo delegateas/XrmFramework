@@ -6,7 +6,7 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs.Jobs
 {
     internal class ExampleJob : IJob
     {
-        public void Run(Environment env)
+        public void Run(EnvironmentConfig env)
         {
             using (var ctx = new Xrm(env.Service))
             {

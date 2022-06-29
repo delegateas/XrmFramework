@@ -4,7 +4,7 @@ using System;
 
 namespace DG.XrmOrg.XrmSolution.ConsoleJobs
 {
-    public class Environment
+    public class EnvironmentConfig
     {
         public EnvironmentEnum CurrentEnvironment { get; private set; }
 
@@ -13,19 +13,19 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs
         public IOrganizationService Service { get; private set; }
         public ITracingService Tracing { get; private set; }
 
-        private Environment()
+        private EnvironmentConfig()
         {
             Tracing = new Logger();
         }
 
-        public static Environment Create(EnvironmentEnum env, string clientid, string secret)
+        public static EnvironmentConfig Create(EnvironmentEnum env, string clientid, string secret)
         {
             var crmClientId = clientid;
             var crmSecret = secret;
             var crmUrl = GetUrlFromEnvironment(env);
             var service = ConnectOnline(crmUrl, crmClientId, crmSecret);
 
-            return new Environment() { CurrentEnvironment = env, Url = crmUrl, Service = service };
+            return new EnvironmentConfig() { CurrentEnvironment = env, Url = crmUrl, Service = service };
         }
 
         private static IOrganizationService ConnectOnline(string url, string clientId, string secret)
