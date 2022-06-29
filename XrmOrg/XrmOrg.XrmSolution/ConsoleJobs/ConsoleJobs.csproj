@@ -93,7 +93,7 @@
     <Compile Include="Jobs\IJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Setup\Environment.cs" />
+    <Compile Include="Setup\EnvironmentConfig.cs" />
     <Compile Include="Setup\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
