@@ -10,12 +10,12 @@ using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Messages;
 
-namespace DG.XrmContext
+namespace DG.XrmFramework.BusinessDomain.ServiceContext
 {
 
     public enum EmptyEnum { }
 
-    public abstract partial class ExtendedEntity<State, Status> : Entity
+    public abstract partial class ExtendedEntity<State, Status> : Microsoft.Xrm.Sdk.Entity
         where State : struct, IComparable, IConvertible, IFormattable
         where Status : struct, IComparable, IConvertible, IFormattable
     {
@@ -115,12 +115,12 @@ namespace DG.XrmContext
             }
         }
 
-        protected IEnumerable<T> GetEntityCollection<T>(string attributeName) where T : Entity
+        protected IEnumerable<T> GetEntityCollection<T>(string attributeName) where T : Microsoft.Xrm.Sdk.Entity
         {
             var collection = GetAttributeValue<EntityCollection>(attributeName);
             if (collection != null && collection.Entities != null)
             {
-                return collection.Entities.Select(x => x as T);
+                return collection.Entities.Select(x => x.ToEntity<T>());
             }
             else
             {
@@ -128,11 +128,11 @@ namespace DG.XrmContext
             }
         }
 
-        protected void SetEntityCollection<T>(string attributeName, IEnumerable<T> entities) where T : Entity
+        protected void SetEntityCollection<T>(string attributeName, IEnumerable<T> entities) where T : Microsoft.Xrm.Sdk.Entity
         {
             if (entities != null)
             {
-                SetAttributeValue(attributeName, new EntityCollection(new List<Entity>(entities)));
+                SetAttributeValue(attributeName, new EntityCollection(new List<Microsoft.Xrm.Sdk.Entity>(entities)));
             }
             else
             {
@@ -145,7 +145,6 @@ namespace DG.XrmContext
             base.Id = guid.GetValueOrDefault();
             SetAttributeValue(primaryIdAttribute, guid);
         }
-
 
         protected KeyValuePair<string, object>[] DeltaAttributes;
 
@@ -168,8 +167,7 @@ namespace DG.XrmContext
             if (guid != Guid.Empty) Id = guid;
         }
 
-
-        protected static T Retrieve_AltKey<T>(IOrganizationService service, KeyAttributeCollection keys, params Expression<Func<T, object>>[] attributes) where T : Entity
+        protected static T Retrieve_AltKey<T>(IOrganizationService service, KeyAttributeCollection keys, params Expression<Func<T, object>>[] attributes) where T : Microsoft.Xrm.Sdk.Entity
         {
             var req = new RetrieveRequest();
             req.Target = new EntityReference(Activator.CreateInstance<T>().LogicalName, keys);
@@ -183,7 +181,8 @@ namespace DG.XrmContext
                 return null;
             }
         }
-        public static string GetColumnName<T>(Expression<Func<T, object>> lambda) where T : Entity
+
+        public static string GetColumnName<T>(Expression<Func<T, object>> lambda) where T : Microsoft.Xrm.Sdk.Entity
         {
             MemberExpression body = lambda.Body as MemberExpression;
 
@@ -206,7 +205,7 @@ namespace DG.XrmContext
             return body.Member.Name;
         }
 
-        public static T Retrieve<T>(IOrganizationService service, Guid id, params Expression<Func<T, object>>[] attributes) where T : Entity
+        public static T Retrieve<T>(IOrganizationService service, Guid id, params Expression<Func<T, object>>[] attributes) where T : Microsoft.Xrm.Sdk.Entity
         {
             return service.Retrieve(id, attributes);
         }
@@ -245,7 +244,7 @@ namespace DG.XrmContext
         string RowVersion { get; set; }
         bool Contains(string attributeName);
         T GetAttributeValue<T>(string attributeLogicalName);
-        T ToEntity<T>() where T : Entity;
+        T ToEntity<T>() where T : Microsoft.Xrm.Sdk.Entity;
         EntityReference ToEntityReference();
         KeyAttributeCollection KeyAttributes { get; set; }
     }
@@ -255,13 +254,13 @@ namespace DG.XrmContext
 
         public ExtendedOrganizationServiceContext(IOrganizationService service) : base(service) { }
 
-        public U Load<T, U>(T entity, Expression<Func<T, U>> loaderFunc) where T : Entity
+        public U Load<T, U>(T entity, Expression<Func<T, U>> loaderFunc) where T : Microsoft.Xrm.Sdk.Entity
         {
             LoadProperty(entity, XrmExtensions.GetAttributeLogicalName(loaderFunc));
             return loaderFunc.Compile().Invoke(entity);
         }
 
-        public IEnumerable<U> LoadEnumeration<T, U>(T entity, Expression<Func<T, IEnumerable<U>>> loaderFunc) where T : Entity
+        public IEnumerable<U> LoadEnumeration<T, U>(T entity, Expression<Func<T, IEnumerable<U>>> loaderFunc) where T : Microsoft.Xrm.Sdk.Entity
         {
             return Load(entity, loaderFunc) ?? new List<U>();
         }
@@ -271,12 +270,12 @@ namespace DG.XrmContext
     public static class XrmExtensions
     {
 
-        public static T Retrieve<T>(this IOrganizationService service, Guid id, params Expression<Func<T, object>>[] attributes) where T : Entity
+        public static T Retrieve<T>(this IOrganizationService service, Guid id, params Expression<Func<T, object>>[] attributes) where T : Microsoft.Xrm.Sdk.Entity
         {
             return service.Retrieve(Activator.CreateInstance<T>().LogicalName, id, GetColumnSet(attributes)).ToEntity<T>();
         }
 
-        public static UpsertResponse Upsert(this IOrganizationService service, Entity entity)
+        public static UpsertResponse Upsert(this IOrganizationService service, Microsoft.Xrm.Sdk.Entity entity)
         {
             var req = new UpsertRequest() { Target = entity };
             var resp = service.Execute(req) as UpsertResponse;
@@ -284,7 +283,7 @@ namespace DG.XrmContext
             return resp;
         }
 
-        
+
         public static List<ExecuteMultipleResponseItem> PerformAsBulk<T>(this IOrganizationService service, IEnumerable<T> requests, bool continueOnError = true, int chunkSize = 1000) where T : OrganizationRequest
         {
             var arr = requests.ToArray();
@@ -332,34 +331,36 @@ namespace DG.XrmContext
             return attributelogicalName.LogicalName;
         }
 
-        public static bool ContainsAttributes<T>(this T entity, params Expression<Func<T, object>>[] attrGetters) where T : Entity
+        public static bool ContainsAttributes<T>(this T entity, params Expression<Func<T, object>>[] attrGetters) where T : Microsoft.Xrm.Sdk.Entity
         {
             if (attrGetters == null) return true;
             return attrGetters.Select(a => GetAttributeLogicalName(a).ToLower()).All(a => entity.Contains(a));
         }
 
-        public static bool RemoveAttributes<T>(this T entity, params Expression<Func<T, object>>[] attrGetters) where T : Entity
+        public static bool RemoveAttributes<T>(this T entity, params Expression<Func<T, object>>[] attrGetters) where T : Microsoft.Xrm.Sdk.Entity
         {
             if (attrGetters == null) return false;
             return attrGetters.Select(a => GetAttributeLogicalName(a).ToLower()).Any(a => entity.Attributes.Remove(a));
         }
     }
 
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class OptionSetMetadataAttribute : Attribute
     {
         public string Name { get; private set; }
         public int Index { get; set; }
         public string Description { get; set; }
         public string Color { get; set; }
+        public int Lcid { get; set; }
 
-        public OptionSetMetadataAttribute(string name, string description = null, string color = null) : this(name, int.MinValue, description, color) { }
-        public OptionSetMetadataAttribute(string name, int index, string description = null, string color = null)
+        public OptionSetMetadataAttribute(string name, int lcid = 1033, string description = null, string color = null) : this(name, int.MinValue, lcid, description, color) { }
+        public OptionSetMetadataAttribute(string name, int index, int lcid, string description = null, string color = null)
         {
             Name = name;
             Index = index;
             Description = description;
             Color = color;
+            Lcid = lcid;
         }
     }
 }
