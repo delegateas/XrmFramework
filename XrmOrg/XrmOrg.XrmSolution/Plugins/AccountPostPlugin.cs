@@ -1,12 +1,13 @@
+using System;
+using System.ServiceModel;
+
+using Microsoft.Xrm.Sdk;
+
+using DG.XrmFramework.BusinessDomain.ServiceContext;
+using DG.XrmFramework.BusinessLogic.Managers;
+using HU = DG.XrmFramework.BusinessLogic.Helpers.HelperUtils;
 
 namespace DG.XrmOrg.XrmSolution.Plugins {
-    using System;
-    using System.ServiceModel;
-    using Microsoft.Xrm.Sdk;
-
-    using DG.XrmFramework.BusinessDomain.ServiceContext;
-    using DG.XrmFramework.BusinessLogic.Managers;
-    using HU = DG.XrmFramework.BusinessLogic.Helpers.HelperUtils;
 
     public class AccountPostPlugin : Plugin {
         public AccountPostPlugin()
