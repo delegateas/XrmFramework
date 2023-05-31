@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Tooling.Connector;
 using System;
+using System.Configuration;
 
 namespace DG.XrmOrg.XrmSolution.ConsoleJobs
 {
-    public class EnvironmentConfig
+    internal class EnvironmentConfig
     {
-        public EnviromentEnum CurrentEnvironment { get; private set; }
+        public EnvironmentEnum CurrentEnvironment { get; private set; }
 
         public string Url { get; private set; }
 
@@ -18,7 +19,7 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs
             Tracing = new Logger();
         }
 
-        public static EnvironmentConfig Create(EnviromentEnum env, string clientid, string secret)
+        public static EnvironmentConfig Create(EnvironmentEnum env, string clientid, string secret)
         {
             var crmClientId = clientid;
             var crmSecret = secret;
@@ -38,23 +39,23 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs
             return crmConn;
         }
 
-        private static string GetUrlFromEnvironment(EnviromentEnum env)
+        private static string GetUrlFromEnvironment(EnvironmentEnum env)
         {
             switch (env)
             {
-                case EnviromentEnum.Dev:
-                    return "https://my-dev-env.crm4.dynamics.com";
-                case EnviromentEnum.Test:
-                    return "https://my-test-env.crm4.dynamics.com";
-                case EnviromentEnum.Prod:
-                    return "https://my-prod-env.crm4.dynamics.com";
+                case EnvironmentEnum.Dev:
+                    return ConfigurationManager.AppSettings["DevEnv"];
+                case EnvironmentEnum.Test:
+                    return ConfigurationManager.AppSettings["TestEnv"];
+                case EnvironmentEnum.Prod:
+                    return ConfigurationManager.AppSettings["ProdEnv"];
                 default:
                     throw new ArgumentException("Environment not supported");
             }
         }
     }
 
-    public enum EnviromentEnum
+    internal enum EnvironmentEnum
     {
         Dev,
         Test,

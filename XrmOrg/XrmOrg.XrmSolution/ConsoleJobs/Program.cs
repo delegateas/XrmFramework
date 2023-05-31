@@ -4,37 +4,32 @@ using System.Configuration;
 
 namespace DG.XrmOrg.XrmSolution.ConsoleJobs
 {
-    internal class Program
+    internal static class Program
     {
         static void Main(string[] args)
         {
-            var env = GetEnviromentFromConfig(EnviromentEnum.Dev);
+            var env = GetEnviromentFromConfig();
             IJob job = GetJobFromConfiguration(); //Used to get the job from the app config file
-            //IJob job = new ExampleJob(); //Used if we want to manully specific the job.
             ExecuteJobOnEnvironment(env, job);
         }
 
         /// <summary>
-        /// Gets the enviroment from app config. If non is found, the fallback enviroment is used.
+        /// Gets the enviroment from app config.
         /// </summary>
-        /// <param name="fallback"></param>
         /// <returns></returns>
-        private static EnviromentEnum GetEnviromentFromConfig(EnviromentEnum fallback)
+        private static EnvironmentEnum GetEnviromentFromConfig()
         {
-            EnviromentEnum result;
-            var envStr = ConfigurationManager.AppSettings["Enviroment"];
+            EnvironmentEnum result;
+            var envStr = ConfigurationManager.AppSettings["Environment"];
             if (string.IsNullOrWhiteSpace(envStr) || !Enum.TryParse(envStr, out result))
             {
-                Console.WriteLine($"Fallback enviroment {fallback} is used.");
-                result = fallback;
+                throw new ConfigurationErrorsException("Environment not specified in App.config or could not be parsed as EnvironmentEnum");
             }
             return result;
         }
 
         /// <summary>
         /// Creates an instance of the IJob given the classname.
-        /// First the function attempts to find the class name from the console
-        /// Then if non is found, it promts the user.
         /// </summary>
         /// <returns></returns>
         private static IJob GetJobFromConfiguration()
@@ -42,32 +37,28 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs
             var envStr = ConfigurationManager.AppSettings["JobClassName"];
             if (string.IsNullOrWhiteSpace(envStr))
             {
-                Console.WriteLine("Enter full classname of job to run");
-                envStr = Console.ReadLine();
+                throw new ConfigurationErrorsException("JobClassName not specified in App.config");
             }
             Type t = Type.GetType(envStr);
             return (IJob)Activator.CreateInstance(t);
         }
         /// <summary>
         /// Creates a connection to CRM by getting the clientid and secret from the app config.
-        /// If non is found the users is asked to provide.
         /// </summary>
         /// <param name="env"></param>
         /// <returns></returns>
-        private static EnvironmentConfig GetEnv(EnviromentEnum env)
+        private static EnvironmentConfig GetEnv(EnvironmentEnum env)
         {
             var clientId = ConfigurationManager.AppSettings["ClientId"];
             if (string.IsNullOrWhiteSpace(clientId))
             {
-                Console.WriteLine("Enter clientid for new crm service account");
-                clientId = Console.ReadLine();
+                throw new ConfigurationErrorsException("ClientId not specified in App.config");
             }
 
             var secret = ConfigurationManager.AppSettings["ClientSecret"];
             if (string.IsNullOrWhiteSpace(secret))
             {
-                Console.WriteLine("Enter clientid for new crm service account");
-                secret = Console.ReadLine();
+                throw new ConfigurationErrorsException("ClientSecret not specified in App.config");
             }
 
             var newEnv = EnvironmentConfig.Create(env, clientId, secret);
@@ -79,8 +70,15 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs
         /// </summary>
         /// <param name="env">The environment the job should be executed on</param>
         /// <param name="job">The job to execute</param>
-        private static void ExecuteJobOnEnvironment(EnviromentEnum env, IJob job)
+        private static void ExecuteJobOnEnvironment(EnvironmentEnum env, IJob job)
         {
+            Console.WriteLine($"You are attempting to run {job.GetType().Name} on {env}.\nPress 'Y' to continue...");
+            var keyPressed = Console.ReadKey();
+            if (keyPressed.Key != ConsoleKey.Y)
+            {
+                Console.WriteLine("Aborted by user.\nExiting...");
+                return;
+            }
             var environment = GetEnv(env);
             try
             {
@@ -90,7 +88,7 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs
             {
                 Console.WriteLine(e.Message);
             }
-            Console.WriteLine("Jobs done!");
+            Console.WriteLine("Program finished.\nPress any key to continue...");
             Console.ReadKey();
         }
     }
