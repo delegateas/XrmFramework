@@ -16,10 +16,6 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs.Helpers
         /// <param name="appendToFileIfExists">Optional. Whether or not to append to file if it already exists. Default: False</param>
         public static void PrintToCsv<T>(this List<CsvContainer<T>> containers, string filePath, bool appendToFileIfExists = false) where T : struct
         {
-            if (!containers.Any())
-            {
-                throw new InvalidDataException("Print set is empty");
-            }
             if (string.IsNullOrWhiteSpace(filePath))
             {
                 throw new InvalidDataException("File path is empty");
