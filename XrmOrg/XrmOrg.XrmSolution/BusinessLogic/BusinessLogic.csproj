@@ -84,10 +84,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessException.cs" />
+    <Compile Include="DTO\DocumentsDTO.cs" />
     <Compile Include="Helpers\HelperBusinessDomain.cs" />
     <Compile Include="Helpers\HelperPlugin.cs" />
     <Compile Include="Helpers\HelperUtils.cs" />
     <Compile Include="ManagerAccount.cs" />
+    <Compile Include="ManagerBagOrder.cs" />
     <Compile Include="ManagerBase.cs" />
     <Compile Include="ManagerContact.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

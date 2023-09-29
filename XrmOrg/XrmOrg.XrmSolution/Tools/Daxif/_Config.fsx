@@ -23,29 +23,32 @@ module Env =
   let dev = 
     Environment.Create(
       name = "Development",
-      url = "https://mydev.crm4.dynamics.com/XRMServices/2011/Organization.svc",
+      url = "https://org5683dd0b.crm4.dynamics.com",
       ap = AuthenticationProviderType.OnlineFederation,
       creds = creds,
-      args = fsi.CommandLineArgs
+      args = fsi.CommandLineArgs,
+      method = ConnectionType.OAuth,
+      mfaAppId = "51f81489-12ee-4a9e-aaae-a2591f45987d",
+      mfaReturnUrl = "https://login.microsoftonline.com/common/oauth2/nativeclient"
     )
   
-  let test = 
-    Environment.Create(
-      name = "Test",
-      url = "https://mytest.crm4.dynamics.com/XRMServices/2011/Organization.svc",
-      ap = AuthenticationProviderType.OnlineFederation,
-      creds = creds,
-      args = fsi.CommandLineArgs
-    )
-
-  let prod = 
-    Environment.Create(
-      name = "Production",
-      url = "https://myprod.crm4.dynamics.com/XRMServices/2011/Organization.svc",
-      ap = AuthenticationProviderType.OnlineFederation,
-      creds = creds,
-      args = fsi.CommandLineArgs
-    )
+  // let test = 
+  //   Environment.Create(
+  //     name = "Test",
+  //     url = "https://mytest.crm4.dynamics.com/XRMServices/2011/Organization.svc",
+  //     ap = AuthenticationProviderType.OnlineFederation,
+  //     creds = creds,
+  //     args = fsi.CommandLineArgs
+  //   )
+  //
+  // let prod = 
+  //   Environment.Create(
+  //     name = "Production",
+  //     url = "https://myprod.crm4.dynamics.com/XRMServices/2011/Organization.svc",
+  //     ap = AuthenticationProviderType.OnlineFederation,
+  //     creds = creds,
+  //     args = fsi.CommandLineArgs
+  //   )
 
 
 (** 
@@ -53,13 +56,13 @@ CRM Solution Setup
 ------------------
 *)
 module SolutionInfo =
-  let name = @"XrmSolution"
-  let displayName = @"XrmSolution"
+  let name = @"PoseBestilling"
+  let displayName = @"Pose Bestilling"
 
 module PublisherInfo =
-  let prefix = @"dg"
-  let name = @"delegateas"
-  let displayName = @"Delegate A/S"
+  let prefix = @"paa"
+  let name = @"aarsleff_posebestilling"
+  let displayName = @"Aarsleff Posebestilling"
 
 
 (** 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DOCUMENT xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DOCUMENTHEAD>
+    <Source_ID>Rørbasen</Source_ID>
+    <Document_Type>SORD</Document_Type>
+    <Document_No_>559749-PAAR-BUTD29-01</Document_No_>
+    <Interchange_Receiver>0</Interchange_Receiver>
+  </DOCUMENTHEAD>
+  <DOCUMENTLINE>
+    <LINE>
+      <Line_No_>1</Line_No_>
+      <Document_Line_No_>0</Document_Line_No_>
+      <Document_Item_No_>0</Document_Item_No_>
+      <Description>testpart1</Description>
+    </LINE>
+    <LINE>
+      <Line_No_>1</Line_No_>
+      <Document_Line_No_>0</Document_Line_No_>
+      <Document_Item_No_>0</Document_Item_No_>
+      <Description>testpart2</Description>
+    </LINE>
+  </DOCUMENTLINE>
+</DOCUMENT>
