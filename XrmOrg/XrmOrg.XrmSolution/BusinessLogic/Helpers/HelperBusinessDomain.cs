@@ -9,7 +9,6 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
 
-using DG.XrmContext;
 using DG.XrmFramework.BusinessDomain.ServiceContext;
 using HU = DG.XrmFramework.BusinessLogic.Helpers.HelperUtils;
 
