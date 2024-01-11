@@ -26,8 +26,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include=".eslintrc.js" />
-    <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.rest.js" />
-    <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.rest.min.js" />
     <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.web.js" />
     <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.web.min.js" />
     <Content Include="src\dg_XrmSolution\lib\dg.xrmquery.web.promise.min.js" />

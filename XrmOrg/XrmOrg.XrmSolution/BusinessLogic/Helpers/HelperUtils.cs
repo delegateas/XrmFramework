@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 
 using Microsoft.Xrm.Sdk;
-
-using DG.XrmFramework.BusinessDomain.ServiceContext;
 
 namespace DG.XrmFramework.BusinessLogic.Helpers
 {

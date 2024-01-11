@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
 
-using DG.XrmContext;
-using DG.XrmFramework.BusinessDomain.ServiceContext;
 using HU = DG.XrmFramework.BusinessLogic.Helpers.HelperUtils;
 
 namespace DG.XrmFramework.BusinessLogic.Helpers
