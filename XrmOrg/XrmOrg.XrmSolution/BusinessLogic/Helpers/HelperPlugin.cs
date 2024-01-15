@@ -66,6 +66,32 @@ namespace DG.XrmFramework.BusinessLogic.Helpers
 
             return entity.ToEntity<T>();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="trace"></param>
+        /// <returns></returns>
+        public static Guid? GetSubordinateId
+            (IPluginExecutionContext context, ITracingService trace)
+        {
+            if (!context.InputParameters.Contains("SubordinateId"))
+            {
+                trace.Trace("Context does not contain 'SubordinateId'");
+                return null;
+            }
+
+            if (!(context.InputParameters["SubordinateId"] is Guid?))
+            {
+                var typeName = context.InputParameters["SubordinateId"].GetType().Name;
+                trace.Trace("'SubordinateId' is not an Guid. It's of type: {0}", typeName);
+                return null;
+            }
+
+            var subordinateId = (Guid?)context.InputParameters["SubordinateId"];
+
+            return subordinateId;
+        }
 
         public static Tuple<EntityReference, OptionSetValue, OptionSetValue>
             GetEntityMoniker<T>(IPluginExecutionContext context, ITracingService trace)
