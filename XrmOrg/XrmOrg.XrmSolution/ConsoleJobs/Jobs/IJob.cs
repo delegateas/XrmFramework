@@ -1,6 +1,6 @@
-﻿namespace DG.XrmOrg.XrmSolution.ConsoleJobs
+﻿namespace DG.XrmOrg.XrmSolution.ConsoleJobs.Jobs
 {
-    interface IJob
+    internal interface IJob
     {
         void Run(EnvironmentConfig env);
     }

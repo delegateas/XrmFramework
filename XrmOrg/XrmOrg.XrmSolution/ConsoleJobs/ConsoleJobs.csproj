@@ -90,7 +90,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Jobs\ExampleJob.cs" />
+    <Compile Include="Containers\CsvContainer.cs" />
+    <Compile Include="Helpers\ListExtension.cs" />
+    <Compile Include="Jobs\ExampleInvokeManagerJob.cs" />
+    <Compile Include="Jobs\ExampleReadFromCsvJob.cs" />
+    <Compile Include="Jobs\ExampleWriteToCsvJob.cs" />
     <Compile Include="Jobs\IJob.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,6 +104,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessDomain\BusinessDomain.csproj">
