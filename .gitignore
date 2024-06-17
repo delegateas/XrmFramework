@@ -353,6 +353,9 @@ MigrationBackup/
 # ----- Above is GitHub VisualStudio.gitignore, below are custom rules -----
 # --------------------------------------------------------------------------
 
+# Other IDE folders
+.idea/
+
 # DAXIF
 !/**/Daxif/bin/
 /**/Daxif/*.dll
