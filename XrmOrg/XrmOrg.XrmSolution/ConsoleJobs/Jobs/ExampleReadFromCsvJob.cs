@@ -32,7 +32,7 @@ namespace DG.XrmOrg.XrmSolution.ConsoleJobs.Jobs
                 //Make some update on the entity
                 var updEntity = new Account()
                 {
-                    Id = entity.Attributes.Id,
+                    Id = entity.Id,
                     StatusCode = Account_StatusCode.Somestatus
                 };
                 env.Service.Update(updEntity);
