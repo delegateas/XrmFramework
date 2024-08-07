@@ -9,6 +9,7 @@ namespace DG.XrmOrg.XrmSolution.Plugins
     using System.ServiceModel;
     using System.Linq.Expressions;
     using Microsoft.Xrm.Sdk;
+    using DG.XrmFramework.BusinessLogic;
 
     // StepConfig           : className, ExecutionStage, EventOperation, LogicalName
     // ExtendedStepConfig   : Deployment, ExecutionMode, Name, ExecutionOrder, FilteredAttributes, UserContext
@@ -183,6 +184,13 @@ namespace DG.XrmOrg.XrmSolution.Plugins
 
                 // Handle the exception.
                 throw;
+            }
+            catch (BusinessException e)
+            {
+                // Convert BusinessException into InvalidPluginExecutionException such that Dynamics will present the error correctly to users
+                localcontext.Trace(string.Format(CultureInfo.InvariantCulture, "Developer Code: {0}", e.ErrorCode.GetHashCode().ToString()));
+                localcontext.Trace(string.Format(CultureInfo.InvariantCulture, "Exception: {0}", e.ToString()));
+                throw new InvalidPluginExecutionException(e.Message, e);
             }
             finally {
                 localcontext.Trace(string.Format(CultureInfo.InvariantCulture, "Exiting {0}.Execute()", this.ChildClassName));
