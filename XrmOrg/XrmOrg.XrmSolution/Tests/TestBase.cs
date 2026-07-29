@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Sume change 2
+
+using System;
 using DG.Tools;
 using Microsoft.Xrm.Sdk;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
